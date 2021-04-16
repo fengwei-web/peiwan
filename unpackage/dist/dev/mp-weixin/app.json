@@ -1,0 +1,21 @@
+{
+  "pages": [
+    "pages/tabBar/tabBar",
+    "pages/index/index",
+    "pages/my/my",
+    "pages/see/see",
+    "pages/apply/apply",
+    "pages/applyOrderReceiver/applyOrderReceiver",
+    "pages/applyImage/applyImage",
+    "pages/playHome/playHome"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "uni-app",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap20.json"
+}

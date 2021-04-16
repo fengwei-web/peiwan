@@ -1,0 +1,23 @@
+.index_head {
+  height: 124rpx;
+}
+.index_head .status_bar {
+  height: 25px;
+  width: 100%;
+}
+.index_head .index_head_con {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  position: relative;
+}
+.index_head .index_head_con image {
+  width: 56rpx;
+  height: 56rpx;
+  position: absolute;
+  left: 14rpx;
+}
+.index_head .index_head_con .index_head_con_title {
+  font-size: 22rpx;
+}
+

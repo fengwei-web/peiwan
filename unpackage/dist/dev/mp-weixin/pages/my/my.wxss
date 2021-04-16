@@ -1,0 +1,216 @@
+.my {
+  height: 100%;
+  background: #F8FAFF;
+  padding: 12rpx 18rpx 0 18rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.my .my_head {
+  height: 176rpx;
+  background: #fff;
+  padding: 0 20rpx;
+}
+.my .my_head image {
+  width: 136rpx;
+  height: 136rpx;
+  -webkit-border-radius: 50%;
+          border-radius: 50%;
+}
+.my .my_head text {
+  margin-left: 46rpx;
+  font-size: 48rpx;
+  font-weight: bold;
+}
+.my .my_order {
+  background: #fff;
+  margin-top: 16rpx;
+  padding: 22rpx 20rpx 52rpx 20rpx;
+}
+.my .my_order .my_order_title {
+  width: 186rpx;
+  height: 46rpx;
+  background: #000;
+  line-height: 46rpx;
+  text-align: center;
+  font-size: 28rpx;
+  color: #fff;
+}
+.my .my_order .my_order_box {
+  margin-top: 52rpx;
+}
+.my .my_order .my_order_box .my_order_box_list text {
+  font-size: 48rpx;
+}
+.my .my_order .my_order_box .my_order_box_list view {
+  height: 44rpx;
+  padding: 0 15rpx;
+  line-height: 44rpx;
+  text-align: center;
+  background: #f8f8f8;
+  font-size: 28rpx;
+  margin-top: 38rpx;
+}
+.my .my_box {
+  width: 100%;
+}
+.my .my_box .my_box_list {
+  padding: 34rpx 46rpx;
+  background: #fff;
+  margin-top: 16rpx;
+}
+.my .my_box .my_box_list image {
+  width: 82rpx;
+  height: 82rpx;
+}
+.my .my_box .my_box_list .my_box_list_cen {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  padding-left: 48rpx;
+}
+.my .my_box .my_box_list .my_box_list_cen .my_box_list_cen_top {
+  font-size: 32rpx;
+  color: #2B3039;
+}
+.my .my_box .my_box_list .my_box_list_cen .my_box_list_cen_bot {
+  font-size: 20rpx;
+  color: #D7D7D7;
+}
+.my .my_box .my_box_list text {
+  font-size: 28rpx;
+  color: #BFBFBF;
+}
+.my .my_addWx {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 98rpx 70rpx 66rpx 70rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #fff;
+  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 50rpx 50rpx 0 0;
+          border-radius: 50rpx 50rpx 0 0;
+}
+.my .my_addWx .my_addWx_title {
+  padding: 5rpx 82rpx;
+  background: #000;
+  font-size: 28rpx;
+  color: #fff;
+}
+.my .my_addWx .my_addWx_desc {
+  width: 530rpx;
+  font-size: 24rpx;
+  color: #7B7B7B;
+  margin-top: 32rpx;
+}
+.my .my_addWx input {
+  text-align: center;
+  font-size: 28rpx;
+  color: #0AAFB9;
+  margin-top: 36rpx;
+}
+.my .my_addWx .my_addWx_code {
+  width: 530rpx;
+  height: 290rpx;
+  background: #F7F7F7;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
+  margin: 64rpx 0;
+}
+.my .my_addWx .my_addWx_code text {
+  font-size: 28rpx;
+}
+.my .my_addWx .my_addWx_foot {
+  width: 100%;
+}
+.my .my_addWx .my_addWx_foot view {
+  width: 300rpx;
+  height: 89rpx;
+  line-height: 89rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #fff;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
+}
+.my .my_addWx .my_addWx_foot .my_addWx_foot_left {
+  background: #000;
+}
+.my .my_addWx .my_addWx_foot .my_addWx_foot_right {
+  background: #0AAFB9;
+}
+.my .my_kf {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 86rpx 70rpx 68rpx 70rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  background: #fff;
+  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 50rpx 50rpx 0 0;
+          border-radius: 50rpx 50rpx 0 0;
+}
+.my .my_kf .my_kf_head .my_kf_head_title {
+  padding: 5rpx 32rpx;
+  background: #000;
+  font-size: 28rpx;
+  color: #fff;
+}
+.my .my_kf .my_kf_head .my_kf_head_code {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  padding: 0 20rpx;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  text-align: center;
+  font-size: 28rpx;
+  color: #07ACB6;
+  overflow: hidden;
+  white-space: normal;
+  text-overflow: ellipsis;
+}
+.my .my_kf .my_kf_head .my_kf_head_btn {
+  width: 156rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  text-align: center;
+  border: 1px solid #000;
+  font-size: 28rpx;
+  color: #242424;
+}
+.my .my_kf .my_kf_code {
+  width: 100%;
+  height: 474rpx;
+  background: #F7F7F7;
+  -webkit-border-radius: 20rpx;
+          border-radius: 20rpx;
+  margin-top: 48rpx;
+}
+.my .my_kf .my_kf_foot {
+  width: 100%;
+  margin-top: 66rpx;
+}
+.my .my_kf .my_kf_foot view {
+  width: 300rpx;
+  height: 89rpx;
+  line-height: 89rpx;
+  text-align: center;
+  font-size: 36rpx;
+  color: #fff;
+  -webkit-border-radius: 8rpx;
+          border-radius: 8rpx;
+}
+.my .my_kf .my_kf_foot .my_kf_foot_left {
+  background: #000;
+}
+.my .my_kf .my_kf_foot .my_kf_foot_right {
+  background: #0AAFB9;
+}
+

@@ -1,0 +1,35 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "查看陪玩",
+          "pathName": "pages/see/see",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "申请页面",
+          "pathName": "pages/apply/apply",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "接单工作台",
+          "pathName": "pages/playHome/playHome",
+          "scene": null
+        }
+      ]
+    }
+  }
+}
