@@ -1,0 +1,99 @@
+.image.data-v-389a55b4 {
+  height: 100%;
+}
+.image .image_box.data-v-389a55b4 {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  overflow: auto;
+  padding: 34rpx 22rpx 0 22rpx;
+}
+.image .image_box .image_box_title.data-v-389a55b4 {
+  width: 392rpx;
+  height: 94rpx;
+  background: #FDFDFD;
+  border: 6rpx solid #F3F3F3;
+  font-size: 28rpx;
+  color: #FF4E4E;
+  margin-bottom: 28rpx;
+}
+.image .image_box .image_box_title image.data-v-389a55b4 {
+  width: 80rpx;
+  height: 46rpx;
+  margin-right: 48rpx;
+}
+.image .image_box .image_album.data-v-389a55b4 {
+  width: 100%;
+}
+.image .image_box .image_album .image_album_box.data-v-389a55b4 {
+  padding: 44rpx;
+  background: #F8F8F8;
+}
+.image .image_box .image_album .image_album_box .image_album_box_list.data-v-389a55b4 {
+  width: 194rpx;
+  height: 274rpx;
+  line-height: 274rpx;
+  text-align: center;
+  border: 1px solid #E9E9E9;
+  margin: 12rpx 12rpx 0 0;
+  font-size: 28rpx;
+}
+.image .image_box .image_album .image_album_box .image_album_box_list.data-v-389a55b4:nth-child(3n+3) {
+  margin-right: 0;
+}
+.image .image_box .image_album .image_album_tip.data-v-389a55b4 {
+  text-align: center;
+  margin-top: 24rpx;
+  font-size: 20rpx;
+  color: #07ACB6;
+}
+.image .image_box .image_mobile.data-v-389a55b4 {
+  width: 100%;
+}
+.image .image_box .image_mobile .image_mobile_phone.data-v-389a55b4 {
+  width: 100%;
+  height: 88rpx;
+  text-align: center;
+  background: #F8F8F8;
+  font-size: 28rpx;
+}
+.image .image_box .image_mobile .image_code.data-v-389a55b4 {
+  margin-top: 18rpx;
+}
+.image .image_box .image_mobile .image_code input.data-v-389a55b4 {
+  width: 496rpx;
+  height: 88rpx;
+  text-align: center;
+  background: #F8F8F8;
+  font-size: 28rpx;
+}
+.image .image_box .image_mobile .image_code .image_code_get.data-v-389a55b4 {
+  width: 196rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  background: #F8F8F8;
+  font-size: 28rpx;
+  color: #07ACB6;
+}
+.image .image_box .image_open.data-v-389a55b4 {
+  width: 100%;
+  margin: 38rpx 0 130rpx 0;
+}
+.image .image_box .image_open view.data-v-389a55b4 {
+  width: 334rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  -webkit-border-radius: 40rpx;
+          border-radius: 40rpx;
+  font-size: 32rpx;
+  color: #fff;
+}
+.image .image_box .image_open .image_open_left.data-v-389a55b4 {
+  background: #000;
+}
+.image .image_box .image_open .image_open_right.data-v-389a55b4 {
+  background: #07ACB6;
+}
+

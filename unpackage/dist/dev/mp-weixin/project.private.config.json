@@ -27,6 +27,18 @@
         {
           "name": "接单工作台",
           "pathName": "pages/playHome/playHome",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "申请接单师",
+          "pathName": "pages/applyOrderReceiver/applyOrderReceiver",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "申请接单师提交图片",
+          "pathName": "pages/applyImage/applyImage",
           "scene": null
         }
       ]

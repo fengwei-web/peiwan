@@ -1,0 +1,9 @@
+.title {
+  display: inline-block;
+  padding: 4rpx 41rpx;
+  background: #000;
+  font-size: 28rpx;
+  color: #fff;
+  margin: 28rpx 0;
+}
+

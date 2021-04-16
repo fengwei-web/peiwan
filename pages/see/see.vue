@@ -71,11 +71,7 @@
 </template>
 
 <script>
-	import navBar from '@/components/navBar/navBar.vue'
 	export default {
-		components: {
-			navBar
-		},
 		data() {
 			return {
 				current: 1
