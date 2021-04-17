@@ -39,6 +39,12 @@
         {
           "name": "申请接单师提交图片",
           "pathName": "pages/applyImage/applyImage",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "修改个人资料",
+          "pathName": "pages/applyModify/applyModify",
           "scene": null
         }
       ]

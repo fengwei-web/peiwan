@@ -43,6 +43,12 @@
 			}
 		},
 		{
+			"path": "pages/applyModify/applyModify",
+			"style": {
+				"navigationStyle":"custom"
+			}
+		},
+		{
 			"path": "pages/playHome/playHome",
 			"style": {
 				"navigationStyle":"custom"

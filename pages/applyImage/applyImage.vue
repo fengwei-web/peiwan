@@ -33,6 +33,32 @@
 				<view class="image_open_right">提交</view>
 			</view>
 		</view>
+		<!-- 弹出框1 提交审核 -->
+		<view
+			class="image_one flex flex--row flex--align-items--center flex--justify-content--center"
+			v-if="false"
+		>
+			<view class="image_one_list">
+				已经提交审核，审核结果将在<text>24小时</text>后，
+			</view>
+			<view class="image_one_list">
+				以<text>短信的形式</text>通知到你哈~
+			</view>
+			<view class="image_one_btn">好的</view>
+		</view>
+		<!-- 弹出框2 审核未通过 -->
+		<view
+			class="image_one flex flex--row flex--align-items--center flex--justify-content--center"
+			v-if="true"
+		>
+			<view class="image_one_list">
+				您的审核<text>未通过</text>
+			</view>
+			<view class="image_one_list">
+				不通过原因：<text>使用网图/图片不清晰</text>
+			</view>
+			<view class="image_one_btn">重新修改</view>
+		</view>
 	</view>
 </template>
 
@@ -132,6 +158,35 @@
 				.image_open_right {
 					background: #07ACB6;
 				}
+			}
+		}
+		.image_one {
+			padding: 110rpx 0 62rpx 0;
+			background: #FFF;
+			box-shadow: 0 -8rpx 144rpx -26rpx rgba(0,0,0,0.50);
+			border-radius: 50rpx 50rpx 0 0;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 2;
+			.image_one_list {
+				font-size: 28rpx;
+				font-weight: bold;
+				text {
+					color: #07ACB6;
+				}
+			}
+			.image_one_btn {
+				width: 334rpx;
+				height: 80rpx;
+				line-height: 80rpx;
+				text-align: center;
+				background: #000;
+				border-radius: 40rpx;
+				font-size: 32rpx;
+				color: #fff;
+				margin-top: 64rpx;
 			}
 		}
 	}

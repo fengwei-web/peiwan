@@ -7,6 +7,7 @@
     "pages/apply/apply",
     "pages/applyOrderReceiver/applyOrderReceiver",
     "pages/applyImage/applyImage",
+    "pages/applyModify/applyModify",
     "pages/playHome/playHome"
   ],
   "subPackages": [],
@@ -16,6 +17,5 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap28.json"
+  "usingComponents": {}
 }

@@ -10,7 +10,12 @@
 			</view>
 		</view>
 		<view class="playHome_box">
-			<!-- <view v-for="item in 100" :key="item">sdsdsd</view> -->
+			<view class="playHome_wrap">
+				<view class="playHome_wrap_list">
+					
+				</view>
+			</view>
+			<!-- 暂无数据 -->
 			<view class="playHome_box_no_list flex flex--justify-content--center">
 				<image src="../../static/image/no_order.png" mode=""></image>
 			</view>
