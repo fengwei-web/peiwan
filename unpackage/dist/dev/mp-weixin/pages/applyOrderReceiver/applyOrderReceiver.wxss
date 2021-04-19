@@ -16,6 +16,8 @@
   font-size: 28rpx;
   color: #FF4E4E;
   margin-bottom: 28rpx;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
 }
 .receiver .receiver_box .receiver_box_title image.data-v-fcf73c34 {
   width: 80rpx;

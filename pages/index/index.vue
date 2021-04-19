@@ -3,9 +3,15 @@
 		<!-- 轮播图 -->
 		<view class="index_banner">
 			<!-- 轮播 -->
-			<swiper class="swiper" indicator-dots="indicatorDots" autoplay="autoplay" interval="2500">
-				<swiper-item v-for="item in 3" :key="item">
-					<image src="../../static/logo.png" mode=""></image>
+			<swiper
+				class="swiper"
+				indicator-dots="indicatorDots"
+				autoplay="autoplay"
+				circular="circular"
+				interval="2500"
+			>
+				<swiper-item v-for="item in swiperList" :key="item.id">
+					<image :src="'http://139.159.148.119' +item.image" mode=""></image>
 				</swiper-item>
 			</swiper>
 			<!-- 公告 -->
@@ -24,11 +30,12 @@
 			<!-- 内容 -->
 			<view class="index_box_con flex flex--wrap">
 				<view
-					class="index_box_con_list index_box_con_list_active"
-					v-for="(item,index) in 8"
-					:key="index"
-					@click="setCheckbox()"
-				>干饭干饭</view>
+					v-for="(item,index) in labelList"
+					:key="item.id"
+					class="index_box_con_list"
+					:class="{'index_box_con_list_active': item.isShow}"
+					@click="setCheckbox(index)"
+				>{{ item.title }}</view>
 			</view>
 		</view>
 		<!-- 第二部分 -->
@@ -114,44 +121,54 @@
 		</template>
 		
 		<!-- 弹出框3 -->
-		<view class="index_two">
-			<view class="index_two_title">订单信息</view>
-			<view class="index_two_box">
-				<view class="index_two_box_list">
-					<view class="index_two_box_list_title">喊TA做什么：</view>
-					<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+		<template v-if="false">
+			<view class="index_two">
+				<view class="index_two_title">订单信息</view>
+				<view class="index_two_box">
+					<view class="index_two_box_list">
+						<view class="index_two_box_list_title">喊TA做什么：</view>
+						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+					</view>
+					<view class="index_two_box_list">
+						<view class="index_two_box_list_title">喊TA做什么：</view>
+						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+					</view>
+					<view class="index_two_box_list">
+						<view class="index_two_box_list_title">喊TA做什么：</view>
+						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+					</view>
 				</view>
-				<view class="index_two_box_list">
-					<view class="index_two_box_list_title">喊TA做什么：</view>
-					<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+				<view class="index_two_price">
+					预计支付的金额：
+					<text>￥800</text>
 				</view>
-				<view class="index_two_box_list">
-					<view class="index_two_box_list_title">喊TA做什么：</view>
-					<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+				<view class="index_two_foot flex flex--align-items--center flex--justify-content--space-between">
+					<view class="index_two_foot_left">我再想想</view>
+					<view class="index_two_foot_right">我要发布</view>
 				</view>
 			</view>
-			<view class="index_two_price">
-				预计支付的金额：
-				<text>￥800</text>
-			</view>
-			<view class="index_two_foot flex flex--align-items--center flex--justify-content--space-between">
-				<view class="index_two_foot_left">我再想想</view>
-				<view class="index_two_foot_right">我要发布</view>
-			</view>
-		</view>
+		</template>
 	</view>
 </template>
 
 <script>
 	export default {
 		name: 'index',
+		props: {
+			swiperList: {
+				type: Array
+			},
+			labelList: {
+				type: Array
+			}
+		},
 		data() {
 			const currentDate = this.getDate({
 				format: true
 			})
 			return {
 				doWhatIndex: 0,
-				date: '2021-01-26',
+				date: new Date().toLocaleDateString().split('/').join('-'),
 				time: '请选择时间',
 				hourArray: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
 				hour: '0',
@@ -159,6 +176,7 @@
 			}
 		},
 		onLoad() {
+			
 		},
 		computed: {
 			startDate() {
@@ -170,8 +188,10 @@
 		},
 		methods: {
 			// 选择做什么
-			setCheckbox() {
-				
+			setCheckbox(index) {
+				let labelList = this.labelList;
+				labelList[index].isShow = !labelList[index].isShow
+				this.$emit('setLabel',labelList);
 			},
 			// 选择支付金额
 			choiceDoWhat(index) {

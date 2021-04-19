@@ -16,6 +16,8 @@
   font-size: 28rpx;
   color: #FF4E4E;
   margin-bottom: 28rpx;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
 }
 .modify .modify_box .modify_title image.data-v-4ba005d0 {
   width: 80rpx;

@@ -11,7 +11,12 @@
 			</view>
 		</view>
 		<view class="box">
-			<index v-if="isShow"></index>
+			<index
+				v-if="isShow"
+				:swiperList="swiperList"
+				:labelList="labelList"
+				@setLabel="setLabel"
+			/>
 			<my v-else></my>
 		</view>
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
@@ -41,10 +46,53 @@
 		},
 		data() {
 			return {
-				isShow: true
+				isShow: true,
+				swiperList: [],
+				labelList: []
 			}
 		},
+		onLoad() {
+			this.getBanner()
+			this.login()
+			this.getLabel()
+		},
 		methods: {
+			login() {
+				let that = this;
+				uni.login({
+					success(res) {
+						uni.getUserInfo({
+							async success(user) {
+								console.log(user)
+								const parmst = {
+									image: user.userInfo.avatarUrl,
+									nickName: user.userInfo.nickName,
+									code: res.code
+								}
+								const { data } = await that.$http('/api/member/login',parmst);
+								console.log(data)
+							}
+						})
+					}
+				})
+			},
+			// 轮播图
+			async getBanner() {
+				const { data } = await this.$http('/api/banner/lists')
+				this.swiperList = data
+			},
+			// 标签
+			async getLabel() {
+				const { data } = await this.$http('/api/tags_do/lists')
+				data.forEach(v => {
+					v['isShow'] = false
+				})
+				this.labelList = data
+			},
+			// index页面（标签）传过来的值
+			setLabel(labelList) {
+				this.labelList = labelList;
+			},
 			// tabBar切换页面
 			setSelected(type) {
 				type === 1 ? this.isShow = true : this.isShow = false;

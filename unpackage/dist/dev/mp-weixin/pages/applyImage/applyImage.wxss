@@ -16,6 +16,8 @@
   font-size: 28rpx;
   color: #FF4E4E;
   margin-bottom: 28rpx;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
 }
 .image .image_box .image_box_title image.data-v-389a55b4 {
   width: 80rpx;

@@ -53,6 +53,12 @@
 			"style": {
 				"navigationStyle":"custom"
 			}
+		},
+		{
+			"path": "pages/orderDetail/orderDetail",
+			"style": {
+				"navigationStyle":"custom"
+			}
 		}
 	],
 	"globalStyle": {

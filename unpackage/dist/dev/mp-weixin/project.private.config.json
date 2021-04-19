@@ -45,6 +45,12 @@
         {
           "name": "修改个人资料",
           "pathName": "pages/applyModify/applyModify",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "用户查看订单",
+          "pathName": "pages/orderDetail/orderDetail",
           "scene": null
         }
       ]

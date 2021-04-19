@@ -80,6 +80,7 @@
 				font-size: 28rpx;
 				color: #FF4E4E;
 				margin-bottom: 28rpx;
+				flex-shrink: 0;
 				image {
 					width: 80rpx;
 					height: 46rpx;
