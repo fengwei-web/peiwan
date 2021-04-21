@@ -40,22 +40,24 @@
 					<text>点击添加微信二维码</text>
 				</view>
 				<view class="my_addWx_foot flex flex--align-items--center flex--justify-content--space-between">
-					<view class="my_addWx_foot_left">返回</view>
+					<view class="my_addWx_foot_left" @click="$emit('returnMy',1)">返回</view>
 					<view class="my_addWx_foot_right">保存</view>
 				</view>
 			</view>
 		</template>
 		<!-- 添加客服 -->
-		<template v-if="false">
+		<template v-if="addServWeixin">
 			<view class="my_kf">
 				<view class="my_kf_head flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_kf_head_title">客服微信号</view>
-					<text class="my_kf_head_code">kefu_peiwan</text>
+					<text class="my_kf_head_code">{{ wxCode }}</text>
 					<view class="my_kf_head_btn">一键复制</view>
 				</view>
-				<view class="my_kf_code"></view>
+				<view class="my_kf_code flex flex--align-items--center flex--justify-content--center">
+					<image :src="'http://139.159.148.119' + codeImage" mode=""></image>
+				</view>
 				<view class="my_kf_foot flex flex--align-items--center flex--justify-content--space-between">
-					<view class="my_kf_foot_left">返回</view>
+					<view class="my_kf_foot_left" @click="$emit('returnMy',2)">返回</view>
 					<view class="my_kf_foot_right">保存二维码</view>
 				</view>
 			</view>
@@ -66,6 +68,17 @@
 <script>
 	export default {
 		name: 'my',
+		props: {
+			addServWeixin: {
+				type: Boolean
+			},
+			codeImage: {
+				type: String
+			},
+			wxCode: {
+				type: String
+			}
+		},
 		data() {
 			return {
 				boxList: [
@@ -89,6 +102,9 @@
 					}
 				]
 			}
+		},
+		methods: {
+			
 		}
 	}
 </script>
@@ -276,6 +292,10 @@
 				background: #F7F7F7;
 				border-radius: 20rpx;
 				margin-top: 48rpx;
+				image {
+					width: 400rpx;
+					height: 400rpx;
+				}
 			}
 			.my_kf_foot {
 				width: 100%;

@@ -85,32 +85,39 @@
 			<view class="index_box_con flex flex--wrap">
 				<view
 					class="index_box_con_list"
-					:class="{'index_box_con_list_active': index == doWhatIndex}"
-					v-for="(item,index) in 3"
+					:class="{'index_box_con_list_active': item.isShow}"
+					v-for="(item,index) in moneyList"
 					:key="index"
 					@click="choiceDoWhat(index)"
-				>1200</view>
+				>{{ item.title }}</view>
 				<view class="index_box_con_list">
-					<input class="index_box_con_list_active" type="text" value="自定义" />
+					<input
+						class="index_box_con_list_active"
+						type="number"
+						v-model="moneyText"
+						placeholder="自定义"
+						placeholder-style="color: #fff;"
+						@focus="moneyBlur"
+					/>
 				</view>
 			</view>
 		</view>
 		<!-- 发布按钮 -->
-		<view class="index_btn">发布订单</view>
+		<view class="index_btn" @click="releaseOrder">发布订单</view>
 		<!-- 弹出框1 -->
-		<template v-if="false">
+		<template v-if="oneShow">
 			<view class="index_one">
 				<view class="index_one_title">下单必填</view>
 				<view class="index_one_con">需要先添加<text>微信</text>，才能和Ta愉快的玩耍</view>
 				<view class="index_one_foot flex flex--align-items--center flex--justify-content--space-between">
-					<view class="index_one_foot_left">不需要</view>
-					<view class="index_one_foot_right">去添加微信</view>
+					<view class="index_one_foot_left" @click="oneShow = false">不需要</view>
+					<view class="index_one_foot_right" @click="goAddWeixi">去添加微信</view>
 				</view>
 			</view>
 		</template>
 		
 		<!-- 弹出框2 -->
-		<template v-if="false">
+		<template v-if="twoShow">
 			<view class="index_one" >
 				<view class="index_one_con">订单已经发布，请到<text>我的订单</text>查看订单</view>
 				<view class="index_one_foot flex flex--align-items--center flex--justify-content--space-between">
@@ -121,7 +128,7 @@
 		</template>
 		
 		<!-- 弹出框3 -->
-		<template v-if="false">
+		<template v-if="threeShow">
 			<view class="index_two">
 				<view class="index_two_title">订单信息</view>
 				<view class="index_two_box">
@@ -160,6 +167,9 @@
 			},
 			labelList: {
 				type: Array
+			},
+			moneyList: {
+				type: Array
 			}
 		},
 		data() {
@@ -167,16 +177,16 @@
 				format: true
 			})
 			return {
-				doWhatIndex: 0,
 				date: new Date().toLocaleDateString().split('/').join('-'),
 				time: '请选择时间',
-				hourArray: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-				hour: '0',
-				cityText: ''
+				hourArray: [2,3,4,5,6,7,8],
+				hour: '2',
+				cityText: '',
+				moneyText: '',
+				oneShow: false,
+				twoShow: false,
+				threeShow: false
 			}
-		},
-		onLoad() {
-			
 		},
 		computed: {
 			startDate() {
@@ -184,6 +194,12 @@
 			},
 			endDate() {
 				return this.getDate('end');
+			}
+		},
+		watch: {
+			moneyText(e){
+				let str = e.replace(/\s*/g,"");
+				this.moneyText = str
 			}
 		},
 		methods: {
@@ -195,7 +211,22 @@
 			},
 			// 选择支付金额
 			choiceDoWhat(index) {
-				this.doWhatIndex = index
+				this.moneyCommon(2,index)
+			},
+			// 自定义获取焦点
+			moneyBlur() {
+				this.moneyCommon(1)
+			},
+			// 金额公共代码
+			moneyCommon(type,index=-1) {
+				let moneyList = this.moneyList;
+				moneyList.forEach(v => {
+					v.isShow = false
+				})
+				if(type !== 1) {
+					moneyList[index].isShow = !moneyList[index].isShow
+				}
+				this.$emit('choiceDoWhat',moneyList)
 			},
 			// 选择日期
 			bindDateChange(e) {
@@ -207,11 +238,21 @@
 			},
 			// 选择小时
 			bindHourChange(e) {
-				this.hour = e.detail.value
+				this.hour = this.hourArray[e.detail.value]
 			},
 			// 选择地区
 			bindCityChange(e) {
-				this.cityText = e.detail.value.join('')
+				this.cityText = e.detail.value.join('-')
+			},
+			// 首页发布订单
+			releaseOrder() {
+				this.oneShow = true
+			},
+			// 去添加微信
+			goAddWeixi() {
+				uni.navigateTo({
+					url: '/pages/tabBar/tabBar?isShow=false'
+				})
 			},
 			// 日期选择器计算开始与结束时间
 			getDate(type) {

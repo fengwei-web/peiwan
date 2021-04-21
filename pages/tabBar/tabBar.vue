@@ -15,9 +15,17 @@
 				v-if="isShow"
 				:swiperList="swiperList"
 				:labelList="labelList"
+				:moneyList="moneyList"
 				@setLabel="setLabel"
+				@choiceDoWhat="choiceDoWhat"
 			/>
-			<my v-else></my>
+			<my
+				v-else
+				:addServWeixin="addServWeixin"
+				:codeImage="codeImage"
+				:wxCode="wxCode"
+				@returnMy = "returnMy"
+			></my>
 		</view>
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(1)">
@@ -48,13 +56,25 @@
 			return {
 				isShow: true,
 				swiperList: [],
-				labelList: []
+				labelList: [],
+				moneyList: [],
+				// my
+				addServWeixin: false,
+				codeImage: '',
+				wxCode: ''
 			}
 		},
-		onLoad() {
+		onLoad(option) {
+			if(option.isShow) {
+				this.isShow = false
+				this.addServWeixin = true
+				this.getSevrInfo(2)
+				this.getSevrInfo(3)
+			}
 			this.getBanner()
 			this.login()
 			this.getLabel()
+			this.getMoney()
 		},
 		methods: {
 			login() {
@@ -66,7 +86,7 @@
 								console.log(user)
 								const parmst = {
 									image: user.userInfo.avatarUrl,
-									nickName: user.userInfo.nickName,
+									nickname: user.userInfo.nickName,
 									code: res.code
 								}
 								const { data } = await that.$http('/api/member/login',parmst);
@@ -76,12 +96,12 @@
 					}
 				})
 			},
-			// 轮播图
+			// 获取轮播图
 			async getBanner() {
 				const { data } = await this.$http('/api/banner/lists')
 				this.swiperList = data
 			},
-			// 标签
+			// 获取标签
 			async getLabel() {
 				const { data } = await this.$http('/api/tags_do/lists')
 				data.forEach(v => {
@@ -89,9 +109,42 @@
 				})
 				this.labelList = data
 			},
+			// 获取金额
+			async getMoney() {
+				const { data } = await this.$http('/api/tags_price/lists')
+				data.forEach(v => {
+					v['isShow'] = false
+				})
+				this.moneyList = data
+			},
+			// 获取当前位置
+			getAddress() {
+				
+			},
 			// index页面（标签）传过来的值
 			setLabel(labelList) {
 				this.labelList = labelList;
+			},
+			choiceDoWhat(moneyList) {
+				this.moneyList = moneyList;
+			},
+			// my 返回
+			returnMy(type) {
+				if(type == 1){
+					
+				}else {
+					this.addServWeixin = false
+				}
+			},
+			async getSevrInfo(type) {
+				const { data } = await this.$http('/api/system/info',{
+					type: type
+				})
+				if(type == 2) {
+					this.codeImage = data.content
+				}else {
+					this.wxCode = data.content
+				}
 			},
 			// tabBar切换页面
 			setSelected(type) {

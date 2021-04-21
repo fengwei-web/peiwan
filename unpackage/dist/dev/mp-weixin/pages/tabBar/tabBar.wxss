@@ -455,6 +455,10 @@
           border-radius: 20rpx;
   margin-top: 48rpx;
 }
+.my .my_kf .my_kf_code image {
+  width: 400rpx;
+  height: 400rpx;
+}
 .my .my_kf .my_kf_foot {
   width: 100%;
   margin-top: 66rpx;
