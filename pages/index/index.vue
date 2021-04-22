@@ -10,9 +10,11 @@
 				circular="circular"
 				interval="2500"
 			>
-				<swiper-item v-for="item in swiperList" :key="item.id">
-					<image :src="'http://139.159.148.119' +item.image" mode=""></image>
-				</swiper-item>
+				<template v-if="baseUrl">
+					<swiper-item v-for="item in swiperList" :key="item.id">
+						<image :src="baseUrl + item.image" mode=""></image>
+					</swiper-item>
+				</template>
 			</swiper>
 			<!-- 公告 -->
 			<view class="index_notice flex flex--align-items--center">
@@ -97,7 +99,7 @@
 						v-model="moneyText"
 						placeholder="自定义"
 						placeholder-style="color: #fff;"
-						@focus="moneyBlur"
+						@blur="moneyBlur"
 					/>
 				</view>
 			</view>
@@ -159,6 +161,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	export default {
 		name: 'index',
 		props: {
@@ -177,12 +180,14 @@
 				format: true
 			})
 			return {
-				date: new Date().toLocaleDateString().split('/').join('-'),
-				time: '请选择时间',
+				date: '2021-04-22',
+				time: '13:00',
 				hourArray: [2,3,4,5,6,7,8],
 				hour: '2',
-				cityText: '',
+				cityText: '请选择见面地址',
 				moneyText: '',
+				checkboxText: '', // 选择做什么的字符串
+				moneyCon: '',
 				oneShow: false,
 				twoShow: false,
 				threeShow: false
@@ -194,7 +199,8 @@
 			},
 			endDate() {
 				return this.getDate('end');
-			}
+			},
+			...mapState(['baseUrl'])
 		},
 		watch: {
 			moneyText(e){
@@ -202,11 +208,28 @@
 				this.moneyText = str
 			}
 		},
+		created() {
+			let releaseData = this.$store.state.releaseData;
+			if(releaseData !== null){
+				let date = releaseData.data.split(' ')
+				this.date = date[0]
+				this.time = date[1]
+				this.hour = releaseData.time
+				this.cityText = releaseData.address
+				this.checkboxText = releaseData.do
+				this.moneyCon = releaseData.price
+			}
+		},
 		methods: {
 			// 选择做什么
 			setCheckbox(index) {
 				let labelList = this.labelList;
 				labelList[index].isShow = !labelList[index].isShow
+				let arr = [];
+				labelList.forEach(v=>{
+					if(v.isShow) arr.push(v.title)
+				})
+				this.checkboxText = arr.join(',')
 				this.$emit('setLabel',labelList);
 			},
 			// 选择支付金额
@@ -225,6 +248,13 @@
 				})
 				if(type !== 1) {
 					moneyList[index].isShow = !moneyList[index].isShow
+					moneyList.forEach(v=>{
+						if(v.isShow) {
+							this.moneyCon = v.title
+						};
+					})
+				}else{
+					this.moneyCon = this.moneyText
 				}
 				this.$emit('choiceDoWhat',moneyList)
 			},
@@ -246,13 +276,41 @@
 			},
 			// 首页发布订单
 			releaseOrder() {
+				if(!this.checkboxText){
+					uni.showToast({
+						title: '请选择服务内容',
+						icon: 'none'
+					})
+					return;
+				}
+				if(this.cityText === '请选择见面地址'){
+					uni.showToast({
+						title: '请选择见面地址',
+						icon: 'none'
+					})
+					return;
+				}
+				if(!this.moneyCon){
+					uni.showToast({
+						title: '请选择金额',
+						icon: 'none'
+					})
+					return;
+				}
+				// this.threeShow = true
 				this.oneShow = true
 			},
 			// 去添加微信
 			goAddWeixi() {
-				uni.navigateTo({
-					url: '/pages/tabBar/tabBar?isShow=false'
-				})
+				let data = {
+					address: this.cityText,
+					data: this.date + ' ' + this.time,
+					time: this.hour,
+					do: this.checkboxText,
+					price: this.moneyCon
+				}
+				this.$store.commit('setReleaseData',data);
+				this.$emit('goAddWeixi', data)
 			},
 			// 日期选择器计算开始与结束时间
 			getDate(type) {

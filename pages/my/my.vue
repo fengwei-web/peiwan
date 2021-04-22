@@ -20,7 +20,10 @@
 		<!-- 菜单-操作 -->
 		<view class="my_box">
 			<block v-for="(item, index) in boxList" :key="item.id">
-				<view class="my_box_list flex flex--align-items--center">
+				<view
+					class="my_box_list flex flex--align-items--center"
+					@click="menuOpen(item.id)"
+				>
 					<image :src="item.src" mode=""></image>
 					<view class="my_box_list_cen">
 						<view class="my_box_list_cen_top">{{ item.title }}</view>
@@ -31,12 +34,15 @@
 			</block>
 		</view>
 		<!-- 添加微信 -->
-		<template v-if="false">
+		<template v-if="addPersonalWeixin">
 			<view class="my_addWx flex flex--row flex--align-items--center">
 				<view class="my_addWx_title">请提交微信号和微信二维码</view>
 				<view class="my_addWx_desc">当您下单完成时，陪玩官将需要通过您本次添加的微信号和微信二维码来完成您的订单任务。</view>
-				<input type="text" placeholder="请输入微信号">
-				<view class="my_addWx_code flex flex--align-items--center flex--justify-content--center">
+				<input type="text" v-model="weixinNumber" placeholder="请输入微信号">
+				<view
+					class="my_addWx_code flex flex--align-items--center flex--justify-content--center"
+					@click="clickWeixinCode"
+				>
 					<text>点击添加微信二维码</text>
 				</view>
 				<view class="my_addWx_foot flex flex--align-items--center flex--justify-content--space-between">
@@ -51,14 +57,14 @@
 				<view class="my_kf_head flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_kf_head_title">客服微信号</view>
 					<text class="my_kf_head_code">{{ wxCode }}</text>
-					<view class="my_kf_head_btn">一键复制</view>
+					<view class="my_kf_head_btn" @click="oneKeyCopy">一键复制</view>
 				</view>
 				<view class="my_kf_code flex flex--align-items--center flex--justify-content--center">
-					<image :src="'http://139.159.148.119' + codeImage" mode=""></image>
+					<image :src="baseUrl + codeImage" mode=""></image>
 				</view>
 				<view class="my_kf_foot flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_kf_foot_left" @click="$emit('returnMy',2)">返回</view>
-					<view class="my_kf_foot_right">保存二维码</view>
+					<view class="my_kf_foot_right" @click="preseCode">保存二维码</view>
 				</view>
 			</view>
 		</template>
@@ -66,10 +72,14 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		name: 'my',
 		props: {
 			addServWeixin: {
+				type: Boolean
+			},
+			addPersonalWeixin: {
 				type: Boolean
 			},
 			codeImage: {
@@ -83,28 +93,114 @@
 			return {
 				boxList: [
 					{
-						id: 0,
+						id: 1,
 						src: '../../static/image/wx.png',
 						title: '添加微信',
 						desc: '完善资料，让陪玩官更准确效率的找到你'
 					},
 					{
-						id: 1,
+						id: 2,
 						src: '../../static/image/kf.png',
 						title: '我的客服',
 						desc: '24小时在线解决所有问题'
 					},
 					{
-						id: 2,
+						id: 3,
 						src: '../../static/image/fx.png',
 						title: '分享给好友',
 						desc: '也许你的朋友，也刚好需要'
 					}
-				]
+				],
+				weixinNumber: ''
 			}
 		},
+		computed: {
+			...mapState(['baseUrl'])
+		},
 		methods: {
-			
+			// 一键复制
+			oneKeyCopy() {
+				let that = this
+				uni.setClipboardData({
+					data: this.wxCode,
+					success() {
+						uni.showToast({
+							title: '复制成功',
+							icon: 'none'
+						})
+					}
+				})
+			},
+			// 保存二维码
+			preseCode() {
+				let that = this;
+				uni.getSetting({
+					success(res) {
+						let data = res.authSetting['scope.writePhotosAlbum']
+						if (data) { return }
+						uni.authorize({
+							scope: 'scope.writePhotosAlbum',
+							success() {
+								uni.downloadFile({
+									url: 'http://139.159.148.119' + that.codeImage,
+									success(val) {
+										uni.saveImageToPhotosAlbum({
+											filePath: val.tempFilePath,
+											success() {
+												uni.showToast({
+													title: "保存成功",
+													duration: 2000
+												})
+											}
+										})
+									}
+								})
+							},
+							fail(err) {
+								console.log(err)
+								uni.showToast({
+									title: '您没有开启相册权限',
+									icon: 'none'
+								})
+							}
+						})
+					}
+				})
+			},
+			menuOpen(id) {
+				switch(id) {
+					case 1:
+						this.$emit('openAddPersonalWeixin')
+					break;
+					case 2:
+						this.$emit('openAddKuWeixin')
+					break;
+					case 3:
+					console.log('分享')
+					break;
+				}
+			},
+			// 点击上传二维码
+			clickWeixinCode() {
+				console.log()
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					success(res) {
+						const tempFilePaths = res.tempFilePaths;
+						uni.uploadFile({
+							url: that.baseUrl + '/api/member/upload',
+							name: 'file',
+							filePath: tempFilePaths[0],
+							fileType: 'image',
+							success(res) {
+								console.log(res)
+							}
+						})
+						// const { data } = await this.$http
+					}
+				});
+			}
 		}
 	}
 </script>

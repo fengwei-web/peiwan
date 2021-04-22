@@ -114,78 +114,88 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 123);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   name: 'my',
   props: {
     addServWeixin: {
+      type: Boolean },
+
+    addPersonalWeixin: {
       type: Boolean },
 
     codeImage: {
@@ -199,27 +209,115 @@ var _default =
     return {
       boxList: [
       {
-        id: 0,
+        id: 1,
         src: '../../static/image/wx.png',
         title: '添加微信',
         desc: '完善资料，让陪玩官更准确效率的找到你' },
 
       {
-        id: 1,
+        id: 2,
         src: '../../static/image/kf.png',
         title: '我的客服',
         desc: '24小时在线解决所有问题' },
 
       {
-        id: 2,
+        id: 3,
         src: '../../static/image/fx.png',
         title: '分享给好友',
-        desc: '也许你的朋友，也刚好需要' }] };
+        desc: '也许你的朋友，也刚好需要' }],
 
 
+      weixinNumber: '' };
 
   },
-  methods: {} };exports.default = _default;
+  computed: _objectSpread({},
+  (0, _vuex.mapState)(['baseUrl'])),
+
+  methods: {
+    // 一键复制
+    oneKeyCopy: function oneKeyCopy() {
+      var that = this;
+      uni.setClipboardData({
+        data: this.wxCode,
+        success: function success() {
+          uni.showToast({
+            title: '复制成功',
+            icon: 'none' });
+
+        } });
+
+    },
+    // 保存二维码
+    preseCode: function preseCode() {
+      var that = this;
+      uni.getSetting({
+        success: function success(res) {
+          var data = res.authSetting['scope.writePhotosAlbum'];
+          if (data) {return;}
+          uni.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success: function success() {
+              uni.downloadFile({
+                url: 'http://139.159.148.119' + that.codeImage,
+                success: function success(val) {
+                  uni.saveImageToPhotosAlbum({
+                    filePath: val.tempFilePath,
+                    success: function success() {
+                      uni.showToast({
+                        title: "保存成功",
+                        duration: 2000 });
+
+                    } });
+
+                } });
+
+            },
+            fail: function fail(err) {
+              console.log(err);
+              uni.showToast({
+                title: '您没有开启相册权限',
+                icon: 'none' });
+
+            } });
+
+        } });
+
+    },
+    menuOpen: function menuOpen(id) {
+      switch (id) {
+        case 1:
+          this.$emit('openAddPersonalWeixin');
+          break;
+        case 2:
+          this.$emit('openAddKuWeixin');
+          break;
+        case 3:
+          console.log('分享');
+          break;}
+
+    },
+    // 点击上传二维码
+    clickWeixinCode: function clickWeixinCode() {
+      console.log();
+      var that = this;
+      uni.chooseImage({
+        count: 1,
+        success: function success(res) {
+          var tempFilePaths = res.tempFilePaths;
+          uni.uploadFile({
+            url: that.baseUrl + '/api/member/upload',
+            name: 'file',
+            filePath: tempFilePaths[0],
+            fileType: 'image',
+            success: function success(res) {
+              console.log(res);
+            } });
+
+          // const { data } = await this.$http
+        } });
+
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

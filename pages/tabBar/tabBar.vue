@@ -18,13 +18,17 @@
 				:moneyList="moneyList"
 				@setLabel="setLabel"
 				@choiceDoWhat="choiceDoWhat"
+				@goAddWeixi="goAddWeixi"
 			/>
 			<my
 				v-else
 				:addServWeixin="addServWeixin"
+				:addPersonalWeixin="addPersonalWeixin"
 				:codeImage="codeImage"
 				:wxCode="wxCode"
 				@returnMy = "returnMy"
+				@openAddKuWeixin="openAddKuWeixin"
+				@openAddPersonalWeixin="openAddPersonalWeixin"
 			></my>
 		</view>
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
@@ -60,21 +64,27 @@
 				moneyList: [],
 				// my
 				addServWeixin: false,
+				addPersonalWeixin: false,
 				codeImage: '',
 				wxCode: ''
 			}
 		},
-		onLoad(option) {
-			if(option.isShow) {
-				this.isShow = false
-				this.addServWeixin = true
-				this.getSevrInfo(2)
-				this.getSevrInfo(3)
+		watch: {
+			isShow(e) {
+				if(this.isShow){
+					return
+				}
+				console.log('离开当前页面')
 			}
+		},
+		onLoad(option) {
 			this.getBanner()
 			this.login()
 			this.getLabel()
 			this.getMoney()
+		},
+		onHide() {
+			
 		},
 		methods: {
 			login() {
@@ -125,17 +135,25 @@
 			setLabel(labelList) {
 				this.labelList = labelList;
 			},
+			// 更新金额数据
 			choiceDoWhat(moneyList) {
 				this.moneyList = moneyList;
+			},
+			// 从index页面调用的打开添加我的微信
+			goAddWeixi(){
+				this.isShow = false;
+				this.addPersonalWeixin = true
+				// this.keFuWeixi()
 			},
 			// my 返回
 			returnMy(type) {
 				if(type == 1){
-					
+					this.addPersonalWeixin = false
 				}else {
 					this.addServWeixin = false
 				}
 			},
+			// 获取客户信息
 			async getSevrInfo(type) {
 				const { data } = await this.$http('/api/system/info',{
 					type: type
@@ -145,6 +163,20 @@
 				}else {
 					this.wxCode = data.content
 				}
+			},
+			// 在我的页面打开客服
+			openAddKuWeixin(){
+				this.keFuWeixi()
+			},
+			// 打开添加微信
+			openAddPersonalWeixin() {
+				this.addPersonalWeixin = true
+			},
+			// 打开客服弹框公共代码
+			keFuWeixi() {
+				this.addServWeixin = true
+				this.getSevrInfo(2)
+				this.getSevrInfo(3)
 			},
 			// tabBar切换页面
 			setSelected(type) {

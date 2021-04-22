@@ -119,167 +119,170 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 123);function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   name: 'index',
   props: {
@@ -298,24 +301,27 @@ var _default =
       format: true });
 
     return {
-      date: new Date().toLocaleDateString().split('/').join('-'),
-      time: '请选择时间',
+      date: '2021-04-22',
+      time: '13:00',
       hourArray: [2, 3, 4, 5, 6, 7, 8],
       hour: '2',
-      cityText: '',
+      cityText: '请选择见面地址',
       moneyText: '',
+      checkboxText: '', // 选择做什么的字符串
+      moneyCon: '',
       oneShow: false,
       twoShow: false,
       threeShow: false };
 
   },
-  computed: {
+  computed: _objectSpread({
     startDate: function startDate() {
       return this.getDate('start');
     },
     endDate: function endDate() {
       return this.getDate('end');
     } },
+  (0, _vuex.mapState)(['baseUrl'])),
 
   watch: {
     moneyText: function moneyText(e) {
@@ -323,11 +329,28 @@ var _default =
       this.moneyText = str;
     } },
 
+  created: function created() {
+    var releaseData = this.$store.state.releaseData;
+    if (releaseData !== null) {
+      var date = releaseData.data.split(' ');
+      this.date = date[0];
+      this.time = date[1];
+      this.hour = releaseData.time;
+      this.cityText = releaseData.address;
+      this.checkboxText = releaseData.do;
+      this.moneyCon = releaseData.price;
+    }
+  },
   methods: {
     // 选择做什么
     setCheckbox: function setCheckbox(index) {
       var labelList = this.labelList;
       labelList[index].isShow = !labelList[index].isShow;
+      var arr = [];
+      labelList.forEach(function (v) {
+        if (v.isShow) arr.push(v.title);
+      });
+      this.checkboxText = arr.join(',');
       this.$emit('setLabel', labelList);
     },
     // 选择支付金额
@@ -339,13 +362,20 @@ var _default =
       this.moneyCommon(1);
     },
     // 金额公共代码
-    moneyCommon: function moneyCommon(type) {var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
+    moneyCommon: function moneyCommon(type) {var _this = this;var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : -1;
       var moneyList = this.moneyList;
       moneyList.forEach(function (v) {
         v.isShow = false;
       });
       if (type !== 1) {
         moneyList[index].isShow = !moneyList[index].isShow;
+        moneyList.forEach(function (v) {
+          if (v.isShow) {
+            _this.moneyCon = v.title;
+          };
+        });
+      } else {
+        this.moneyCon = this.moneyText;
       }
       this.$emit('choiceDoWhat', moneyList);
     },
@@ -367,13 +397,41 @@ var _default =
     },
     // 首页发布订单
     releaseOrder: function releaseOrder() {
+      if (!this.checkboxText) {
+        uni.showToast({
+          title: '请选择服务内容',
+          icon: 'none' });
+
+        return;
+      }
+      if (this.cityText === '请选择见面地址') {
+        uni.showToast({
+          title: '请选择见面地址',
+          icon: 'none' });
+
+        return;
+      }
+      if (!this.moneyCon) {
+        uni.showToast({
+          title: '请选择金额',
+          icon: 'none' });
+
+        return;
+      }
+      // this.threeShow = true
       this.oneShow = true;
     },
     // 去添加微信
     goAddWeixi: function goAddWeixi() {
-      uni.navigateTo({
-        url: '/pages/tabBar/tabBar?isShow=false' });
+      var data = {
+        address: this.cityText,
+        data: this.date + ' ' + this.time,
+        time: this.hour,
+        do: this.checkboxText,
+        price: this.moneyCon };
 
+      this.$store.commit('setReleaseData', data);
+      this.$emit('goAddWeixi', data);
     },
     // 日期选择器计算开始与结束时间
     getDate: function getDate(type) {
