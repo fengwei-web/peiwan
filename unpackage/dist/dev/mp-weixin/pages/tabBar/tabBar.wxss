@@ -385,6 +385,10 @@
 .my .my_addWx .my_addWx_code text {
   font-size: 28rpx;
 }
+.my .my_addWx .my_addWx_code image {
+  width: 260rpx;
+  height: 260rpx;
+}
 .my .my_addWx .my_addWx_foot {
   width: 100%;
 }

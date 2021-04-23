@@ -2,6 +2,7 @@ const baseUrl = 'http://139.159.148.119';
 
 export default {
 	request(url,data = {},header={}) {
+		data.token = uni.getStorageSync('token') || '4845bb4183cce379ccb65b14270bb20c'
 		return new Promise((resolve,reject) => {
 			uni.showLoading({
 				mask: true,

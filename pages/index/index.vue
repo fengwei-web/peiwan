@@ -123,8 +123,8 @@
 			<view class="index_one" >
 				<view class="index_one_con">订单已经发布，请到<text>我的订单</text>查看订单</view>
 				<view class="index_one_foot flex flex--align-items--center flex--justify-content--space-between">
-					<view class="index_one_foot_left">好的</view>
-					<view class="index_one_foot_right">我的订单</view>
+					<view class="index_one_foot_left" @click="twoShow = false">好的</view>
+					<view class="index_one_foot_right" @click="goMyOrder">我的订单</view>
 				</view>
 			</view>
 		</template>
@@ -136,24 +136,24 @@
 				<view class="index_two_box">
 					<view class="index_two_box_list">
 						<view class="index_two_box_list_title">喊TA做什么：</view>
-						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+						<view class="index_two_box_list_desc">{{ checkboxText }}</view>
 					</view>
 					<view class="index_two_box_list">
-						<view class="index_two_box_list_title">喊TA做什么：</view>
-						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+						<view class="index_two_box_list_title">见面地点：</view>
+						<view class="index_two_box_list_desc">{{ cityText }}</view>
 					</view>
 					<view class="index_two_box_list">
-						<view class="index_two_box_list_title">喊TA做什么：</view>
-						<view class="index_two_box_list_desc">摄影、海底捞、王者荣耀</view>
+						<view class="index_two_box_list_title">见面时间：</view>
+						<view class="index_two_box_list_desc">{{ date }}</view>
 					</view>
 				</view>
 				<view class="index_two_price">
 					预计支付的金额：
-					<text>￥800</text>
+					<text>￥{{ moneyCon }}</text>
 				</view>
 				<view class="index_two_foot flex flex--align-items--center flex--justify-content--space-between">
-					<view class="index_two_foot_left">我再想想</view>
-					<view class="index_two_foot_right">我要发布</view>
+					<view class="index_two_foot_left" @click="threeShow = false">我再想想</view>
+					<view class="index_two_foot_right" @click="confirmRelease">确认发布</view>
 				</view>
 			</view>
 		</template>
@@ -173,6 +173,9 @@
 			},
 			moneyList: {
 				type: Array
+			},
+			userInfo: {
+				type: Object
 			}
 		},
 		data() {
@@ -297,8 +300,12 @@
 					})
 					return;
 				}
-				// this.threeShow = true
-				this.oneShow = true
+				if(!this.userInfo.wx_num){
+					this.oneShow = true
+					return
+				}
+				this.threeShow = true
+				
 			},
 			// 去添加微信
 			goAddWeixi() {
@@ -311,6 +318,39 @@
 				}
 				this.$store.commit('setReleaseData',data);
 				this.$emit('goAddWeixi', data)
+			},
+			// 确认发布
+			async confirmRelease() {
+				let that = this
+				let data = {
+					address: this.cityText,
+					data: this.date + ' ' + this.time,
+					time: this.hour,
+					do: this.checkboxText,
+					price: this.moneyCon
+				}
+				const { status } = await this.$http('/api/order/create_order',data);
+				if(status) {
+					uni.showToast({
+						title: '发布成功',
+						icon: 'none',
+						success() {
+							that.threeShow = false
+							that.twoShow = true
+						}
+					})
+				}else{
+					uni.showToast({
+						title: '发布失败',
+						icon: 'none'
+					})
+				}
+			},
+			goMyOrder() {
+				uni.navigateTo({
+					url: '/pages/orderDetail/orderDetail?type=1'
+				})
+				this.twoShow = false
 			},
 			// 日期选择器计算开始与结束时间
 			getDate(type) {

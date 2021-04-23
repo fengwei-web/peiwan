@@ -16,6 +16,7 @@
 				:swiperList="swiperList"
 				:labelList="labelList"
 				:moneyList="moneyList"
+				:userInfo="userInfo"
 				@setLabel="setLabel"
 				@choiceDoWhat="choiceDoWhat"
 				@goAddWeixi="goAddWeixi"
@@ -26,6 +27,7 @@
 				:addPersonalWeixin="addPersonalWeixin"
 				:codeImage="codeImage"
 				:wxCode="wxCode"
+				:userInfo="userInfo"
 				@returnMy = "returnMy"
 				@openAddKuWeixin="openAddKuWeixin"
 				@openAddPersonalWeixin="openAddPersonalWeixin"
@@ -66,7 +68,8 @@
 				addServWeixin: false,
 				addPersonalWeixin: false,
 				codeImage: '',
-				wxCode: ''
+				wxCode: '',
+				userInfo: null
 			}
 		},
 		watch: {
@@ -79,9 +82,10 @@
 		},
 		onLoad(option) {
 			this.getBanner()
-			this.login()
+			// this.login()
 			this.getLabel()
 			this.getMoney()
+			this.getUserInfo()
 		},
 		onHide() {
 			
@@ -93,14 +97,13 @@
 					success(res) {
 						uni.getUserInfo({
 							async success(user) {
-								console.log(user)
 								const parmst = {
 									image: user.userInfo.avatarUrl,
 									nickname: user.userInfo.nickName,
 									code: res.code
 								}
 								const { data } = await that.$http('/api/member/login',parmst);
-								console.log(data)
+								uni.setStorageSync('token',data.token)
 							}
 						})
 					}
@@ -130,6 +133,10 @@
 			// 获取当前位置
 			getAddress() {
 				
+			},
+			async getUserInfo() {
+				const { data } = await this.$http('/api/member/info')
+				this.userInfo = data
 			},
 			// index页面（标签）传过来的值
 			setLabel(labelList) {

@@ -2,17 +2,20 @@
 	<view class="my">
 		<!-- 头部 头像 昵称 -->
 		<view class="my_head flex flex--align-items--center">
-			<image src="../../static/logo.png" mode="" />
-			<text>一只小草莓</text>
+			<image :src="userInfo.image" mode="" />
+			<text>{{ userInfo.nickname }}</text>
 		</view>
 		<!-- 我的订单 -->
 		<view class="my_order">
 			<view class="my_order_title">我的订单</view>
 			<view class="my_order_box flex flex--align-items--center flex--justify-content--space-around">
-				<block v-for="item in 4" :key="item">
-					<view class="my_order_box_list flex flex--row flex--align-items--center">
+				<block v-for="item in orderTabList" :key="item.id">
+					<view
+						class="my_order_box_list flex flex--row flex--align-items--center"
+						@click="goOrder(item.id)"
+					>
 						<text>1</text>
-						<view>进行中</view>
+						<view>{{ item.title }}</view>
 					</view>
 				</block>
 			</view>
@@ -43,11 +46,12 @@
 					class="my_addWx_code flex flex--align-items--center flex--justify-content--center"
 					@click="clickWeixinCode"
 				>
-					<text>点击添加微信二维码</text>
+					<text v-if="!codeImageData">点击添加微信二维码</text>
+					<image v-else :src="baseUrl + codeImageData" mode=""></image>
 				</view>
 				<view class="my_addWx_foot flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_addWx_foot_left" @click="$emit('returnMy',1)">返回</view>
-					<view class="my_addWx_foot_right">保存</view>
+					<view class="my_addWx_foot_right" @click="preservation">保存</view>
 				</view>
 			</view>
 		</template>
@@ -87,6 +91,9 @@
 			},
 			wxCode: {
 				type: String
+			},
+			userInfo: {
+				type: Object
 			}
 		},
 		data() {
@@ -111,13 +118,39 @@
 						desc: '也许你的朋友，也刚好需要'
 					}
 				],
-				weixinNumber: ''
+				orderTabList: [
+					{
+						id: 1,
+						title: '进行中'
+					},
+					{
+						id: 2,
+						title: '已完成'
+					},
+					{
+						id: 3,
+						title: '取消中'
+					},
+					{
+						id: 4,
+						title: '已取消'
+					}
+				],
+				weixinNumber: '',
+				codeImageData: '',
+				myCode: ''
 			}
 		},
 		computed: {
 			...mapState(['baseUrl'])
 		},
 		methods: {
+			// 进入订单
+			goOrder(id) {
+				uni.navigateTo({
+					url: '/pages/orderDetail/orderDetail?type=' + id
+				})
+			},
 			// 一键复制
 			oneKeyCopy() {
 				let that = this
@@ -182,7 +215,6 @@
 			},
 			// 点击上传二维码
 			clickWeixinCode() {
-				console.log()
 				let that = this;
 				uni.chooseImage({
 					count: 1,
@@ -193,13 +225,48 @@
 							name: 'file',
 							filePath: tempFilePaths[0],
 							fileType: 'image',
-							success(res) {
-								console.log(res)
+							async success(res) {
+								that.myCode = JSON.parse(res.data).data
+								const { data } = await that.$http('/api/system/info',{
+									type: 2
+								})
+								that.codeImageData = data.content
 							}
 						})
 						// const { data } = await this.$http
 					}
 				});
+			},
+			// 添加微信
+			async preservation() {
+				let that = this
+				if(!this.weixinNumber){
+					uni.showToast({
+						title: '请输入微信号',
+						icon: 'none'
+					})
+					return
+				}
+				if(!this.myCode){
+					uni.showToast({
+						title: '请添加二维码',
+						icon: 'none'
+					})
+					return
+				}
+				const { status } = await this.$http('/api/member/wx_info',{
+					wx_num: this.weixinNumber,
+					wx_image: this.myCode
+				})
+				if(status){
+					uni.showToast({
+						title: '添加成功',
+						icon: 'none',
+						success() {
+							that.$emit('returnMy',1)
+						}
+					})
+				}
 			}
 		}
 	}
@@ -322,7 +389,10 @@
 				margin: 64rpx 0;
 				text {
 					font-size: 28rpx;
-					
+				}
+				image {
+					width: 260rpx;
+					height: 260rpx;
 				}
 			}
 			.my_addWx_foot {

@@ -51,6 +51,7 @@
         {
           "name": "用户查看订单",
           "pathName": "pages/orderDetail/orderDetail",
+          "query": "type=1",
           "scene": null
         }
       ]

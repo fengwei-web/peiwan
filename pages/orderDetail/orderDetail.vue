@@ -8,55 +8,57 @@
 				正在进行中
 			</view>
 			<!-- 内容 -->
-			<view class="detail_con">
-				<view class="detail_con_head flex flex--align-items--center">
-					<image src="../../static/logo.png" mode="aspectFill"/>
-					<template v-if="false">
-						<view class="detail_con_head_right">
-							<view class="detail_con_head_right_title">一只小草莓</view>
-							<view class="detail_con_head_right_desc">168cm / 48kg / 24 / 双子座</view>
-							<view class="detail_con_head_right_address">北京  ·  朝阳区</view>
+			<block v-for="item in orderData.data" :key="item.id">
+				<view class="detail_con">
+					<view class="detail_con_head flex flex--align-items--center">
+						<image src="../../static/logo.png" mode="aspectFill"/>
+						<template v-if="false">
+							<view class="detail_con_head_right">
+								<view class="detail_con_head_right_title">一只小草莓</view>
+								<view class="detail_con_head_right_desc">168cm / 48kg / 24 / 双子座</view>
+								<view class="detail_con_head_right_address">北京  ·  朝阳区</view>
+							</view>
+						</template>
+						<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
+					</view>
+					<title title="喊TA做什么"></title>
+					<view class="list_one_container flex flex--wrap">
+						<view
+							class="list_one_container_term"
+							v-for="item in 6"
+							:key="item"
+						>干饭干饭</view>
+					</view>
+					<title title="见面时间"></title>
+					<view class="list_two_container flex flex--align-items--center">
+						<view class="list_two_container_date">2021-01-26</view>
+						<view class="list_two_container_time">16:29</view>
+						<view class="list_two_container_length">3小时</view>
+					</view>
+					<title title="见面地点"></title>
+					<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
+						<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
+						<view class="list_three_container_address">16:29</view>
+						<view class="list_three_container_num">3人</view>
+					</view>
+					<title title="订单金额"></title>
+					<view class="detail_con_price flex flex--align-items--center">
+						<view class="detail_con_price_left">
+							已完成支付
 						</view>
-					</template>
-					<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
-				</view>
-				<title title="喊TA做什么"></title>
-				<view class="list_one_container flex flex--wrap">
-					<view
-						class="list_one_container_term"
-						v-for="item in 6"
-						:key="item"
-					>干饭干饭</view>
-				</view>
-				<title title="见面时间"></title>
-				<view class="list_two_container flex flex--align-items--center">
-					<view class="list_two_container_date">2021-01-26</view>
-					<view class="list_two_container_time">16:29</view>
-					<view class="list_two_container_length">3小时</view>
-				</view>
-				<title title="见面地点"></title>
-				<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
-					<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-					<view class="list_three_container_address">16:29</view>
-					<view class="list_three_container_num">3人</view>
-				</view>
-				<title title="订单金额"></title>
-				<view class="detail_con_price flex flex--align-items--center">
-					<view class="detail_con_price_left">
-						已完成支付
+						<view class="detail_con_price_right">
+							<text>¥</text>
+							500
+						</view>
 					</view>
-					<view class="detail_con_price_right">
-						<text>¥</text>
-						500
+					<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
+						<view class="detail_con_foot_left">取消订单</view>
+						<view class="detail_con_foot_right">确认完成</view>
+						<view class="detail_con_foot_right">取消状态</view>
+						<view class="detail_con_foot_right">删除订单</view>
 					</view>
 				</view>
-				<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
-					<view class="detail_con_foot_left">取消订单</view>
-					<view class="detail_con_foot_right">确认完成</view>
-					<view class="detail_con_foot_right">取消状态</view>
-					<view class="detail_con_foot_right">删除订单</view>
-				</view>
-			</view>
+			</block>
 		</view>
 		
 		<!-- 进行中取消 -->
@@ -71,7 +73,7 @@
 			</view>
 		</template>
 		<!-- 进行中确认完成 -->
-		<template v-if="true">
+		<template v-if="false">
 			<view class="detail_cancel flex flex--row flex--align-items--center">
 				<view class="detail_cancel_list">确认完成后，<text>订单费用</text>将结算给陪玩官</view>
 				<view class="detail_cancel_foot flex flex--align-items--center">
@@ -84,6 +86,25 @@
 </template>
 
 <script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		onLoad(option) {
+			this.getOrederList(option.type)
+		},
+		methods: {
+			// 获取订单列表
+			async getOrederList(type) {
+				const { data } = await this.$http('/api/order/order_list',{
+					state: type
+				})
+				this.orderData = data
+			}
+		}
+	}
 </script>
 
 <style lang="less" scoped>

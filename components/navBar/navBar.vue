@@ -1,7 +1,10 @@
 <template>
 	<view class="index_head flex flex--row">
 		<view class="status_bar"></view>
-		<view class="index_head_con flex flex--align-items--center flex--justify-content--center">
+		<view
+			class="index_head_con flex flex--align-items--center flex--justify-content--center"
+			@click="returnPrev"
+		>
 			<image src="../../static/image/return.png" mode=""></image>
 			<text class="index_head_con_title">OneFun</text>
 		</view>
@@ -14,6 +17,13 @@
 			return {
 				
 			};
+		},
+		methods: {
+			returnPrev() {
+				uni.navigateBack({
+					delta: 1
+				})
+			}
 		}
 	}
 </script>
