@@ -15,7 +15,7 @@
         {
           "name": "查看陪玩",
           "pathName": "pages/see/see",
-          "query": "",
+          "query": "orderId=12",
           "scene": null
         },
         {

@@ -31,6 +31,7 @@
   padding: 0 22rpx;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  margin-bottom: 20rpx;
 }
 .detail .detail_box .detail_con .detail_con_head.data-v-c547daf4 {
   padding: 56rpx 0;

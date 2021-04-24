@@ -11,10 +11,10 @@
 					interval="2500"
 					@change="swiperChange"
 				>
-					<swiper-item v-for="item in 3" :key="item">
-						<image src="../../static/logo.png" mode=""></image>
+					<swiper-item v-for="item in orderDetail.play_with_list" :key="item">
+						<image :src="item.image" mode=""></image>
 						<view class="swiper_box">
-							<view class="swiper_box_title">一只小草莓</view>
+							<view class="swiper_box_title">{{ item.nickname }}</view>
 							<view class="swiper_box_info">168cm / 48kg / 24 / 双子座</view>
 							<view class="swiper_box_foot flex flex--align-items--center">
 								<view class="swiper_box_foot_left">北京</view>
@@ -30,12 +30,24 @@
 			<view class="see_box_container">
 				<view class="container_title">订单信息</view>
 				<view class="container_box">
-					<view class="container_box_list flex flex--align-items--center" v-for="item in 4" :key="item">
+					<view class="container_box_list flex flex--align-items--center">
 						<view class="container_box_list_left">喊TA做什么：</view>
-						<view class="container_box_list_right">摄影、海底捞、王者荣耀</view>
+						<view class="container_box_list_right">{{ orderDetail.do }}</view>
+					</view>
+					<view class="container_box_list flex flex--align-items--center">
+						<view class="container_box_list_left">见面地点：</view>
+						<view class="container_box_list_right">{{ orderDetail.address }}</view>
+					</view>
+					<view class="container_box_list flex flex--align-items--center">
+						<view class="container_box_list_left">见面时间：</view>
+						<view class="container_box_list_right">{{ orderDetail.data }} {{orderDetail.time}}小时</view>
+					</view>
+					<view class="container_box_list flex flex--align-items--center">
+						<view class="container_box_list_left">预计支付的金额：</view>
+						<view class="container_box_list_right" style="color: #0AAFB9;">￥{{ orderDetail.price }}</view>
 					</view>
 					<view class="container_box_foot flex flex--align-items--center flex--justify-content--space-between">
-						<view class="container_box_foot_left">返回</view>
+						<view class="container_box_foot_left" @click="returnPrev">返回</view>
 						<view class="container_box_foot_right">确认选TA</view>
 					</view>
 				</view>
@@ -74,13 +86,30 @@
 	export default {
 		data() {
 			return {
-				current: 1
+				current: 1,
+				orderDetail: null
 			}
+		},
+		onLoad(option) {
+			this.getOrderDetail(option.orderId)
 		},
 		methods: {
 			// 获取当前轮播下标
 			swiperChange(e) {
 				this.current = e.detail.current + 1
+			},
+			// 获取订单详情
+			async getOrderDetail(orderId) {
+				const { data } = await this.$http('/api/order/info',{
+					order_id: orderId
+				})
+				this.orderDetail = data
+			},
+			// 返回上一页
+			returnPrev() {
+				uni.navigateBack({
+					delta: 1
+				})
 			}
 		}
 	}

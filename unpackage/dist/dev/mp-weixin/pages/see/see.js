@@ -134,7 +134,19 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -210,14 +222,32 @@ var _default =
 {
   data: function data() {
     return {
-      current: 1 };
+      current: 1,
+      orderDetail: null };
 
+  },
+  onLoad: function onLoad(option) {
+    this.getOrderDetail(option.orderId);
   },
   methods: {
     // 获取当前轮播下标
     swiperChange: function swiperChange(e) {
       this.current = e.detail.current + 1;
+    },
+    // 获取订单详情
+    getOrderDetail: function getOrderDetail(orderId) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/order/info', {
+                    order_id: orderId }));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+
+                _this.orderDetail = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    // 返回上一页
+    returnPrev: function returnPrev() {
+      uni.navigateBack({
+        delta: 1 });
+
     } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 

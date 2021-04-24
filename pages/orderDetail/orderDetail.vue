@@ -5,64 +5,71 @@
 			<!-- 填写基本信息 标题 -->
 			<view class="detail_title flex flex--align-items--center flex--justify-content--center">
 				<image src="../../static/image/notice.png" mode="" />
-				正在进行中
+				正在进行中{{orderData.data[0].state}}
 			</view>
 			<!-- 内容 -->
 			<block v-for="item in orderData.data" :key="item.id">
-				<view class="detail_con">
+				<view class="detail_con" @click="goPeiWan(item)">
 					<view class="detail_con_head flex flex--align-items--center">
-						<image src="../../static/logo.png" mode="aspectFill"/>
-						<template v-if="false">
+						<image src="" mode="aspectFill"/>
+						<template v-if="item.little_state == 2">
 							<view class="detail_con_head_right">
 								<view class="detail_con_head_right_title">一只小草莓</view>
 								<view class="detail_con_head_right_desc">168cm / 48kg / 24 / 双子座</view>
 								<view class="detail_con_head_right_address">北京  ·  朝阳区</view>
 							</view>
 						</template>
-						<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
+						<template v-else>
+							<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
+						</template>
 					</view>
 					<title title="喊TA做什么"></title>
 					<view class="list_one_container flex flex--wrap">
 						<view
 							class="list_one_container_term"
-							v-for="item in 6"
-							:key="item"
-						>干饭干饭</view>
+							v-for="msg in item.do"
+							:key="msg"
+						>{{msg}}</view>
 					</view>
 					<title title="见面时间"></title>
 					<view class="list_two_container flex flex--align-items--center">
-						<view class="list_two_container_date">2021-01-26</view>
-						<view class="list_two_container_time">16:29</view>
-						<view class="list_two_container_length">3小时</view>
+						<view class="list_two_container_date">{{ item.data[0] }}</view>
+						<view class="list_two_container_time">{{ item.data[1] }}</view>
+						<view class="list_two_container_length">{{ item.time }}小时</view>
 					</view>
 					<title title="见面地点"></title>
 					<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
 						<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-						<view class="list_three_container_address">16:29</view>
-						<view class="list_three_container_num">3人</view>
+						<view class="list_three_container_address">{{ item.address }}</view>
+						<view class="list_three_container_num">1人</view>
 					</view>
 					<title title="订单金额"></title>
 					<view class="detail_con_price flex flex--align-items--center">
 						<view class="detail_con_price_left">
-							已完成支付
+							{{ item.order_state == 1 ? '待支付' : '已完成支付' }}
 						</view>
 						<view class="detail_con_price_right">
 							<text>¥</text>
-							500
+							{{ item.price }}
 						</view>
 					</view>
 					<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
-						<view class="detail_con_foot_left">取消订单</view>
-						<view class="detail_con_foot_right">确认完成</view>
-						<view class="detail_con_foot_right">取消状态</view>
-						<view class="detail_con_foot_right">删除订单</view>
+						<view
+							class="detail_con_foot_left"
+							v-if="item.state === 1 && item.order_state === 1"
+							@click="cancelShow = true"
+						>取消订单</view>
+						<view class="detail_con_foot_right" v-if="item.state === 1 && item.order_state !== 1">确认完成</view>
+						<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
+						<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
 					</view>
 				</view>
 			</block>
+		
 		</view>
 		
 		<!-- 进行中取消 -->
-		<template v-if="false">
+		<template v-if="cancelShow">
 			<view class="detail_cancel flex flex--row flex--align-items--center">
 				<view class="detail_cancel_list">进行中订单取消，可能会造成<text>订单扣款</text></view>
 				<view class="detail_cancel_list">请您在考虑一下</view>
@@ -89,7 +96,8 @@
 	export default {
 		data() {
 			return {
-				
+				orderData: null,
+				cancelShow: false
 			}
 		},
 		onLoad(option) {
@@ -101,7 +109,25 @@
 				const { data } = await this.$http('/api/order/order_list',{
 					state: type
 				})
+				data.data.forEach(v=>{
+					v.do = v.do.split(',')
+					v.data = v.data.split(' ')
+				})
 				this.orderData = data
+			},
+			// 跳转选择查看陪玩
+			goPeiWan(item) {
+				console.log()
+				if(item.little_state === 1) {
+					uni.showToast({
+						title: '还没有陪玩接单',
+						icon: 'none'
+					})
+				}else {
+					uni.navigateTo({
+						url: '/pages/see/see?orderId='+item.id
+					})
+				}
 			}
 		}
 	}
@@ -135,6 +161,7 @@
 				background: #fff;
 				padding: 0 22rpx;
 				box-sizing: border-box;
+				margin-bottom: 20rpx;
 				.detail_con_head {
 					padding: 56rpx 0;
 					image {
