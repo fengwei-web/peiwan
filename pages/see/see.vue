@@ -48,7 +48,7 @@
 					</view>
 					<view class="container_box_foot flex flex--align-items--center flex--justify-content--space-between">
 						<view class="container_box_foot_left" @click="returnPrev">返回</view>
-						<view class="container_box_foot_right">确认选TA</view>
+						<view class="container_box_foot_right" @click="comfigChoice">确认选TA</view>
 					</view>
 				</view>
 			</view>
@@ -110,6 +110,10 @@
 				uni.navigateBack({
 					delta: 1
 				})
+			},
+			// 确认选她
+			comfigChoice() {
+				
 			}
 		}
 	}

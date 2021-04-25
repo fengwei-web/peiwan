@@ -246,6 +246,10 @@ var _default =
       uni.navigateBack({
         delta: 1 });
 
+    },
+    // 确认选她
+    comfigChoice: function comfigChoice() {
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
