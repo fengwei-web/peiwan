@@ -12,8 +12,14 @@
 			<view class="image_album">
 				<title title="相册"></title>
 				<view class="image_album_box flex flex--wrap">
-					<view class="image_album_box_list" v-for="item in 6" :key="item">
-						<text>添加图片</text>
+					<view
+						class="image_album_box_list"
+						v-for="(item,index) in imageList"
+						:key="index"
+						@click="uploadImage(index)"
+					>
+						<text v-if="item == ''">添加图片</text>
+						<image v-else :src="baseUrl + item" mode="aspectFill"></image>
 					</view>
 				</view>
 				<view class="image_album_tip">* 请上传本人的的仙女自拍/网图不通过</view>
@@ -21,22 +27,35 @@
 			<!-- 手机号 -->
 			<view class="image_mobile">
 				<title title="手机号"></title>
-				<input class="image_mobile_phone" type="number" placeholder="输入手机号码" placeholder-style="color: #000;"/>
+				<input
+					class="image_mobile_phone"
+					type="number"
+					maxlength="11"
+					placeholder="输入手机号码"
+					placeholder-style="color: #000;"
+					v-model="phone"
+				/>
 				<view class="image_code flex flex--align-items--center flex--justify-content--space-between">
-					<input type="text" placeholder="填写验证码" placeholder-style="color: #000;"/>
-					<view class="image_code_get">获取验证码</view>
+					<input
+						type="text"
+						placeholder="填写验证码"
+						placeholder-style="color: #000;"
+						v-model="code"
+					/>
+					<view v-if="!timeShow" class="image_code_get" @click="getCode">获取验证码</view>
+					<view v-else class="image_code_get">{{ time }}s</view>
 				</view>
 			</view>
 			<!-- 操作 -->
 			<view class="image_open flex flex--align-items--center flex--justify-content--space-between">
-				<view class="image_open_left">上一步</view>
-				<view class="image_open_right">提交</view>
+				<view class="image_open_left" @click="returnPrev">上一步</view>
+				<view class="image_open_right" @click="setSubmit">提交</view>
 			</view>
 		</view>
 		<!-- 弹出框1 提交审核 -->
 		<view
 			class="image_one flex flex--row flex--align-items--center flex--justify-content--center"
-			v-if="false"
+			v-if="submitShow"
 		>
 			<view class="image_one_list">
 				已经提交审核，审核结果将在<text>24小时</text>后，
@@ -44,12 +63,12 @@
 			<view class="image_one_list">
 				以<text>短信的形式</text>通知到你哈~
 			</view>
-			<view class="image_one_btn">好的</view>
+			<view class="image_one_btn" @click="submitShow = false">好的</view>
 		</view>
 		<!-- 弹出框2 审核未通过 -->
 		<view
 			class="image_one flex flex--row flex--align-items--center flex--justify-content--center"
-			v-if="true"
+			v-if="false"
 		>
 			<view class="image_one_list">
 				您的审核<text>未通过</text>
@@ -63,6 +82,126 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	export default {
+		data() {
+			return {
+				params: null,
+				time: 60,
+				timer: null,
+				timeShow: false,
+				imageList: ['','','','','',''],
+				phone: '',
+				code: '',
+				submitShow: false
+			}
+		},
+		onLoad(option) {
+			this.params = JSON.parse(option.data)
+		},
+		computed: {
+			...mapState(['baseUrl'])
+		},
+		methods: {
+			// 上传图片
+			uploadImage(index) {
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					success(res) {
+						uni.uploadFile({
+							url: that.baseUrl + '/api/member/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							success(data) {
+								let arr = JSON.parse(data.data)
+								that.$set(that.imageList,index,arr.data)
+							}
+						})
+					}
+				})
+			},
+			// 上一步 
+			returnPrev() {
+				uni.navigateBack({
+					delta: 1
+				})
+			},
+			// 获取验证码
+			getCode() {
+				if(/^1[34578]\d{9}$/.test(this.phone)){
+					this.timeShow = true
+					this.timer = setInterval(() => {
+						--this.time
+						this.timeShow = true
+					},1000)
+					setTimeout(() => {
+						clearInterval(this.timer)
+						this.time = 60
+						this.timeShow = false
+					}, 60000)
+				}else {
+					uni.showToast({
+						title: '手机号错误',
+						icon: 'none'
+					})
+				}
+			},
+			// 提交
+			async setSubmit() {
+				let images = ''
+				let that = this
+				this.imageList.forEach((v,i) => {
+					if(v) {
+						images += v + ',';
+						let arrImg = images.split('')
+						arrImg.pop()
+						images = arrImg.join('')
+					}
+				})
+				if(!images){
+					uni.showToast({
+						title: '请选择图片',
+						icon: 'none'
+					})
+					return
+				}
+				if(!this.phone) {
+					uni.showToast({
+						title: '请输入手机号',
+						icon: 'none'
+					})
+					return
+				}
+				if(!this.code) {
+					uni.showToast({
+						title: '请输入验证码',
+						icon: 'none'
+					})
+					return
+				}
+				this.params.images = images
+				this.params.mobile = this.phone
+				this.params.code = this.code
+				const { data,status } = await this.$http('/api/play_with/apply',this.params)
+				console.log(data)
+				if(status) {
+					uni.showToast({
+						title: '提交成功',
+						icon: 'none',
+						success() {
+							that.submitShow = true
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '提交失败',
+						icon: 'none'
+					})
+				}
+			}
+		}
+	}
 </script>
 
 <style lang="less" scoped>
@@ -102,6 +241,10 @@
 						font-size: 28rpx;
 						&:nth-child(3n+3) {
 							margin-right: 0;
+						}
+						image {
+							width: 100%;
+							height: 100%;
 						}
 					}
 				}

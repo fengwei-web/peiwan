@@ -3,14 +3,21 @@
 		<navBar></navBar>
 		<view class="apply_con">
 			<image src="../../static/logo.png" mode=""></image>
-			<view class="apply_con_btn">申请成为首席陪玩官</view>
+			<view class="apply_con_btn" @click="goApplyOrderReceiver">申请成为首席陪玩官</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	export default {
-		
+		methods: {
+			// 进入申请接单师
+			goApplyOrderReceiver() {
+				uni.navigateTo({
+					url: '/pages/applyOrderReceiver/applyOrderReceiver'
+				})
+			}
+		}
 	}
 </script>
 

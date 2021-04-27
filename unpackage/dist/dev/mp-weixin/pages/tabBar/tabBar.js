@@ -231,6 +231,11 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
 
   },
   methods: {
+    goApply: function goApply() {
+      uni.navigateTo({
+        url: '/pages/apply/apply' });
+
+    },
     login: function login() {
       var that = this;
       uni.login({

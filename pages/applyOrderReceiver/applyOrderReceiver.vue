@@ -24,7 +24,12 @@
 			<view class="receiver_box_com">
 				<title title="你的身高"></title>
 				<view class="receiver_box_com_con flex flex--align-items--center">
-					<input class="receiver_box_com_con_left" type="text" value="168" placeholder="请输入您的身高" />
+					<input
+						class="receiver_box_com_con_left"
+						type="number"
+						placeholder="请输入您的身高"
+						v-model="heights"
+					/>
 					<view class="receiver_box_com_con_right">cm</view>
 				</view>
 			</view>
@@ -32,7 +37,12 @@
 			<view class="receiver_box_com">
 				<title title="你的体重"></title>
 				<view class="receiver_box_com_con flex flex--align-items--center">
-					<input class="receiver_box_com_con_left" type="text" value="49" placeholder="请输入您的体重" />
+					<input
+						class="receiver_box_com_con_left"
+						type="number"
+						placeholder="请输入您的体重"
+						v-model="weight"
+					/>
 					<view class="receiver_box_com_con_right">kg</view>
 				</view>
 			</view>
@@ -40,7 +50,13 @@
 			<view class="receiver_box_pation">
 				<title title="你的职业"></title>
 				<view class="receiver_box_pation_con flex flex--wrap">
-					<view class="box_pation_con_list active" v-for="item in 3" :key="item">学生</view>
+					<view
+						class="box_pation_con_list"
+						:class="{ 'active': pationIndex === index }"
+						v-for="(item,index) in jobList"
+						:key="item.id"
+						@click="setPation(index,item.title)"
+					>{{ item.title }}</view>
 					<input
 						class="box_pation_con_list"
 						style="background: #07ACB6;"
@@ -52,9 +68,13 @@
 			<!-- 个人简介 -->
 			<view class="receiver_box_text">
 				<title title="个人简介"></title>
-				<textarea class="box_text_con" value="" placeholder="请输入你的个人简介，让别人记住你哈。" />
+				<textarea
+					class="box_text_con"
+					placeholder="请输入你的个人简介，让别人记住你哈。"
+					v-model="text"
+				/>
 			</view>
-			<view class="receiver_box_btn">下一步</view>
+			<view class="receiver_box_btn" @click="setNext">下一步</view>
 		</view>
 	</view>
 </template>
@@ -63,13 +83,64 @@
 	export default {
 		data() {
 			return {
-				date: '2021-04-16'
+				date: '2021-04-27',
+				heights: '',
+				weight: '',
+				text: '',
+				pationIndex: 0,
+				pationText: '',
+				jobList: []
 			}
 		},
+		onLoad() {
+			this.getJob()
+		},
 		methods: {
+			// 获取职业标签
+			async getJob() {
+				const { data } = await this.$http('/api/tags_job/lists')
+				this.jobList = data
+			},
 			// 获取年月日
 			bindDateChange(e) {
 				this.date = e.target.value
+			},
+			// 选择标签
+			setPation(index,title) {
+				this.pationIndex = index
+				this.pationText = title
+			},
+			// 下一步
+			setNext() {
+				if(this.heights === '') {
+					this.showToasts('请输入身高')
+					return
+				}
+				if(this.weight === '') {
+					this.showToasts('请输入体重')
+					return
+				}
+				if(this.text === '') {
+					this.showToasts('请输入简介')
+					return
+				}
+				let data = {
+					birthday: this.date,
+					height: this.heights,
+					weight: this.weight,
+					job: this.pationText,
+					intro: this.text
+				}
+				this.$store.commit('setApplyData',data)
+				uni.navigateTo({
+					url: '/pages/applyImage/applyImage?data=' + JSON.stringify(data)
+				})
+			},
+			showToasts(title) {
+				uni.showToast({
+					title: title,
+					icon: 'none'
+				})
 			}
 		}
 	}

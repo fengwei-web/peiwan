@@ -5,7 +5,7 @@
 			<view class="status_bar"></view>
 			<view class="index_head_con flex flex--align-items--center flex--justify-content--center">
 				<template v-if="isShow">
-					<view class="index_head_con_btn">申请接单师</view>
+					<view class="index_head_con_btn" @click="goApply">申请接单师</view>
 				</template>
 				<text class="index_head_con_title">OneFun</text>
 			</view>
@@ -91,6 +91,11 @@
 			
 		},
 		methods: {
+			goApply() {
+				uni.navigateTo({
+					url: '/pages/apply/apply'
+				})
+			},
 			login() {
 				let that = this;
 				uni.login({

@@ -39,7 +39,7 @@
         {
           "name": "申请接单师提交图片",
           "pathName": "pages/applyImage/applyImage",
-          "query": "",
+          "query": "data={\"birthday\":\"2021-04-27\",\"height\":\"123\",\"weight\":\"39\",\"job\":\"职业人\",\"intro\":\"是多少\"}&__id__=1",
           "scene": null
         },
         {

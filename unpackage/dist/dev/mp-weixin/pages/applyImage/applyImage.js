@@ -104,6 +104,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.submitShow = false
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -134,72 +139,212 @@ __webpack_require__.r(__webpack_exports__);
   !*** ./node_modules/babel-loader/lib!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/webpack-preprocess-loader??ref--12-1!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/script.js!./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib??vue-loader-options!./node_modules/@dcloudio/webpack-uni-mp-loader/lib/style.js!C:/Users/Administrator/Desktop/project/uni-app/peiwan/pages/applyImage/applyImage.vue?vue&type=script&lang=js& ***!
   \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 20));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+{
+  data: function data() {
+    return {
+      params: null,
+      time: 60,
+      timer: null,
+      timeShow: false,
+      imageList: ['', '', '', '', '', ''],
+      phone: '',
+      code: '',
+      submitShow: false };
+
+  },
+  onLoad: function onLoad(option) {
+    this.params = JSON.parse(option.data);
+  },
+  computed: _objectSpread({},
+  (0, _vuex.mapState)(['baseUrl'])),
+
+  methods: {
+    // 上传图片
+    uploadImage: function uploadImage(index) {
+      var that = this;
+      uni.chooseImage({
+        count: 1,
+        success: function success(res) {
+          uni.uploadFile({
+            url: that.baseUrl + '/api/member/upload',
+            filePath: res.tempFilePaths[0],
+            name: 'file',
+            success: function success(data) {
+              var arr = JSON.parse(data.data);
+              that.$set(that.imageList, index, arr.data);
+            } });
+
+        } });
+
+    },
+    // 上一步 
+    returnPrev: function returnPrev() {
+      uni.navigateBack({
+        delta: 1 });
+
+    },
+    // 获取验证码
+    getCode: function getCode() {var _this = this;
+      if (/^1[34578]\d{9}$/.test(this.phone)) {
+        this.timeShow = true;
+        this.timer = setInterval(function () {
+          --_this.time;
+          _this.timeShow = true;
+        }, 1000);
+        setTimeout(function () {
+          clearInterval(_this.timer);
+          _this.time = 60;
+          _this.timeShow = false;
+        }, 60000);
+      } else {
+        uni.showToast({
+          title: '手机号错误',
+          icon: 'none' });
+
+      }
+    },
+    // 提交
+    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var images, that, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+                images = '';
+                that = _this2;
+                _this2.imageList.forEach(function (v, i) {
+                  if (v) {
+                    images += v + ',';
+                    var arrImg = images.split('');
+                    arrImg.pop();
+                    images = arrImg.join('');
+                  }
+                });if (
+                images) {_context.next = 6;break;}
+                uni.showToast({
+                  title: '请选择图片',
+                  icon: 'none' });return _context.abrupt("return");case 6:if (
+
+
+
+                _this2.phone) {_context.next = 9;break;}
+                uni.showToast({
+                  title: '请输入手机号',
+                  icon: 'none' });return _context.abrupt("return");case 9:if (
+
+
+
+                _this2.code) {_context.next = 12;break;}
+                uni.showToast({
+                  title: '请输入验证码',
+                  icon: 'none' });return _context.abrupt("return");case 12:
+
+
+
+                _this2.params.images = images;
+                _this2.params.mobile = _this2.phone;
+                _this2.params.code = _this2.code;_context.next = 17;return (
+                  _this2.$http('/api/play_with/apply', _this2.params));case 17:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+                console.log(data);
+                if (status) {
+                  uni.showToast({
+                    title: '提交成功',
+                    icon: 'none',
+                    success: function success() {
+                      that.submitShow = true;
+                    } });
+
+                } else {
+                  uni.showToast({
+                    title: '提交失败',
+                    icon: 'none' });
+
+                }case 22:case "end":return _context.stop();}}}, _callee);}))();
+    } } };exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
 /***/ }),
 
