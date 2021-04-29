@@ -49,8 +49,7 @@
   line-height: 36rpx;
   text-align: center;
   border: 1px solid #07ACB6;
-  -webkit-border-radius: 18rpx;
-          border-radius: 18rpx;
+  border-radius: 18rpx;
   font-size: 20rpx;
   color: #07ACB6;
   margin-top: 14rpx;
@@ -120,8 +119,7 @@
 .modify .modify_box .modify_text .text_con.data-v-4ba005d0 {
   width: 100%;
   height: 232rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background: #F8F8F8;
   padding: 30rpx;
   font-size: 26rpx;
@@ -136,8 +134,7 @@
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   font-size: 32rpx;
   color: #fff;
 }

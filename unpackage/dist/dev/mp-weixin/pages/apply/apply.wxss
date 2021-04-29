@@ -21,8 +21,7 @@
   border-right: 2px solid #FF4E4E;
   font-size: 28rpx;
   color: #fff;
-  -webkit-border-radius: 52rpx;
-          border-radius: 52rpx;
+  border-radius: 52rpx;
   position: absolute;
   bottom: 274rpx;
   left: 50%;

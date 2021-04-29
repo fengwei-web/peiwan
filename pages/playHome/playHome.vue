@@ -2,111 +2,130 @@
 	<view class="playHome flex flex--row">
 		<navBar></navBar>
 		<view class="playHome_tab flex flex--align-items--center flex--justify-content--center">
-			<view class="playHome_tab_list flex flex--align-items--center flex--justify-content--center">
-				个人资料
-			</view>
-			<view class="playHome_tab_list flex flex--align-items--center flex--justify-content--center">
-				我要接单
+			<view
+				class="playHome_tab_list flex flex--align-items--center flex--justify-content--center"
+				:class="{ 'active': tabIndex === index }"
+				v-for="(item, index) in tabList"
+				:key="item.id"
+				@click="setTab(index)"
+			>
+				{{ item.title }}
 			</view>
 		</view>
-		<template v-if="false">
+		<template v-if="tabIndex === 0">
 			<view class="playHome_box">
-				<view class="playHome_wrap">
-					<view class="playHome_wrap_list" v-for="item in 3" :key="item">
-						<title title="需要你做"></title>
-						<view class="list_one_container flex flex--wrap">
+				<template v-if="playHomeList.length">
+					<view class="playHome_wrap">
+						<view class="playHome_wrap_list" v-for="item in playHomeList" :key="item.id">
+							<template v-if="item.do.length">
+								<title title="需要你做"></title>
+								<view class="list_one_container flex flex--wrap">
+									<view
+										class="list_one_container_term"
+										v-for="value in item.do"
+										:key="value.id"
+									>{{ value.title }}</view>
+								</view>
+							</template>
+							
+							<title title="见面时间"></title>
+							<view class="list_two_container flex flex--align-items--center">
+								<view class="list_two_container_date">{{ item.data.split(' ')[0] }}</view>
+								<view class="list_two_container_time">{{ item.data.split(' ')[1] }}</view>
+								<view class="list_two_container_length">{{ item.time }}小时</view>
+							</view>
+							<title title="见面地点"></title>
+							<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
+								<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
+								<view class="list_three_container_address">{{ item.address }}</view>
+								<view class="list_three_container_num">1人</view>
+							</view>
+							<title title="下单用户"></title>
+							<view class="list_four_container flex flex--align-items--center">
+								<image src="../../static/logo.png" mode="aspectFill"></image>
+								<text>愿意支付</text>
+								<view
+									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
+									<text>¥</text>
+									580
+								</view>
+							</view>
 							<view
-								class="list_one_container_term"
-								v-for="item in 6"
-								:key="item"
-							>干饭干饭</view>
-						</view>
-						<title title="见面时间"></title>
-						<view class="list_two_container flex flex--align-items--center">
-							<view class="list_two_container_date">2021-01-26</view>
-							<view class="list_two_container_time">16:29</view>
-							<view class="list_two_container_length">3小时</view>
-						</view>
-						<title title="见面地点"></title>
-						<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
-							<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-							<view class="list_three_container_address">16:29</view>
-							<view class="list_three_container_num">3人</view>
-						</view>
-						<title title="下单用户"></title>
-						<view class="list_four_container flex flex--align-items--center">
-							<image src="../../static/logo.png" mode="aspectFill"></image>
-							<text>愿意支付</text>
-							<view
-								class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
-								<text>¥</text>
-								580
+								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								@click="myWantOrder(item.order_sn)"
+							>
+								<text></text>
+								我要接单
 							</view>
 						</view>
-						<view class="list_btn flex flex--align-items--center flex--justify-content--center">
-							<text></text>
-							我要接单
-						</view>
 					</view>
-				</view>
-				<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
+					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
+				</template>
+				
 				<!-- 暂无数据 -->
-				<view
-					class="playHome_box_no_list flex flex--justify-content--center"
-					v-if="false"
-				>
-					<image src="../../static/image/no_order.png" mode=""></image>
-				</view>
+				<template v-else>
+					<view
+						class="playHome_box_no_list flex flex--justify-content--center"
+						v-if="false"
+					>
+						<image src="../../static/image/no_order.png" mode=""></image>
+					</view>
+				</template>
 			</view>
 		</template>
 		
-		<template v-if="true">
+		<template v-else>
 			<view class="playHome_meetWrap">
-				<view class="meetWrap_box">
-					<view class="meetWrap_box_list" v-for="item in 3" :key="item">
-						<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
-							<title title="订单状态"></title>
-							<view class="meetWrap_box_list_order_two">对方已确认</view>
-						</view>
-						<title title="需要你做"></title>
-						<view class="list_one_container flex flex--wrap">
-							<view
-								class="list_one_container_term"
-								v-for="item in 6"
-								:key="item"
-							>干饭干饭</view>
-						</view>
-						<title title="见面时间"></title>
-						<view class="list_two_container flex flex--align-items--center">
-							<view class="list_two_container_date">2021-01-26</view>
-							<view class="list_two_container_time">16:29</view>
-							<view class="list_two_container_length">3小时</view>
-						</view>
-						<title title="见面地点"></title>
-						<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
-							<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-							<view class="list_three_container_address">16:29</view>
-							<view class="list_three_container_num">3人</view>
-						</view>
-						<title title="下单用户"></title>
-						<view class="list_four_container flex flex--align-items--center">
-							<image src="../../static/logo.png" mode="aspectFill"></image>
-							<text>愿意支付</text>
-							<view
-								class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
-								<text>¥</text>
-								580
+				<template v-if="playHomeList.length">
+					<view class="meetWrap_box">
+						<view class="meetWrap_box_list" v-for="item in playHomeList" :key="item.id">
+							<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
+								<title title="订单状态"></title>
+								<view class="meetWrap_box_list_order_two">对方已确认</view>
+							</view>
+							<title title="需要你做"></title>
+							<view class="list_one_container flex flex--wrap">
+								<view
+									class="list_one_container_term"
+									v-for="value in item.do"
+									:key="value.id"
+								>{{ value.title }}</view>
+							</view>
+							<title title="见面时间"></title>
+							<view class="list_two_container flex flex--align-items--center">
+								<view class="list_two_container_date">{{ item.data.split(' ')[0] }}</view>
+								<view class="list_two_container_time">{{ item.data.split(' ')[1] }}</view>
+								<view class="list_two_container_length">{{ item.time }}小时</view>
+							</view>
+							<title title="见面地点"></title>
+							<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
+								<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
+								<view class="list_three_container_address">{{ item.address }}</view>
+								<view class="list_three_container_num">1人</view>
+							</view>
+							<title title="下单用户"></title>
+							<view class="list_four_container flex flex--align-items--center">
+								<image src="../../static/logo.png" mode="aspectFill"></image>
+								<text>愿意支付</text>
+								<view
+									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
+									<text>¥</text>
+									580
+								</view>
 							</view>
 						</view>
 					</view>
-				</view>
+				</template>
+				
 				<!-- 暂无数据 -->
-				<view
-					class="playHome_box_no_list flex flex--justify-content--center"
-					v-if="false"
-				>
-					<image src="../../static/image/no_order.png" mode=""></image>
-				</view>
+				<template v-else>
+					<view
+						class="playHome_box_no_list flex flex--justify-content--center"
+						v-if="false"
+					>
+						<image src="../../static/image/no_order.png" mode=""></image>
+					</view>
+				</template>
 			</view>
 		</template>
 		
@@ -149,7 +168,38 @@
 	export default {
 		data() {
 			return {
-				switchShow: true
+				switchShow: true,
+				playHomeList: [],
+				tabList: [
+					{
+						id: 1,
+						title: '个人资料'
+					},
+					{
+						id: 2,
+						title: '我要接单'
+					}
+				],
+				tabIndex: 0
+			}
+		},
+		onLoad() {
+			this.getPlayHome()
+		},
+		methods: {
+			// 获取
+			async getPlayHome() {
+				const { data } = await this.$http('/api/play_with/order_list')
+				this.playHomeList = data.data
+			},
+			// 我要接单
+			async myWantOrder(sn) {
+				console.log(sn)
+				// const {  }
+			},
+			// tab切换
+			setTab(index) {
+				this.tabIndex = index
 			}
 		}
 	}
@@ -166,8 +216,12 @@
 				height: 90rpx;
 				background: #fff;
 				border-radius: 45rpx;
+				font-size: 28rpx;
 				&:last-of-type {
 					margin-left: 48rpx;
+				}
+				&.active {
+					color: #07ACB6;
 				}
 			}
 		}
@@ -183,7 +237,6 @@
 					background: #fff;
 					margin-top: 68rpx;
 					position: relative;
-					
 					.list_btn {
 						width: 250rpx;
 						height: 90rpx;

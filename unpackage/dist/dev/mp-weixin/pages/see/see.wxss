@@ -97,8 +97,7 @@
   height: 89rpx;
   line-height: 89rpx;
   text-align: center;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   color: #fff;
   font-size: 36rpx;
 }
@@ -111,12 +110,9 @@
 .see .config_popon.data-v-3e60e8ae {
   padding: 44rpx 62rpx 67rpx 62rpx;
   background: #fff;
-  -webkit-border-top-left-radius: 50rpx;
-          border-top-left-radius: 50rpx;
-  -webkit-border-top-right-radius: 50rpx;
-          border-top-right-radius: 50rpx;
-  -webkit-box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
+  border-top-left-radius: 50rpx;
+  border-top-right-radius: 50rpx;
+  box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -164,8 +160,7 @@
   text-align: center;
   font-size: 36rpx;
   color: #fff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
 }
 .see .config_popon .config_popon_foot .popon_foot_left.data-v-3e60e8ae {
   background: #000;
@@ -176,12 +171,9 @@
 .see .pay_success.data-v-3e60e8ae {
   padding: 0 62rpx 67rpx 62rpx;
   background: #fff;
-  -webkit-border-top-left-radius: 50rpx;
-          border-top-left-radius: 50rpx;
-  -webkit-border-top-right-radius: 50rpx;
-          border-top-right-radius: 50rpx;
-  -webkit-box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
+  border-top-left-radius: 50rpx;
+  border-top-right-radius: 50rpx;
+  box-shadow: 0 -8rpx 144rpx -26rpx rgba(0, 0, 0, 0.5);
   position: fixed;
   bottom: 0;
   left: 0;
@@ -199,8 +191,7 @@
   width: 300rpx;
   height: 89rpx;
   background: #000;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
   line-height: 89rpx;
   text-align: center;
   font-size: 36rpx;

@@ -183,8 +183,9 @@
 				this.params.images = images
 				this.params.mobile = this.phone
 				this.params.code = this.code
+				
+				this.$store.commit('setApplyData',this.params)
 				const { data,status } = await this.$http('/api/play_with/apply',this.params)
-				console.log(data)
 				if(status) {
 					uni.showToast({
 						title: '提交成功',

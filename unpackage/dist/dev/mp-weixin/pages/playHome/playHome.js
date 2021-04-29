@@ -92,18 +92,74 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components = {
-  navBar: function() {
-    return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 97))
-  },
-  title: function() {
-    return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 104))
+var components
+try {
+  components = {
+    navBar: function() {
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 97))
+    },
+    title: function() {
+      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 104))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
   }
 }
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var l0 =
+    _vm.tabIndex === 0 && _vm.playHomeList.length
+      ? _vm.__map(_vm.playHomeList, function(item, __i0__) {
+          var $orig = _vm.__get_orig(item)
+
+          var g0 = item.data.split(" ")
+          var g1 = item.data.split(" ")
+          return {
+            $orig: $orig,
+            g0: g0,
+            g1: g1
+          }
+        })
+      : null
+  var l1 =
+    !(_vm.tabIndex === 0) && _vm.playHomeList.length
+      ? _vm.__map(_vm.playHomeList, function(item, __i2__) {
+          var $orig = _vm.__get_orig(item)
+
+          var g2 = item.data.split(" ")
+          var g3 = item.data.split(" ")
+          return {
+            $orig: $orig,
+            g2: g2,
+            g3: g3
+          }
+        })
+      : null
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        l0: l0,
+        l1: l1
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -137,7 +193,26 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 20));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -288,9 +363,39 @@ var _default =
 {
   data: function data() {
     return {
-      switchShow: true };
+      switchShow: true,
+      playHomeList: [],
+      tabList: [
+      {
+        id: 1,
+        title: '个人资料' },
 
-  } };exports.default = _default;
+      {
+        id: 2,
+        title: '我要接单' }],
+
+
+      tabIndex: 0 };
+
+  },
+  onLoad: function onLoad() {
+    this.getPlayHome();
+  },
+  methods: {
+    // 获取
+    getPlayHome: function getPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/play_with/order_list'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+                _this.playHomeList = data.data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    // 我要接单
+    myWantOrder: function myWantOrder(sn) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                console.log(sn);
+                // const {  }
+              case 1:case "end":return _context2.stop();}}}, _callee2);}))();},
+    // tab切换
+    setTab: function setTab(index) {
+      this.tabIndex = index;
+    } } };exports.default = _default;
 
 /***/ }),
 

@@ -92,12 +92,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "recyclableRender", function() { return recyclableRender; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "components", function() { return components; });
-var components = {
-  navBar: function() {
-    return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 97))
-  },
-  title: function() {
-    return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 104))
+var components
+try {
+  components = {
+    navBar: function() {
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 97))
+    },
+    title: function() {
+      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 104))
+    }
+  }
+} catch (e) {
+  if (
+    e.message.indexOf("Cannot find module") !== -1 &&
+    e.message.indexOf(".vue") !== -1
+  ) {
+    console.error(e.message)
+    console.error("1. 排查组件名称拼写是否正确")
+    console.error(
+      "2. 排查组件是否符合 easycom 规范，文档：https://uniapp.dcloud.net.cn/collocation/pages?id=easycom"
+    )
+    console.error(
+      "3. 若组件不符合 easycom 规范，需手动引入，并在 components 中注册该组件"
+    )
+  } else {
+    throw e
   }
 }
 var render = function() {
@@ -326,9 +345,10 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(
 
                 _this2.params.images = images;
                 _this2.params.mobile = _this2.phone;
-                _this2.params.code = _this2.code;_context.next = 17;return (
-                  _this2.$http('/api/play_with/apply', _this2.params));case 17:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
-                console.log(data);
+                _this2.params.code = _this2.code;
+
+                _this2.$store.commit('setApplyData', _this2.params);_context.next = 18;return (
+                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
                 if (status) {
                   uni.showToast({
                     title: '提交成功',

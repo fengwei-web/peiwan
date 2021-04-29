@@ -3,13 +3,10 @@
   bottom: 0;
   width: 100%;
   padding: 58rpx 68rpx 66rpx 68rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background: #fff;
-  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-  -webkit-border-radius: 50rpx 50rpx 0 0;
-          border-radius: 50rpx 50rpx 0 0;
+  box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  border-radius: 50rpx 50rpx 0 0;
 }
 .index_two .index_two_title.data-v-57280228 {
   width: 186rpx;
@@ -54,8 +51,7 @@
   text-align: center;
   font-size: 36rpx;
   color: #fff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
 }
 .index_two .index_two_foot .index_two_foot_left.data-v-57280228 {
   background: #000;
@@ -84,8 +80,7 @@
   padding: 15rpx 20rpx;
   background: #fff;
   border: 3rpx solid #F3F3F3;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   position: absolute;
   top: 22rpx;
   left: 24rpx;
@@ -205,8 +200,7 @@
   font-size: 32rpx;
   color: #fff;
   background: #000;
-  -webkit-border-radius: 40rpx;
-          border-radius: 40rpx;
+  border-radius: 40rpx;
   margin: 0 auto;
   margin-top: 44rpx;
 }
@@ -215,13 +209,10 @@
   bottom: 0;
   width: 100%;
   padding: 68rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background: #fff;
-  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-  -webkit-border-radius: 50rpx 50rpx 0 0;
-          border-radius: 50rpx 50rpx 0 0;
+  box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  border-radius: 50rpx 50rpx 0 0;
 }
 .index .index_one .index_one_title.data-v-57280228 {
   width: 186rpx;
@@ -250,8 +241,7 @@
   text-align: center;
   font-size: 36rpx;
   color: #fff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
 }
 .index .index_one .index_one_foot .index_one_foot_left.data-v-57280228 {
   background: #000;

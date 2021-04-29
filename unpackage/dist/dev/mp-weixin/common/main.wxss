@@ -189,8 +189,7 @@
 	color: #FFFFFF;
 	background: #3E86FF;
 	margin: 0 auto;
-	-webkit-border-radius: 4rpx;
-	        border-radius: 4rpx;
+	border-radius: 4rpx;
 
 	display: -webkit-box;
 	display: -webkit-flex;

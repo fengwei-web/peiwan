@@ -2,8 +2,7 @@
   height: 100%;
   background: #F8FAFF;
   padding: 12rpx 18rpx 0 18rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 .my .my_head {
   height: 176rpx;
@@ -13,8 +12,7 @@
 .my .my_head image {
   width: 136rpx;
   height: 136rpx;
-  -webkit-border-radius: 50%;
-          border-radius: 50%;
+  border-radius: 50%;
 }
 .my .my_head text {
   margin-left: 46rpx;
@@ -86,13 +84,10 @@
   left: 0;
   width: 100%;
   padding: 98rpx 70rpx 66rpx 70rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background: #fff;
-  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-  -webkit-border-radius: 50rpx 50rpx 0 0;
-          border-radius: 50rpx 50rpx 0 0;
+  box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  border-radius: 50rpx 50rpx 0 0;
 }
 .my .my_addWx .my_addWx_title {
   padding: 5rpx 82rpx;
@@ -116,8 +111,7 @@
   width: 530rpx;
   height: 290rpx;
   background: #F7F7F7;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
   margin: 64rpx 0;
 }
 .my .my_addWx .my_addWx_code text {
@@ -137,8 +131,7 @@
   text-align: center;
   font-size: 36rpx;
   color: #fff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
 }
 .my .my_addWx .my_addWx_foot .my_addWx_foot_left {
   background: #000;
@@ -152,13 +145,10 @@
   left: 0;
   width: 100%;
   padding: 86rpx 70rpx 68rpx 70rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   background: #fff;
-  -webkit-box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-          box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
-  -webkit-border-radius: 50rpx 50rpx 0 0;
-          border-radius: 50rpx 50rpx 0 0;
+  box-shadow: 0 -16rpx 288rpx -52rpx rgba(0, 0, 0, 0.5);
+  border-radius: 50rpx 50rpx 0 0;
 }
 .my .my_kf .my_kf_head .my_kf_head_title {
   padding: 5rpx 32rpx;
@@ -171,8 +161,7 @@
   -webkit-flex: 1;
           flex: 1;
   padding: 0 20rpx;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   text-align: center;
   font-size: 28rpx;
   color: #07ACB6;
@@ -193,8 +182,7 @@
   width: 100%;
   height: 474rpx;
   background: #F7F7F7;
-  -webkit-border-radius: 20rpx;
-          border-radius: 20rpx;
+  border-radius: 20rpx;
   margin-top: 48rpx;
 }
 .my .my_kf .my_kf_code image {
@@ -212,8 +200,7 @@
   text-align: center;
   font-size: 36rpx;
   color: #fff;
-  -webkit-border-radius: 8rpx;
-          border-radius: 8rpx;
+  border-radius: 8rpx;
 }
 .my .my_kf .my_kf_foot .my_kf_foot_left {
   background: #000;

@@ -82,11 +82,16 @@
 				date: '2021-04-16'
 			}
 		},
+		onLoad() {
+		},
 		methods: {
+			async getModify() {
+				// const { data } = await this.$http('/api/play_with/edit')
+			},
 			// 获取年月日
 			bindDateChange(e) {
 				this.date = e.target.value
-			}
+			},
 		}
 	}
 </script>
