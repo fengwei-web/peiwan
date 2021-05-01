@@ -1,5 +1,7 @@
 .index_head {
-  height: 124rpx;
+  height: 144rpx;
+  -webkit-flex-shrink: 0;
+          flex-shrink: 0;
 }
 .index_head .status_bar {
   height: 25px;

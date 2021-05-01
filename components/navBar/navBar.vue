@@ -30,7 +30,8 @@
 
 <style lang="less">
 	.index_head {
-		height: 124rpx;
+		height: 144rpx;
+		flex-shrink: 0;
 		.status_bar {
 			height: var(--status-bar-height);
 			width: 100%;

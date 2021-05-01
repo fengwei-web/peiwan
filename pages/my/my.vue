@@ -32,7 +32,11 @@
 						<view class="my_box_list_cen_top">{{ item.title }}</view>
 						<view class="my_box_list_cen_bot">{{ item.desc }}</view>
 					</view>
-					<text>0</text>
+					<text class="icon iconfont iconyoubianjiantou"></text>
+					
+					<template v-if="item.id === 3">
+						<button class="my_box_list_btn" open-type="share">分享</button>
+					</template>
 				</view>
 			</block>
 		</view>
@@ -209,7 +213,6 @@
 						this.$emit('openAddKuWeixin')
 					break;
 					case 3:
-					console.log('分享')
 					break;
 				}
 			},
@@ -273,7 +276,6 @@
 </script>
 
 <style lang="less">
-	
 	.my {
 		height: 100%;
 		background: #F8FAFF;
@@ -331,6 +333,7 @@
 				padding: 34rpx 46rpx;
 				background: #fff;
 				margin-top: 16rpx;
+				position: relative;
 				image {
 					width: 82rpx;
 					height: 82rpx;
@@ -346,6 +349,14 @@
 						font-size: 20rpx;
 						color: #D7D7D7;
 					}
+				}
+				.my_box_list_btn {
+					width: 100%;
+					height: 100%;
+					position: absolute;
+					top: 0;
+					left: 0;
+					opacity: 0;
 				}
 				text {
 					font-size: 28rpx;

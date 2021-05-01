@@ -55,6 +55,7 @@
   padding: 34rpx 46rpx;
   background: #fff;
   margin-top: 16rpx;
+  position: relative;
 }
 .my .my_box .my_box_list image {
   width: 82rpx;
@@ -73,6 +74,14 @@
 .my .my_box .my_box_list .my_box_list_cen .my_box_list_cen_bot {
   font-size: 20rpx;
   color: #D7D7D7;
+}
+.my .my_box .my_box_list .my_box_list_btn {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 .my .my_box .my_box_list text {
   font-size: 28rpx;
