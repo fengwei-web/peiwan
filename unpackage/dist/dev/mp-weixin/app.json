@@ -9,7 +9,9 @@
     "pages/applyImage/applyImage",
     "pages/applyModify/applyModify",
     "pages/playHome/playHome",
-    "pages/orderDetail/orderDetail"
+    "pages/orderDetail/orderDetail",
+    "pages/login/login",
+    "pages/agreement/agreement"
   ],
   "subPackages": [],
   "window": {

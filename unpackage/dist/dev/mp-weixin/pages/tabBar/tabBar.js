@@ -222,10 +222,16 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
 
   onLoad: function onLoad(option) {
     this.getBanner();
-    // this.login()
     this.getLabel();
     this.getMoney();
     this.getUserInfo();
+  },
+  onShow: function onShow() {
+    if (!uni.getStorageSync('token')) {
+      uni.navigateTo({
+        url: '/pages/login/login' });
+
+    }
   },
   onHide: function onHide() {
 
@@ -236,52 +242,34 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
         url: '/pages/apply/apply' });
 
     },
-    login: function login() {
-      var that = this;
-      uni.login({
-        success: function success(res) {
-          uni.getUserInfo({
-            success: function success(user) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var parmst, _yield$that$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                        parmst = {
-                          image: user.userInfo.avatarUrl,
-                          nickname: user.userInfo.nickName,
-                          code: res.code };_context.next = 3;return (
-
-                          that.$http('/api/member/login', parmst));case 3:_yield$that$$http = _context.sent;data = _yield$that$$http.data;
-                        uni.setStorageSync('token', data.token);case 6:case "end":return _context.stop();}}}, _callee);}))();
-            } });
-
-        } });
-
-    },
     // 获取轮播图
-    getBanner: function getBanner() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this.$http('/api/banner/lists'));case 2:_yield$_this$$http = _context2.sent;data = _yield$_this$$http.data;
-                _this.swiperList = data;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    getBanner: function getBanner() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/banner/lists'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+                _this.swiperList = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 获取标签
-    getLabel: function getLabel() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this2.$http('/api/tags_do/lists'));case 2:_yield$_this2$$http = _context3.sent;data = _yield$_this2$$http.data;
+    getLabel: function getLabel() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/tags_do/lists'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this2.labelList = data;case 6:case "end":return _context3.stop();}}}, _callee3);}))();
+                _this2.labelList = data;case 6:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 获取金额
-    getMoney: function getMoney() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
-                  _this3.$http('/api/tags_price/lists'));case 2:_yield$_this3$$http = _context4.sent;data = _yield$_this3$$http.data;
+    getMoney: function getMoney() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.$http('/api/tags_price/lists'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this3.moneyList = data;case 6:case "end":return _context4.stop();}}}, _callee4);}))();
+                _this3.moneyList = data;case 6:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 获取当前位置
     getAddress: function getAddress() {
 
     },
-    getUserInfo: function getUserInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-                  _this4.$http('/api/member/info'));case 2:_yield$_this4$$http = _context5.sent;data = _yield$_this4$$http.data;
-                _this4.userInfo = data;case 5:case "end":return _context5.stop();}}}, _callee5);}))();
+    getUserInfo: function getUserInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this4.$http('/api/member/info'));case 2:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;
+                _this4.userInfo = data;case 5:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // index页面（标签）传过来的值
     setLabel: function setLabel(labelList) {
@@ -306,15 +294,15 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
       }
     },
     // 获取客户信息
-    getSevrInfo: function getSevrInfo(type) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+    getSevrInfo: function getSevrInfo(type) {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
                   _this5.$http('/api/system/info', {
-                    type: type }));case 2:_yield$_this5$$http = _context6.sent;data = _yield$_this5$$http.data;
+                    type: type }));case 2:_yield$_this5$$http = _context5.sent;data = _yield$_this5$$http.data;
 
                 if (type == 2) {
                   _this5.codeImage = data.content;
                 } else {
                   _this5.wxCode = data.content;
-                }case 5:case "end":return _context6.stop();}}}, _callee6);}))();
+                }case 5:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     // 在我的页面打开客服
     openAddKuWeixin: function openAddKuWeixin() {

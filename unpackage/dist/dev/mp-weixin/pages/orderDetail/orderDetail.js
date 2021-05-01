@@ -123,11 +123,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  var f0 = _vm._f("types")(_vm.type)
+
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
       _vm.cancelShow = true
     }
   }
+
+  _vm.$mp.data = Object.assign(
+    {},
+    {
+      $root: {
+        f0: f0
+      }
+    }
+  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -255,17 +266,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 var _default =
 {
   data: function data() {
     return {
       orderData: null,
-      cancelShow: false };
+      cancelShow: false,
+      type: 1 };
 
   },
   onLoad: function onLoad(option) {
+    this.type = option.type;
     this.getOrederList(option.type);
   },
+  filters: {
+    types: function types(type) {
+      var str = '';
+      switch (type) {
+        case '1':
+          str = '正在进行中';
+          break;
+        case '2':
+          str = '已完成订单';
+          break;
+        case '3':
+          str = '取消中订单';
+          break;
+        case '4':
+          str = '已取消订单';
+          break;}
+
+      return str;
+    } },
+
   methods: {
     // 获取订单列表
     getOrederList: function getOrederList(type) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
@@ -280,7 +316,6 @@ var _default =
     },
     // 跳转选择查看陪玩
     goPeiWan: function goPeiWan(item) {
-      console.log();
       if (item.little_state === 1) {
         uni.showToast({
           title: '还没有陪玩接单',

@@ -42,17 +42,17 @@
 							</view>
 							<title title="下单用户"></title>
 							<view class="list_four_container flex flex--align-items--center">
-								<image src="../../static/logo.png" mode="aspectFill"></image>
+								<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode="aspectFill" />
 								<text>愿意支付</text>
 								<view
 									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
 									<text>¥</text>
-									580
+									{{ item.price }}
 								</view>
 							</view>
 							<view
 								class="list_btn flex flex--align-items--center flex--justify-content--center"
-								@click="myWantOrder(item.order_sn)"
+								@click="myWantOrder(item.id)"
 							>
 								<text></text>
 								我要接单
@@ -66,7 +66,6 @@
 				<template v-else>
 					<view
 						class="playHome_box_no_list flex flex--justify-content--center"
-						v-if="false"
 					>
 						<image src="../../static/image/no_order.png" mode=""></image>
 					</view>
@@ -78,19 +77,23 @@
 			<view class="playHome_meetWrap">
 				<template v-if="playHomeList.length">
 					<view class="meetWrap_box">
-						<view class="meetWrap_box_list" v-for="item in playHomeList" :key="item.id">
+						<view class="meetWrap_box_list" v-for="item in playReceiving" :key="item.id">
 							<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
 								<title title="订单状态"></title>
-								<view class="meetWrap_box_list_order_two">对方已确认</view>
+								<view class="meetWrap_box_list_order_two">
+									{{ item.state | states }}
+								</view>
 							</view>
-							<title title="需要你做"></title>
-							<view class="list_one_container flex flex--wrap">
-								<view
-									class="list_one_container_term"
-									v-for="value in item.do"
-									:key="value.id"
-								>{{ value.title }}</view>
-							</view>
+							<template v-if="item.do.length">
+								<title title="需要你做"></title>
+								<view class="list_one_container flex flex--wrap">
+									<view
+										class="list_one_container_term"
+										v-for="value in item.do"
+										:key="value.id"
+									>{{ value.title }}</view>
+								</view>
+							</template>
 							<title title="见面时间"></title>
 							<view class="list_two_container flex flex--align-items--center">
 								<view class="list_two_container_date">{{ item.data.split(' ')[0] }}</view>
@@ -105,12 +108,12 @@
 							</view>
 							<title title="下单用户"></title>
 							<view class="list_four_container flex flex--align-items--center">
-								<image src="../../static/logo.png" mode="aspectFill"></image>
+								<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode="aspectFill"></image>
 								<text>愿意支付</text>
 								<view
 									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
 									<text>¥</text>
-									580
+									{{ item.price }}
 								</view>
 							</view>
 						</view>
@@ -155,21 +158,24 @@
 		<!-- 点击我要接单之后的弹框 -->
 		<view
 			class="playHome_meet flex flex--row flex--align-items--center"
-			v-if="false"
+			v-if="receivingShow"
 		>
 			<view class="playHome_meet_list">确认接单后，</view>
 			<view class="playHome_meet_list">在<text>我的接单</text>查看订单状态。</view>
-			<view class="playHome_meet_btn">好的</view>
+			<view class="playHome_meet_btn" @click="confirm">好的</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
 				switchShow: true,
+				receivingShow: false,
 				playHomeList: [],
+				playReceiving: [],
 				tabList: [
 					{
 						id: 1,
@@ -180,22 +186,75 @@
 						title: '我要接单'
 					}
 				],
-				tabIndex: 0
+				tabIndex: 0,
+				orderId: 1
 			}
 		},
 		onLoad() {
 			this.getPlayHome()
 		},
+		filters: {
+			states(item) {
+				let str = ''
+				switch(item) {
+					case 1:
+						str = '订单进行中'
+					break;
+					case 2:
+						str = '订单已完成'
+					break;
+					case 3:
+						str = '订单取消中'
+					break;
+					case 4:
+						str = '订单已取消'
+					break;
+				}
+				return str
+			}
+		},
+		computed: {
+			...mapState(['baseUrl'])
+		},
 		methods: {
 			// 获取
 			async getPlayHome() {
 				const { data } = await this.$http('/api/play_with/order_list')
-				this.playHomeList = data.data
+				
+				data.data.forEach(v => {
+					if(v.play_with_state === 0){
+						this.playHomeList.push(v)
+					}else {
+						this.playReceiving.push(v)
+					}
+				})
+				
 			},
 			// 我要接单
-			async myWantOrder(sn) {
-				console.log(sn)
-				// const {  }
+			myWantOrder(id) {
+				this.receivingShow = true
+				this.orderId = id
+			},
+			// 接单确认
+			async confirm() {
+				let that = this;
+				const { data, status } = await this.$http('/api/play_with/receive_order', {
+					order_id: this.orderId
+				})
+				if(status){
+					uni.showToast({
+						title: '接单成功',
+						icon: 'none',
+						success() {
+							that.receivingShow = false
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '接单失败',
+						icon: 'none'
+					})
+				}
 			},
 			// tab切换
 			setTab(index) {

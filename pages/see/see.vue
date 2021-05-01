@@ -7,12 +7,11 @@
 				<swiper
 					class="swiper"
 					circular="circular"
-					autoplay="autoplay"
 					interval="2500"
 					@change="swiperChange"
 				>
 					<swiper-item v-for="item in orderDetail.play_with_list" :key="item">
-						<image :src="item.image" mode=""></image>
+						<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode=""></image>
 						<view class="swiper_box">
 							<view class="swiper_box_title">{{ item.nickname }}</view>
 							<view class="swiper_box_info">168cm / 48kg / 24 / 双子座</view>
@@ -54,12 +53,12 @@
 			</view>
 		</view>
 		<!-- 确认支付弹框 -->
-		<view class="config_popon" v-if="false">
+		<view class="config_popon" v-if="paymentShow">
 			<view class="config_popon_head flex flex--align-items--center flex flex--justify-content--space-between">
 				<view class="popon_head_title">你需要支付的金额</view>
 				<view class="popon_head_price flex flex--align-items--center flex--justify-content--center">
 					<text>￥</text>
-					800
+					{{ orderDetail.price }}
 				</view>
 			</view>
 			<view class="config_popon_con">
@@ -68,30 +67,36 @@
 				<view>金额将<text>原路返回</text>到您的支付账户</view>
 			</view>
 			<view class="config_popon_foot flex flex--align-items--center flex--justify-content--space-between">
-				<view class="popon_foot_left">返回</view>
-				<view class="popon_foot_right">确认支付</view>
+				<view class="popon_foot_left" @click="paymentShow = false">返回</view>
+				<view class="popon_foot_right" @click="confirmPayment">确认支付</view>
 			</view>
 		</view>
 		<!-- 支付成功弹框 -->
-		<template v-if="false">
+		<template v-if="paymentSuccess">
 			<view class="pay_success flex flex--row flex--align-items--center flex--justify-content--center">
 				<view class="pay_success_text">已<text>支付成功</text>，您的订单已经发送给TA</view>
-				<view class="pay_success_btn">好的</view>
+				<view class="pay_success_btn" @click="paymentSuccess = false">好的</view>
 			</view>
 		</template>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
 				current: 1,
-				orderDetail: null
+				orderDetail: null,
+				paymentShow: false,
+				paymentSuccess: false
 			}
 		},
 		onLoad(option) {
 			this.getOrderDetail(option.orderId)
+		},
+		computed: {
+			...mapState(['baseUrl'])
 		},
 		methods: {
 			// 获取当前轮播下标
@@ -113,7 +118,20 @@
 			},
 			// 确认选她
 			comfigChoice() {
-				
+				this.paymentShow = true
+				// const { data } = await this.$http('/api/order/define_play_with',{
+					
+				// })
+			},
+			// 确认支付
+			confirmPayment() {
+				uni.showToast({
+					title: '暂未开通',
+					icon: 'none'
+				})
+				// uni.requestPayment({
+				// 	provider
+				// })
 			}
 		}
 	}

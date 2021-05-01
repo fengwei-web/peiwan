@@ -82,10 +82,16 @@
 		},
 		onLoad(option) {
 			this.getBanner()
-			// this.login()
 			this.getLabel()
 			this.getMoney()
 			this.getUserInfo()
+		},
+		onShow() {
+			if(!uni.getStorageSync('token')){
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			}
 		},
 		onHide() {
 			
@@ -94,24 +100,6 @@
 			goApply() {
 				uni.navigateTo({
 					url: '/pages/apply/apply'
-				})
-			},
-			login() {
-				let that = this;
-				uni.login({
-					success(res) {
-						uni.getUserInfo({
-							async success(user) {
-								const parmst = {
-									image: user.userInfo.avatarUrl,
-									nickname: user.userInfo.nickName,
-									code: res.code
-								}
-								const { data } = await that.$http('/api/member/login',parmst);
-								uni.setStorageSync('token',data.token)
-							}
-						})
-					}
 				})
 			},
 			// 获取轮播图

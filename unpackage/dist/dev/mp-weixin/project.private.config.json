@@ -53,6 +53,18 @@
           "pathName": "pages/orderDetail/orderDetail",
           "query": "type=1",
           "scene": null
+        },
+        {
+          "name": "登录",
+          "pathName": "pages/login/login",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "协议",
+          "pathName": "pages/agreement/agreement",
+          "query": "type=5",
+          "scene": null
         }
       ]
     }

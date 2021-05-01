@@ -1,0 +1,10 @@
+.agreement.data-v-1a454adc {
+  padding: 0 30rpx;
+}
+.agreement .agreement_title.data-v-1a454adc {
+  text-align: center;
+  font-size: 32rpx;
+  font-weight: bold;
+  padding: 0 20rpx;
+}
+

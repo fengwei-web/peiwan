@@ -5,7 +5,7 @@
 			<!-- 填写基本信息 标题 -->
 			<view class="detail_title flex flex--align-items--center flex--justify-content--center">
 				<image src="../../static/image/notice.png" mode="" />
-				正在进行中{{orderData.data[0].state}}
+				{{ type | types }}
 			</view>
 			<!-- 内容 -->
 			<block v-for="item in orderData.data" :key="item.id">
@@ -59,13 +59,16 @@
 							v-if="item.state === 1 && item.order_state === 1"
 							@click="cancelShow = true"
 						>取消订单</view>
-						<view class="detail_con_foot_right" v-if="item.state === 1 && item.order_state !== 1">确认完成</view>
+						<view
+							class="detail_con_foot_right"
+							v-if="item.state === 1 && item.order_state !== 1"
+							@click="confirmOrder"
+						>确认完成</view>
 						<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
 						<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
 					</view>
 				</view>
 			</block>
-		
 		</view>
 		
 		<!-- 进行中取消 -->
@@ -97,11 +100,33 @@
 		data() {
 			return {
 				orderData: null,
-				cancelShow: false
+				cancelShow: false,
+				type: 1
 			}
 		},
 		onLoad(option) {
+			this.type = option.type
 			this.getOrederList(option.type)
+		},
+		filters: {
+			types(type) {
+				let str = '';
+				switch(type){
+					case '1':
+						str = '正在进行中'
+					break;
+					case '2':
+						str = '已完成订单'
+					break;
+					case '3':
+						str = '取消中订单'
+					break;
+					case '4':
+						str = '已取消订单'
+					break;
+				}
+				return str
+			}
 		},
 		methods: {
 			// 获取订单列表
@@ -117,7 +142,6 @@
 			},
 			// 跳转选择查看陪玩
 			goPeiWan(item) {
-				console.log()
 				if(item.little_state === 1) {
 					uni.showToast({
 						title: '还没有陪玩接单',
