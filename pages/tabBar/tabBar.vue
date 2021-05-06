@@ -84,13 +84,14 @@
 			this.getBanner()
 			this.getLabel()
 			this.getMoney()
-			this.getUserInfo()
 		},
 		onShow() {
 			if(!uni.getStorageSync('token')){
 				uni.navigateTo({
 					url: '/pages/login/login'
 				})
+			}else {
+				this.getUserInfo()
 			}
 		},
 		onShareAppMessage(res) {
@@ -101,9 +102,13 @@
 		},
 		methods: {
 			goApply() {
-				uni.navigateTo({
-					url: '/pages/apply/apply'
-				})
+				console.log()
+				if(this.userInfo.identity === 1){
+					uni.navigateTo({
+						url: '/pages/apply/apply'
+					})
+				}
+				
 			},
 			// 获取轮播图
 			async getBanner() {
@@ -155,6 +160,7 @@
 				}else {
 					this.addServWeixin = false
 				}
+				this.getUserInfo()
 			},
 			// 获取客户信息
 			async getSevrInfo(type) {

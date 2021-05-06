@@ -32,13 +32,6 @@
 									nickname: user.userInfo.nickName,
 									code: res.code
 								}
-								// uni.request({
-								// 	url: that.baseUrl + '/api/member/login',
-								// 	data: parmst,
-								// 	success(msg) {
-								// 		console.log(msg)
-								// 	}
-								// })
 								const { data } = await that.$http('/api/member/login',parmst);
 								if(data !== ''){
 									uni.showToast({

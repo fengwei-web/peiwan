@@ -29,7 +29,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _playHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./playHome.vue?vue&type=script&lang=js& */ 85);
 /* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _playHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _playHome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var _playHome_vue_vue_type_style_index_0_id_1fe62034_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./playHome.vue?vue&type=style&index=0&id=1fe62034&lang=less&scoped=true& */ 87);
-/* harmony import */ var _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 10);
+/* harmony import */ var _D_HBuilderX_plugins_uniapp_cli_node_modules_dcloudio_vue_cli_plugin_uni_packages_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js */ 13);
 
 var renderjs
 
@@ -96,10 +96,10 @@ var components
 try {
   components = {
     navBar: function() {
-      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 97))
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 113))
     },
     title: function() {
-      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 104))
+      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 120))
     }
   }
 } catch (e) {
@@ -124,8 +124,8 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var l0 =
-    _vm.tabIndex === 0 && _vm.playHomeList.length
-      ? _vm.__map(_vm.playHomeList, function(item, __i0__) {
+    !(_vm.tabIndex === 0) && _vm.playHomeList.length
+      ? _vm.__map(_vm.playHomeList, function(item, __i1__) {
           var $orig = _vm.__get_orig(item)
 
           var g0 = item.data.split(" ")
@@ -141,7 +141,7 @@ var render = function() {
       : null
   var l1 =
     !(_vm.tabIndex === 0) && _vm.playHomeList.length
-      ? _vm.__map(_vm.playReceiving, function(item, __i2__) {
+      ? _vm.__map(_vm.playReceiving, function(item, __i3__) {
           var $orig = _vm.__get_orig(item)
 
           var f0 = _vm._f("states")(item.state)
@@ -200,7 +200,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 20));
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));
 
 
 
@@ -370,7 +370,78 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   data: function data() {
     return {
@@ -389,7 +460,22 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(
 
 
       tabIndex: 0,
-      orderId: 1 };
+      orderId: 1,
+      date: '2021-05-06',
+      heights: '',
+      weights: '',
+      intro: '',
+      imageList: ['', '', '', '', '', ''],
+      pationList: [
+      {
+        id: 1,
+        title: '干饭' },
+
+      {
+        id: 2,
+        title: '逛街' }] };
+
+
 
   },
   onLoad: function onLoad() {
@@ -422,7 +508,6 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(
     // 获取
     getPlayHome: function getPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.$http('/api/play_with/order_list'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
-
                 data.data.forEach(function (v) {
                   if (v.play_with_state === 0) {
                     _this.playHomeList.push(v);
@@ -430,7 +515,39 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function _interopRequireDefault(
                     _this.playReceiving.push(v);
                   }
                 });case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    // 日期
+    bindDateChange: function bindDateChange(e) {
+      this.date = e.detail.value;
+    },
+    // 上传图片
+    uploadImage: function uploadImage(index) {
+      var that = this;
+      uni.chooseImage({
+        count: 1,
+        success: function success(res) {
+          uni.uploadFile({
+            url: that.baseUrl + '/api/member/upload',
+            filePath: res.tempFilePaths[0],
+            name: 'file',
+            success: function success(data) {
+              var arr = JSON.parse(data.data);
+              that.$set(that.imageList, index, arr.data);
+            } });
 
+        } });
+
+    },
+    // 删除图片
+    deleteImage: function deleteImage(index) {
+      if (this.imageList[index].length) {
+        this.$set(this.imageList, index, '');
+      } else {
+        uni.showToast({
+          title: '您要删除的项没有图片，请重新选择',
+          icon: 'none' });
+
+      }
     },
     // 我要接单
     myWantOrder: function myWantOrder(id) {

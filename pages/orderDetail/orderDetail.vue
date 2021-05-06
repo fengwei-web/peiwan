@@ -11,7 +11,7 @@
 			<block v-for="item in orderData.data" :key="item.id">
 				<view class="detail_con" @click="goPeiWan(item)">
 					<view class="detail_con_head flex flex--align-items--center">
-						<image src="" mode="aspectFill"/>
+						<image src="../../static/image/onelogo.png" mode="aspectFill"/>
 						<template v-if="item.little_state == 2">
 							<view class="detail_con_head_right">
 								<view class="detail_con_head_right_title">一只小草莓</view>

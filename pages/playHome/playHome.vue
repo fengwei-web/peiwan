@@ -13,7 +13,91 @@
 			</view>
 		</view>
 		<template v-if="tabIndex === 0">
-			<view class="playHome_box">
+			<view class="modify">
+				<!-- 相册 -->
+				<view class="modify_album">
+					<title title="我的图片"></title>
+					<view class="modify_album_box flex flex--wrap">
+						<view
+							class="modify_album_box_list flex flex--row flex--align-items--center"
+							v-for="(item, index) in imageList"
+							:key="index"
+						>
+							<view class="modify_album_box_list_con" @click="uploadImage(index)">
+								<text v-if="item == ''">添加图片</text>
+								<image v-else :src="baseUrl + item" mode="aspectFill"></image>
+							</view>
+							<view class="modify_album_box_list_del" @click="deleteImage(index)">删除</view>
+						</view>
+					</view>
+					<view class="modify_album_tip">* 请上传本人的的仙女自拍/网图不通过</view>
+				</view>
+				<!-- 你的生日 -->
+				<view class="modify_com">
+					<title title="你的生日"></title>
+					<view class="modify_com_con flex flex--align-items--center">
+						<view class="modify_com_con_left">
+							<picker mode="date" :value="date" @change="bindDateChange">
+								<view style="width: 100%;">{{ date }}</view>
+							</picker>
+						</view>
+						<view class="modify_com_con_right">
+							星座
+							<!-- <picker mode="date" :value="date" @change="bindDateChange">
+								<view style="width: 100%;">{{ date }}</view>
+							</picker> -->
+						</view>
+					</view>
+				</view>
+				<!-- 你的身高 -->
+				<view class="modify_com">
+					<title title="你的身高"></title>
+					<view class="modify_com_con flex flex--align-items--center">
+						<input class="modify_com_con_left" type="number" v-model="heights" placeholder="请输入您的身高" />
+						<view class="modify_com_con_right">cm</view>
+					</view>
+				</view>
+				<!-- 你的体重 -->
+				<view class="modify_com">
+					<title title="你的体重"></title>
+					<view class="modify_com_con flex flex--align-items--center">
+						<input class="modify_com_con_left" type="number" v-model="weights" placeholder="请输入您的体重" />
+						<view class="modify_com_con_right">kg</view>
+					</view>
+				</view>
+				<!-- 你的职业 -->
+				<view class="modify_pation">
+					<title title="你的职业"></title>
+					<view class="modify_pation_con flex flex--wrap">
+						<view
+							class="pation_con_list active"
+							v-for="item in pationList"
+							:key="item.id"
+						>{{ item.title }}</view>
+						<input
+							class="pation_con_list"
+							style="background: #07ACB6;"
+							type="text"
+							placeholder="自定义"
+							placeholder-style="color: #fff;"
+						/>
+					</view>
+				</view>
+				<!-- 个人简介 -->
+				<view class="modify_text">
+					<title title="个人简介"></title>
+					<textarea class="text_con" v-model="intro" placeholder="请输入你的个人简介，让别人记住你哈。" />
+				</view>
+				<!-- 底部按钮 -->
+				<view class="modify_foot flex flex--align-items--center flex--justify-content--space-between">
+					<view class="modify_foot_left">取消</view>
+					<view class="modify_foot_right">提交审核</view>
+				</view>
+			</view>
+		</template>
+		
+		<template v-else>
+			<view class="playHome_meetWrap">
 				<template v-if="playHomeList.length">
 					<view class="playHome_wrap">
 						<view class="playHome_wrap_list" v-for="item in playHomeList" :key="item.id">
@@ -62,19 +146,6 @@
 					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
 				</template>
 				
-				<!-- 暂无数据 -->
-				<template v-else>
-					<view
-						class="playHome_box_no_list flex flex--justify-content--center"
-					>
-						<image src="../../static/image/no_order.png" mode=""></image>
-					</view>
-				</template>
-			</view>
-		</template>
-		
-		<template v-else>
-			<view class="playHome_meetWrap">
 				<template v-if="playHomeList.length">
 					<view class="meetWrap_box">
 						<view class="meetWrap_box_list" v-for="item in playReceiving" :key="item.id">
@@ -119,12 +190,10 @@
 						</view>
 					</view>
 				</template>
-				
 				<!-- 暂无数据 -->
 				<template v-else>
 					<view
 						class="playHome_box_no_list flex flex--justify-content--center"
-						v-if="false"
 					>
 						<image src="../../static/image/no_order.png" mode=""></image>
 					</view>
@@ -133,18 +202,20 @@
 		</template>
 		
 		<!-- 底部 -->
-		<view class="playHome_foot">
-			<view class="playHome_foot_con flex flex--align-items--center">
-				<view class="playHome_foot_con_left flex flex--align-items--center flex--justify-content--center">
-					<text>当前城市</text>
-					<view>北京</view>
-				</view>
-				<view class="playHome_foot_con_right flex flex--align-items--center flex--justify-content--center">
-					<text>正在接单</text>
-					<switch :checked="switchShow" color="#000000"></switch>
+		<template v-if="tabIndex === 1">
+			<view class="playHome_foot">
+				<view class="playHome_foot_con flex flex--align-items--center">
+					<view class="playHome_foot_con_left flex flex--align-items--center flex--justify-content--center">
+						<text>当前城市</text>
+						<view>北京</view>
+					</view>
+					<view class="playHome_foot_con_right flex flex--align-items--center flex--justify-content--center">
+						<text>正在接单</text>
+						<switch :checked="switchShow" color="#000000"></switch>
+					</view>
 				</view>
 			</view>
-		</view>
+		</template>
 		<!-- 陪玩申请后审核通过 -->
 		<view
 			class="playHome_adopt flex flex--row flex--align-items--center"
@@ -187,7 +258,22 @@
 					}
 				],
 				tabIndex: 0,
-				orderId: 1
+				orderId: 1,
+				date: '2021-05-06',
+				heights: '',
+				weights: '',
+				intro: '',
+				imageList: ['','','','','',''],
+				pationList: [
+					{
+						id: 1,
+						title: '干饭'
+					},
+					{
+						id: 2,
+						title: '逛街'
+					}
+				]
 			}
 		},
 		onLoad() {
@@ -220,7 +306,6 @@
 			// 获取
 			async getPlayHome() {
 				const { data } = await this.$http('/api/play_with/order_list')
-				
 				data.data.forEach(v => {
 					if(v.play_with_state === 0){
 						this.playHomeList.push(v)
@@ -228,7 +313,39 @@
 						this.playReceiving.push(v)
 					}
 				})
-				
+			},
+			// 日期
+			bindDateChange(e) {
+				this.date = e.detail.value
+			},
+			// 上传图片
+			uploadImage(index) {
+				let that = this;
+				uni.chooseImage({
+					count: 1,
+					success(res) {
+						uni.uploadFile({
+							url: that.baseUrl + '/api/member/upload',
+							filePath: res.tempFilePaths[0],
+							name: 'file',
+							success(data) {
+								let arr = JSON.parse(data.data)
+								that.$set(that.imageList,index,arr.data)
+							}
+						})
+					}
+				})
+			},
+			// 删除图片
+			deleteImage(index) {
+				if(this.imageList[index].length){
+					this.$set(this.imageList, index, '')
+				}else {
+					uni.showToast({
+						title: '您要删除的项没有图片，请重新选择',
+						icon: 'none'
+					})
+				}
 			},
 			// 我要接单
 			myWantOrder(id) {
@@ -281,6 +398,138 @@
 				}
 				&.active {
 					color: #07ACB6;
+				}
+			}
+		}
+		.modify {
+			flex: 1;
+			padding: 0 30rpx;
+			overflow: auto;
+			.modify_album {
+				width: 100%;
+				.modify_album_box {
+					padding: 44rpx 44rpx 0 44rpx;
+					background: #F8F8F8;
+					.modify_album_box_list {
+						width: 194rpx;
+						margin: 0 12rpx 54rpx 0;
+						.modify_album_box_list_con {
+							width: 100%;
+							height: 274rpx;
+							line-height: 274rpx;
+							text-align: center;
+							border: 1px solid #E9E9E9;
+							font-size: 28rpx;
+							image {
+								width: 100%;
+								height: 100%;
+							}
+						}
+						.modify_album_box_list_del {
+							width: 100rpx;
+							height: 36rpx;
+							line-height: 36rpx;
+							text-align: center;
+							border: 1px solid #07ACB6;
+							border-radius: 18rpx;
+							font-size: 20rpx;
+							color: #07ACB6;
+							margin-top: 14rpx;
+						}
+						&:nth-child(3n+3) {
+							margin-right: 0;
+						}
+					}
+				}
+				.modify_album_tip {
+					text-align: center;
+					margin-top: 24rpx;
+					font-size: 20rpx;
+					color: #07ACB6;
+				}
+			}
+			.modify_com {
+				width: 100%;
+				.modify_com_con {
+					height: 88rpx;
+					background: #F8F8F8;
+					position: relative;
+					view {
+						width: 50%;
+						text-align: center;
+						font-size: 36rpx;
+					}
+					.modify_com_con_left {
+						text-align: center;
+						font-size: 28rpx;
+						color: #2F2F2F;
+					}
+					.modify_com_con_right {
+						color: #00C2CE;
+					}
+					&::after {
+						content: '';
+						width: 2rpx;
+						height: 24rpx;
+						background: #E5E5E5;
+						position: absolute;
+						left: 50%;
+					}
+				}
+			}
+			.modify_pation {
+				width: 100%;
+				.modify_pation_con {
+					.pation_con_list {
+						width: 160rpx;
+						height: 62rpx;
+						line-height: 62rpx;
+						text-align: center;
+						background: #F8F8F8;
+						font-size: 26rpx;
+						margin: 20rpx 20rpx 0 0;
+						&:nth-child(4n+4) {
+							margin-right: 0;
+						}
+						&:nth-child(-n+4) {
+							margin-top: 0;
+						}
+						&.active {
+							background: #07ACB6;
+							color: #fff;
+						}
+					}
+				}
+			}
+			.modify_text {
+				width: 100%;
+				.text_con {
+					width: 100%;
+					height: 232rpx;
+					box-sizing: border-box;
+					background: #F8F8F8;
+					padding: 30rpx;
+					font-size: 26rpx;
+					color: #060606;
+				}
+			}
+			.modify_foot {
+				width: 100%;
+				margin: 34rpx 0 46rpx 0;
+				view {
+					width: 334rpx;
+					height: 80rpx;
+					line-height: 80rpx;
+					text-align: center;
+					border-radius: 40rpx;
+					font-size: 32rpx;
+					color: #fff;
+				}
+				.modify_foot_left {
+					background: #000;
+				}
+				.modify_foot_right {
+					background: #07ACB6;
 				}
 			}
 		}

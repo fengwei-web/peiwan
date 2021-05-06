@@ -302,10 +302,9 @@
 				}
 				if(!this.userInfo.wx_num){
 					this.oneShow = true
-					return
+				}else {
+					this.threeShow = true
 				}
-				this.threeShow = true
-				
 			},
 			// 去添加微信
 			goAddWeixi() {
