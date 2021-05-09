@@ -135,42 +135,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
         } });
 
-
-
-
-
-
-
-
-      var that = this;
-      uni.login({
-        success: function success(res) {
-          uni.getUserInfo({
-            success: function success(user) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var parmst, _yield$that$$http2, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                        parmst = {
-                          image: user.userInfo.avatarUrl,
-                          nickname: user.userInfo.nickName,
-                          code: res.code };_context2.next = 3;return (
-
-                          that.$http('/api/member/login', parmst));case 3:_yield$that$$http2 = _context2.sent;data = _yield$that$$http2.data;
-                        if (data !== '') {
-                          uni.showToast({
-                            title: '登录成功',
-                            icon: 'none',
-                            success: function success() {
-                              setTimeout(function () {
-                                uni.navigateBack({
-                                  delta: 1 });
-
-                              }, 1000);
-                            } });
-
-                          uni.setStorageSync('token', data.token);
-                        }case 6:case "end":return _context2.stop();}}}, _callee2);}))();
-            } });
-
-        } });
-
     },
     agreement: function agreement(type) {
       uni.navigateTo({

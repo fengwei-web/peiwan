@@ -59,42 +59,6 @@
 						})
 					}
 				})
-				
-				
-				
-				
-				
-				
-				
-				let that = this;
-				uni.login({
-					success(res) {
-						uni.getUserInfo({
-							async success(user) {
-								const parmst = {
-									image: user.userInfo.avatarUrl,
-									nickname: user.userInfo.nickName,
-									code: res.code
-								}
-								const { data } = await that.$http('/api/member/login',parmst);
-								if(data !== ''){
-									uni.showToast({
-										title: '登录成功',
-										icon: 'none',
-										success() {
-											setTimeout(() => {
-												uni.navigateBack({
-													delta: 1
-												})
-											}, 1000)
-										}
-									})
-									uni.setStorageSync('token',data.token)
-								}
-							}
-						})
-					}
-				})
 			},
 			agreement(type) {
 				uni.navigateTo({
