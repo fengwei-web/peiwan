@@ -251,7 +251,6 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
           url: '/pages/apply/apply' });
 
       }
-
     },
     // 获取轮播图
     getBanner: function getBanner() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (

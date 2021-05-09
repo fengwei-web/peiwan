@@ -108,7 +108,6 @@
 						url: '/pages/apply/apply'
 					})
 				}
-				
 			},
 			// 获取轮播图
 			async getBanner() {

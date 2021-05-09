@@ -234,7 +234,6 @@
 		},
 		onLoad() {
 			let token = uni.getStorageSync('token')
-			console.log(token)
 			if(!token || token == '') {
 				uni.navigateTo({
 					url: '/pages/login/login'

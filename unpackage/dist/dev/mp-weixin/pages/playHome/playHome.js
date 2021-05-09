@@ -419,7 +419,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
   },
   onLoad: function onLoad() {
     var token = uni.getStorageSync('token');
-    console.log(token);
     if (!token || token == '') {
       uni.navigateTo({
         url: '/pages/login/login' });
