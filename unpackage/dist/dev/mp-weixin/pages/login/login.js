@@ -98,17 +98,18 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
   methods: {
     getUserInfo: function getUserInfo() {
-      var that = this;
-      uni.login({
-        success: function success(res) {
-          uni.getUserInfo({
-            success: function success(user) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var parmst, _yield$that$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+      uni.getUserProfile({
+        desc: '用于展示',
+        success: function success(user) {
+          uni.login({
+            provider: 'weixin',
+            success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var parmst, _yield$that$$http, data, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                         parmst = {
                           image: user.userInfo.avatarUrl,
                           nickname: user.userInfo.nickName,
                           code: res.code };_context.next = 3;return (
 
-                          that.$http('/api/member/login', parmst));case 3:_yield$that$$http = _context.sent;data = _yield$that$$http.data;
+                          that.$http('/api/member/login', parmst));case 3:_yield$that$$http = _context.sent;data = _yield$that$$http.data;status = _yield$that$$http.status;
                         if (data !== '') {
                           uni.showToast({
                             title: '登录成功',
@@ -122,7 +123,50 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                             } });
 
                           uni.setStorageSync('token', data.token);
-                        }case 6:case "end":return _context.stop();}}}, _callee);}))();
+                        }case 7:case "end":return _context.stop();}}}, _callee);}))();
+            } });
+
+        },
+        fail: function fail(err) {
+          console.log(err);
+          uni.showToast({
+            title: '微信版本过低，请先升级微信再打开小程序',
+            icon: 'none' });
+
+        } });
+
+
+
+
+
+
+
+
+      var that = this;
+      uni.login({
+        success: function success(res) {
+          uni.getUserInfo({
+            success: function success(user) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var parmst, _yield$that$$http2, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                        parmst = {
+                          image: user.userInfo.avatarUrl,
+                          nickname: user.userInfo.nickName,
+                          code: res.code };_context2.next = 3;return (
+
+                          that.$http('/api/member/login', parmst));case 3:_yield$that$$http2 = _context2.sent;data = _yield$that$$http2.data;
+                        if (data !== '') {
+                          uni.showToast({
+                            title: '登录成功',
+                            icon: 'none',
+                            success: function success() {
+                              setTimeout(function () {
+                                uni.navigateBack({
+                                  delta: 1 });
+
+                              }, 1000);
+                            } });
+
+                          uni.setStorageSync('token', data.token);
+                        }case 6:case "end":return _context2.stop();}}}, _callee2);}))();
             } });
 
         } });

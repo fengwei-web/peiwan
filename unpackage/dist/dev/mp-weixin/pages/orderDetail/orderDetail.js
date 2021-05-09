@@ -123,22 +123,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var f0 = _vm._f("types")(_vm.type)
-
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event) {
-      _vm.cancelShow = true
-    }
-  }
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        f0: f0
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -172,135 +156,147 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};} //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   data: function data() {
     return {
       orderData: null,
       cancelShow: false,
-      type: 1 };
+      type: 1,
+      typeText: '',
+      cancelState: 1,
+      cancelId: 0 };
 
   },
   onLoad: function onLoad(option) {
+    switch (option.type) {
+      case '1':
+        this.typeText = '正在进行中';
+        break;
+      case '2':
+        this.typeText = '已完成订单';
+        break;
+      case '3':
+        this.typeText = '取消中订单';
+        break;
+      case '4':
+        this.typeText = '已取消订单';
+        break;}
+
     this.type = option.type;
     this.getOrederList(option.type);
   },
-  filters: {
-    types: function types(type) {
-      var str = '';
-      switch (type) {
-        case '1':
-          str = '正在进行中';
-          break;
-        case '2':
-          str = '已完成订单';
-          break;
-        case '3':
-          str = '取消中订单';
-          break;
-        case '4':
-          str = '已取消订单';
-          break;}
-
-      return str;
-    } },
+  computed: _objectSpread({},
+  (0, _vuex.mapState)(['baseUrl'])),
 
   methods: {
     // 获取订单列表
@@ -313,6 +309,42 @@ var _default =
                   v.data = v.data.split(' ');
                 });
                 _this.orderData = data;case 6:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    // 取消订单显示
+    cancelShowClick: function cancelShowClick(state, orderId) {
+      this.cancelState = state;
+      this.cancelId = orderId;
+      this.cancelShow = true;
+    },
+    // 取消订单返回
+    cancelShowReturn: function cancelShowReturn() {
+      this.cancelShow = false;
+    },
+    cancelShowComfig: function cancelShowComfig() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                that = _this2;if (!(
+                _this2.cancelState == 1)) {_context2.next = 7;break;}_context2.next = 4;return (
+                  _this2.$http('/api/order/cancel_order', {
+                    order_id: _this2.cancelId }));case 4:_yield$_this2$$http = _context2.sent;status = _yield$_this2$$http.status;
+
+                if (status) {
+                  uni.showToast({
+                    title: '取消成功',
+                    icon: 'none',
+                    success: function success() {
+                      that.cancelShow = false;
+                      that.getOrederList(that.type);
+                    } });
+
+                } else {
+                  uni.showToast({
+                    title: '取消失败',
+                    icon: 'none',
+                    success: function success() {
+                      that.cancelShow = false;
+                    } });
+
+                }case 7:case "end":return _context2.stop();}}}, _callee2);}))();
+
     },
     // 跳转选择查看陪玩
     goPeiWan: function goPeiWan(item) {

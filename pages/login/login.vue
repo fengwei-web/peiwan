@@ -6,7 +6,7 @@
 				<view>One Ban</view>
 				<text>为有趣而生</text>
 			</view>
-			<button open-type="getUserInfo" @getuserinfo="getUserInfo">微信登录</button>
+			<button @click="getUserInfo">微信登录</button>
 			<view class="login_con_agreement">
 				登录即表明同意 <text @click="agreement(4)">用户协议</text> 和 <text @click="agreement(5)">隐私协议</text> 
 			</view>
@@ -22,6 +22,50 @@
 		},
 		methods: {
 			getUserInfo() {
+				uni.getUserProfile({
+					desc: '用于展示',
+					success(user) {
+						uni.login({
+							provider: 'weixin',
+							async success(res) {
+								const parmst = {
+									image: user.userInfo.avatarUrl,
+									nickname: user.userInfo.nickName,
+									code: res.code
+								}
+								const { data,status } = await that.$http('/api/member/login',parmst)
+								if(data !== ''){
+									uni.showToast({
+										title: '登录成功',
+										icon: 'none',
+										success() {
+											setTimeout(() => {
+												uni.navigateBack({
+													delta: 1
+												})
+											}, 1000)
+										}
+									})
+									uni.setStorageSync('token',data.token)
+								}
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+						uni.showToast({
+							title: '微信版本过低，请先升级微信再打开小程序',
+							icon: 'none'
+						})
+					}
+				})
+				
+				
+				
+				
+				
+				
+				
 				let that = this;
 				uni.login({
 					success(res) {

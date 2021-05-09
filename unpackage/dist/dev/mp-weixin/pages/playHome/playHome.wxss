@@ -159,13 +159,27 @@
 }
 .playHome .playHome_box .playHome_wrap.data-v-1fe62034 {
   width: 100%;
-  padding-bottom: 90rpx;
+  padding-bottom: 80rpx;
 }
 .playHome .playHome_box .playHome_wrap .playHome_wrap_list.data-v-1fe62034 {
   padding: 0 26rpx 156rpx 26rpx;
   background: #fff;
   margin-top: 68rpx;
   position: relative;
+}
+.playHome .playHome_box .playHome_wrap .playHome_wrap_list .meetWrap_box_list_order view.data-v-1fe62034 {
+  width: 442rpx;
+  height: 46rpx;
+  line-height: 46rpx;
+  text-align: center;
+  font-size: 26rpx;
+  color: #fff;
+}
+.playHome .playHome_box .playHome_wrap .playHome_wrap_list .meetWrap_box_list_order .meetWrap_box_list_order_two.data-v-1fe62034 {
+  background: #8C8C8C;
+}
+.playHome .playHome_box .playHome_wrap .playHome_wrap_list .meetWrap_box_list_order .meetWrap_box_list_order_one.data-v-1fe62034 {
+  background: #07ACB6;
 }
 .playHome .playHome_box .playHome_wrap .playHome_wrap_list .list_btn.data-v-1fe62034 {
   width: 250rpx;
@@ -193,35 +207,6 @@
   margin-bottom: 50rpx;
   font-size: 20rpx;
   color: #BFBFBF;
-}
-.playHome .playHome_meetWrap.data-v-1fe62034 {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-          flex: 1;
-  background: #F5F5F6;
-  overflow: auto;
-}
-.playHome .playHome_meetWrap .meetWrap_box .meetWrap_box_list.data-v-1fe62034 {
-  background: #fff;
-  padding: 0 26rpx 56rpx 26rpx;
-  margin-top: 16rpx;
-}
-.playHome .playHome_meetWrap .meetWrap_box .meetWrap_box_list .meetWrap_box_list_order view.data-v-1fe62034 {
-  width: 442rpx;
-  height: 46rpx;
-  line-height: 46rpx;
-  text-align: center;
-  font-size: 26rpx;
-  color: #fff;
-}
-.playHome .playHome_meetWrap .meetWrap_box .meetWrap_box_list .meetWrap_box_list_order .meetWrap_box_list_order_one.data-v-1fe62034 {
-  background: #07ACB6;
-}
-.playHome .playHome_meetWrap .meetWrap_box .meetWrap_box_list .meetWrap_box_list_order .meetWrap_box_list_order_two.data-v-1fe62034 {
-  background: #8C8C8C;
-}
-.playHome .playHome_meetWrap .meetWrap_box .meetWrap_box_list.data-v-1fe62034:first-of-type {
-  margin-top: 0;
 }
 .playHome .playHome_foot.data-v-1fe62034 {
   height: 150rpx;

@@ -125,36 +125,20 @@ var render = function() {
   var _c = _vm._self._c || _h
   var l0 =
     !(_vm.tabIndex === 0) && _vm.playHomeList.length
-      ? _vm.__map(_vm.playHomeList, function(item, __i1__) {
+      ? _vm.__map(_vm.playHomeList, function(item, __i0__) {
           var $orig = _vm.__get_orig(item)
+
+          var f0 = _vm._f("states")(item.state)
 
           var g0 = item.data.split(" ")
           var g1 = item.data.split(" ")
           var g2 = item.image.indexOf("http")
           return {
             $orig: $orig,
+            f0: f0,
             g0: g0,
             g1: g1,
             g2: g2
-          }
-        })
-      : null
-  var l1 =
-    !(_vm.tabIndex === 0) && _vm.playHomeList.length
-      ? _vm.__map(_vm.playReceiving, function(item, __i3__) {
-          var $orig = _vm.__get_orig(item)
-
-          var f0 = _vm._f("states")(item.state)
-
-          var g3 = item.data.split(" ")
-          var g4 = item.data.split(" ")
-          var g5 = item.image.indexOf("http")
-          return {
-            $orig: $orig,
-            f0: f0,
-            g3: g3,
-            g4: g4,
-            g5: g5
           }
         })
       : null
@@ -162,8 +146,7 @@ var render = function() {
     {},
     {
       $root: {
-        l0: l0,
-        l1: l1
+        l0: l0
       }
     }
   )
@@ -405,42 +388,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   data: function data() {
@@ -448,7 +395,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       switchShow: true,
       receivingShow: false,
       playHomeList: [],
-      playReceiving: [],
       tabList: [
       {
         id: 1,
@@ -466,19 +412,20 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       weights: '',
       intro: '',
       imageList: ['', '', '', '', '', ''],
-      pationList: [
-      {
-        id: 1,
-        title: '干饭' },
-
-      {
-        id: 2,
-        title: '逛街' }] };
-
-
+      pationText: '',
+      job: '',
+      mobile: '' };
 
   },
   onLoad: function onLoad() {
+    var token = uni.getStorageSync('token');
+    console.log(token);
+    if (!token || token == '') {
+      uni.navigateTo({
+        url: '/pages/login/login' });
+
+    }
+    this.getPlayWith();
     this.getPlayHome();
   },
   filters: {
@@ -508,13 +455,22 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     // 获取
     getPlayHome: function getPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.$http('/api/play_with/order_list'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
-                data.data.forEach(function (v) {
-                  if (v.play_with_state === 0) {
-                    _this.playHomeList.push(v);
-                  } else {
-                    _this.playReceiving.push(v);
-                  }
-                });case 5:case "end":return _context.stop();}}}, _callee);}))();
+                _this.playHomeList = data.data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    getPlayWith: function getPlayWith() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data, indexImage;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/play_with/info'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
+                if (data.id) {
+                  indexImage = uni.getStorageSync('indexImage');
+                  indexImage.forEach(function (v, i) {
+                    _this2.$set(_this2.imageList, v, data.images[i]);
+                  });
+                  _this2.date = data.birthday;
+                  _this2.heights = data.height;
+                  _this2.weights = data.weight;
+                  _this2.pationText = data.job;
+                  _this2.intro = data.intro;
+                  _this2.mobile = data.mobile;
+                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 日期
     bindDateChange: function bindDateChange(e) {
@@ -555,10 +511,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.orderId = id;
     },
     // 接单确认
-    confirm: function confirm() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                that = _this2;_context2.next = 3;return (
-                  _this2.$http('/api/play_with/receive_order', {
-                    order_id: _this2.orderId }));case 3:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+    confirm: function confirm() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, data, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                that = _this3;_context3.next = 3;return (
+                  _this3.$http('/api/play_with/receive_order', {
+                    order_id: _this3.orderId }));case 3:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;status = _yield$_this3$$http.status;
 
                 if (status) {
                   uni.showToast({
@@ -566,6 +522,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     icon: 'none',
                     success: function success() {
                       that.receivingShow = false;
+                      that.getPlayHome();
                     } });
 
                 } else {
@@ -573,7 +530,53 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     title: '接单失败',
                     icon: 'none' });
 
-                }case 7:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 7:case "end":return _context3.stop();}}}, _callee3);}))();
+    },
+    // 修改信息
+    modifyInfo: function modifyInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var images, newImage, indexImage, job, that, _yield$_this4$$http, status;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
+                images = '';
+                newImage = [];
+                indexImage = [];
+                job = '';
+                that = _this4;
+                _this4.imageList.forEach(function (v, i) {
+                  if (v) {
+                    newImage.push(v);
+                    indexImage.push(i);
+                    uni.setStorageSync('indexImage', indexImage);
+                  }
+                });
+                images = newImage.join(',');
+                if (_this4.job) {
+                  job = _this4.job;
+                } else {
+                  job = _this4.pationText;
+                }_context4.next = 10;return (
+                  _this4.$http('/api/play_with/edit', {
+                    birthday: _this4.date,
+                    height: _this4.heights,
+                    weight: _this4.weights,
+                    job: job,
+                    intro: _this4.intro,
+                    images: images,
+                    mobile: _this4.mobile }));case 10:_yield$_this4$$http = _context4.sent;status = _yield$_this4$$http.status;
+
+                console.log(status);
+                if (status) {
+                  uni.showToast({
+                    title: '修改成功',
+                    icon: 'none' });
+
+                  setTimeout(function () {
+                    that.job = '';
+                    that.getPlayWith();
+                  }, 1500);
+                } else {
+                  uni.showToast({
+                    title: '修改失败',
+                    icon: 'none' });
+
+                }case 14:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // tab切换
     setTab: function setTab(index) {

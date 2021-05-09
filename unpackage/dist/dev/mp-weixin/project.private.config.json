@@ -15,7 +15,7 @@
         {
           "name": "查看陪玩",
           "pathName": "pages/see/see",
-          "query": "orderId=12",
+          "query": "orderId=22",
           "scene": null
         },
         {
@@ -64,6 +64,12 @@
           "name": "协议",
           "pathName": "pages/agreement/agreement",
           "query": "type=5",
+          "scene": null
+        },
+        {
+          "name": "首页",
+          "pathName": "pages/tabBar/tabBar",
+          "query": "",
           "scene": null
         }
       ]

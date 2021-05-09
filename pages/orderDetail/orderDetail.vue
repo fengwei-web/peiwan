@@ -5,70 +5,81 @@
 			<!-- 填写基本信息 标题 -->
 			<view class="detail_title flex flex--align-items--center flex--justify-content--center">
 				<image src="../../static/image/notice.png" mode="" />
-				{{ type | types }}
+				{{ typeText }}
 			</view>
 			<!-- 内容 -->
-			<block v-for="item in orderData.data" :key="item.id">
-				<view class="detail_con" @click="goPeiWan(item)">
-					<view class="detail_con_head flex flex--align-items--center">
-						<image src="../../static/image/onelogo.png" mode="aspectFill"/>
-						<template v-if="item.little_state == 2">
-							<view class="detail_con_head_right">
-								<view class="detail_con_head_right_title">一只小草莓</view>
-								<view class="detail_con_head_right_desc">168cm / 48kg / 24 / 双子座</view>
-								<view class="detail_con_head_right_address">北京  ·  朝阳区</view>
+			<template v-if="orderData.data.length">
+				<block v-for="item in orderData.data" :key="item.id">
+					<view class="detail_con">
+						<view class="detail_con_head flex flex--align-items--center" @click="goPeiWan(item)">
+							<image :src="item.play_with_list[0].image ? item.play_with_list[0].image :'../../static/image/onelogo.png'" mode="aspectFill"/>
+							<template v-if="item.little_state == 2">
+								<view class="detail_con_head_right">
+									<view class="detail_con_head_right_title">
+										{{ item.play_with_list[0].nickname? item.play_with_list[0].nickname : '暂无' }}
+									</view>
+									<view class="detail_con_head_right_desc">
+										{{ item.play_with_list[0].height }}cm / {{ item.play_with_list[0].weight }}kg
+									</view>
+									<view class="detail_con_head_right_address">
+										{{ item.play_with_list[0].address? item.play_with_list[0].address : '暂无' }}
+									</view>
+								</view>
+							</template>
+							<template v-else>
+								<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
+							</template>
+						</view>
+						<title title="喊TA做什么" @click="goPeiWan(item)"></title>
+						<view class="list_one_container flex flex--wrap" @click="goPeiWan(item)">
+							<view
+								class="list_one_container_term"
+								v-for="msg in item.do"
+								:key="msg"
+							>{{msg}}</view>
+						</view>
+						<title title="见面时间" @click="goPeiWan(item)"></title>
+						<view class="list_two_container flex flex--align-items--center" @click="goPeiWan(item)">
+							<view class="list_two_container_date">{{ item.data[0] }}</view>
+							<view class="list_two_container_time">{{ item.data[1] }}</view>
+							<view class="list_two_container_length">{{ item.time }}小时</view>
+						</view>
+						<title title="见面地点" @click="goPeiWan(item)"></title>
+						<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between" @click="goPeiWan(item)">
+							<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
+							<view class="list_three_container_address">{{ item.address }}</view>
+							<view class="list_three_container_num">1人</view>
+						</view>
+						<title title="订单金额" @click="goPeiWan(item)"></title>
+						<view class="detail_con_price flex flex--align-items--center" @click="goPeiWan(item)">
+							<view class="detail_con_price_left">
+								{{ item.order_state == 1 ? '待支付' : '已完成支付' }}
 							</view>
-						</template>
-						<template v-else>
-							<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
-						</template>
-					</view>
-					<title title="喊TA做什么"></title>
-					<view class="list_one_container flex flex--wrap">
-						<view
-							class="list_one_container_term"
-							v-for="msg in item.do"
-							:key="msg"
-						>{{msg}}</view>
-					</view>
-					<title title="见面时间"></title>
-					<view class="list_two_container flex flex--align-items--center">
-						<view class="list_two_container_date">{{ item.data[0] }}</view>
-						<view class="list_two_container_time">{{ item.data[1] }}</view>
-						<view class="list_two_container_length">{{ item.time }}小时</view>
-					</view>
-					<title title="见面地点"></title>
-					<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
-						<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-						<view class="list_three_container_address">{{ item.address }}</view>
-						<view class="list_three_container_num">1人</view>
-					</view>
-					<title title="订单金额"></title>
-					<view class="detail_con_price flex flex--align-items--center">
-						<view class="detail_con_price_left">
-							{{ item.order_state == 1 ? '待支付' : '已完成支付' }}
+							<view class="detail_con_price_right">
+								<text>¥</text>
+								{{ item.price }}
+							</view>
 						</view>
-						<view class="detail_con_price_right">
-							<text>¥</text>
-							{{ item.price }}
+						<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
+							<view
+								class="detail_con_foot_left"
+								v-if="item.order_state === 1"
+								@click="cancelShowClick(item.state,item.id)"
+							>取消订单</view>
+							<view
+								class="detail_con_foot_right"
+								v-if="item.state === 1 && item.order_state !== 1"
+								@click="confirmOrder"
+							>确认完成</view>
+							<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
+							<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
 						</view>
 					</view>
-					<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
-						<view
-							class="detail_con_foot_left"
-							v-if="item.state === 1 && item.order_state === 1"
-							@click="cancelShow = true"
-						>取消订单</view>
-						<view
-							class="detail_con_foot_right"
-							v-if="item.state === 1 && item.order_state !== 1"
-							@click="confirmOrder"
-						>确认完成</view>
-						<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
-						<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
-					</view>
-				</view>
-			</block>
+				</block>
+			</template>
+			<template v-else>
+				<view style="font-size: 28rpx; marign-top: 200rpx;">暂无数据</view>
+			</template>
 		</view>
 		
 		<!-- 进行中取消 -->
@@ -77,8 +88,8 @@
 				<view class="detail_cancel_list">进行中订单取消，可能会造成<text>订单扣款</text></view>
 				<view class="detail_cancel_list">请您在考虑一下</view>
 				<view class="detail_cancel_foot flex flex--align-items--center">
-					<view class="detail_cancel_foot_left">返回</view>
-					<view class="detail_cancel_foot_right">确认取消</view>
+					<view class="detail_cancel_foot_left" @click="cancelShowReturn">返回</view>
+					<view class="detail_cancel_foot_right" @click="cancelShowComfig">确认取消</view>
 				</view>
 			</view>
 		</template>
@@ -96,37 +107,38 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		data() {
 			return {
 				orderData: null,
 				cancelShow: false,
-				type: 1
+				type: 1,
+				typeText: '',
+				cancelState: 1,
+				cancelId: 0
 			}
 		},
 		onLoad(option) {
+			switch(option.type){
+				case '1':
+					this.typeText = '正在进行中'
+				break;
+				case '2':
+					this.typeText = '已完成订单'
+				break;
+				case '3':
+					this.typeText = '取消中订单'
+				break;
+				case '4':
+					this.typeText = '已取消订单'
+				break;
+			}
 			this.type = option.type
 			this.getOrederList(option.type)
 		},
-		filters: {
-			types(type) {
-				let str = '';
-				switch(type){
-					case '1':
-						str = '正在进行中'
-					break;
-					case '2':
-						str = '已完成订单'
-					break;
-					case '3':
-						str = '取消中订单'
-					break;
-					case '4':
-						str = '已取消订单'
-					break;
-				}
-				return str
-			}
+		computed: {
+			...mapState(['baseUrl'])
 		},
 		methods: {
 			// 获取订单列表
@@ -139,6 +151,42 @@
 					v.data = v.data.split(' ')
 				})
 				this.orderData = data
+			},
+			// 取消订单显示
+			cancelShowClick(state,orderId) {
+				this.cancelState = state
+				this.cancelId = orderId
+				this.cancelShow = true
+			},
+			// 取消订单返回
+			cancelShowReturn() {
+				this.cancelShow = false
+			},
+			async cancelShowComfig() {
+				let that = this
+				if(this.cancelState == 1) {
+					const { status } = await this.$http('/api/order/cancel_order',{
+						order_id: this.cancelId
+					})
+					if(status) {
+						uni.showToast({
+							title: '取消成功',
+							icon: 'none',
+							success() {
+								that.cancelShow = false
+								that.getOrederList(that.type)
+							}
+						})
+					}else {
+						uni.showToast({
+							title: '取消失败',
+							icon: 'none',
+							success() {
+								that.cancelShow = false
+							}
+						})
+					}
+				}
 			},
 			// 跳转选择查看陪玩
 			goPeiWan(item) {

@@ -70,15 +70,14 @@
 					<title title="你的职业"></title>
 					<view class="modify_pation_con flex flex--wrap">
 						<view
-							class="pation_con_list active"
-							v-for="item in pationList"
-							:key="item.id"
-						>{{ item.title }}</view>
+							class="pation_con_list"
+						>{{ pationText }}</view>
 						<input
 							class="pation_con_list"
 							style="background: #07ACB6;"
 							type="text"
 							placeholder="自定义"
+							v-model="job"
 							placeholder-style="color: #fff;"
 						/>
 					</view>
@@ -91,16 +90,25 @@
 				<!-- 底部按钮 -->
 				<view class="modify_foot flex flex--align-items--center flex--justify-content--space-between">
 					<view class="modify_foot_left">取消</view>
-					<view class="modify_foot_right">提交审核</view>
+					<view class="modify_foot_right" @click="modifyInfo">提交审核</view>
 				</view>
 			</view>
 		</template>
 		
 		<template v-else>
-			<view class="playHome_meetWrap">
+			<view class="playHome_box">
 				<template v-if="playHomeList.length">
 					<view class="playHome_wrap">
 						<view class="playHome_wrap_list" v-for="item in playHomeList" :key="item.id">
+							<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
+								<title title="订单状态"></title>
+								<view
+									class="meetWrap_box_list_order_two"
+									:class="{ 'meetWrap_box_list_order_one': item.state === 1 || item.state === 2 }"
+								>
+									{{ item.state | states }}
+								</view>
+							</view>
 							<template v-if="item.do.length">
 								<title title="需要你做"></title>
 								<view class="list_one_container flex flex--wrap">
@@ -136,6 +144,7 @@
 							</view>
 							<view
 								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								v-if="item.play_with_state === 0 && item.state !== 4"
 								@click="myWantOrder(item.id)"
 							>
 								<text></text>
@@ -144,51 +153,6 @@
 						</view>
 					</view>
 					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
-				</template>
-				
-				<template v-if="playHomeList.length">
-					<view class="meetWrap_box">
-						<view class="meetWrap_box_list" v-for="item in playReceiving" :key="item.id">
-							<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
-								<title title="订单状态"></title>
-								<view class="meetWrap_box_list_order_two">
-									{{ item.state | states }}
-								</view>
-							</view>
-							<template v-if="item.do.length">
-								<title title="需要你做"></title>
-								<view class="list_one_container flex flex--wrap">
-									<view
-										class="list_one_container_term"
-										v-for="value in item.do"
-										:key="value.id"
-									>{{ value.title }}</view>
-								</view>
-							</template>
-							<title title="见面时间"></title>
-							<view class="list_two_container flex flex--align-items--center">
-								<view class="list_two_container_date">{{ item.data.split(' ')[0] }}</view>
-								<view class="list_two_container_time">{{ item.data.split(' ')[1] }}</view>
-								<view class="list_two_container_length">{{ item.time }}小时</view>
-							</view>
-							<title title="见面地点"></title>
-							<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
-								<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
-								<view class="list_three_container_address">{{ item.address }}</view>
-								<view class="list_three_container_num">1人</view>
-							</view>
-							<title title="下单用户"></title>
-							<view class="list_four_container flex flex--align-items--center">
-								<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode="aspectFill"></image>
-								<text>愿意支付</text>
-								<view
-									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
-									<text>¥</text>
-									{{ item.price }}
-								</view>
-							</view>
-						</view>
-					</view>
 				</template>
 				<!-- 暂无数据 -->
 				<template v-else>
@@ -246,7 +210,6 @@
 				switchShow: true,
 				receivingShow: false,
 				playHomeList: [],
-				playReceiving: [],
 				tabList: [
 					{
 						id: 1,
@@ -264,19 +227,20 @@
 				weights: '',
 				intro: '',
 				imageList: ['','','','','',''],
-				pationList: [
-					{
-						id: 1,
-						title: '干饭'
-					},
-					{
-						id: 2,
-						title: '逛街'
-					}
-				]
+				pationText: '',
+				job: '',
+				mobile: ''
 			}
 		},
 		onLoad() {
+			let token = uni.getStorageSync('token')
+			console.log(token)
+			if(!token || token == '') {
+				uni.navigateTo({
+					url: '/pages/login/login'
+				})
+			}
+			this.getPlayWith()
 			this.getPlayHome()
 		},
 		filters: {
@@ -306,14 +270,23 @@
 			// 获取
 			async getPlayHome() {
 				const { data } = await this.$http('/api/play_with/order_list')
-				data.data.forEach(v => {
-					if(v.play_with_state === 0){
-						this.playHomeList.push(v)
-					}else {
-						this.playReceiving.push(v)
-					}
-				})
+				this.playHomeList = data.data
 			},
+			async getPlayWith() {
+				const { data } = await this.$http('/api/play_with/info')
+				if(data.id) {
+					let indexImage = uni.getStorageSync('indexImage')
+					indexImage.forEach((v,i) => {
+						this.$set(this.imageList,v,data.images[i])
+					})
+					this.date = data.birthday
+					this.heights = data.height
+					this.weights = data.weight
+					this.pationText = data.job
+					this.intro = data.intro
+					this.mobile = data.mobile
+				}
+			}, 
 			// 日期
 			bindDateChange(e) {
 				this.date = e.detail.value
@@ -364,11 +337,58 @@
 						icon: 'none',
 						success() {
 							that.receivingShow = false
+							that.getPlayHome()
 						}
 					})
 				}else {
 					uni.showToast({
 						title: '接单失败',
+						icon: 'none'
+					})
+				}
+			},
+			// 修改信息
+			async modifyInfo() {
+				let images = ''
+				let newImage = []
+				let indexImage = []
+				let job = ''
+				let that = this
+				this.imageList.forEach((v,i) => {
+					if(v) {
+						newImage.push(v)
+						indexImage.push(i)
+						uni.setStorageSync('indexImage',indexImage)
+					}
+				})
+				images = newImage.join(',')
+				if(this.job) {
+					job = this.job
+				}else {
+					job = this.pationText
+				}
+				const { status } = await this.$http('/api/play_with/edit',{
+					birthday: this.date,
+					height: this.heights,
+					weight: this.weights,
+					job,
+					intro: this.intro,
+					images,
+					mobile: this.mobile
+				})
+				console.log(status)
+				if(status) {
+					uni.showToast({
+						title: '修改成功',
+						icon: 'none'
+					})
+					setTimeout(() => {
+						that.job = ''
+						that.getPlayWith()
+					},1500)
+				}else {
+					uni.showToast({
+						title: '修改失败',
 						icon: 'none'
 					})
 				}
@@ -539,12 +559,28 @@
 			overflow: auto;
 			.playHome_wrap {
 				width: 100%;
-				padding-bottom: 90rpx;
+				padding-bottom: 80rpx;
 				.playHome_wrap_list {
 					padding: 0 26rpx 156rpx 26rpx;
 					background: #fff;
 					margin-top: 68rpx;
 					position: relative;
+					.meetWrap_box_list_order {
+						view {
+							width: 442rpx;
+							height: 46rpx;
+							line-height: 46rpx;
+							text-align: center;
+							font-size: 26rpx;
+							color: #fff;
+						}
+						.meetWrap_box_list_order_two {
+							background: #8C8C8C;
+						}
+						.meetWrap_box_list_order_one {
+							background: #07ACB6;
+						}
+					}
 					.list_btn {
 						width: 250rpx;
 						height: 90rpx;
@@ -576,37 +612,7 @@
 			}
 			
 		}
-		.playHome_meetWrap {
-			flex: 1;
-			background: #F5F5F6;
-			overflow: auto;
-			.meetWrap_box {
-				.meetWrap_box_list {
-					background: #fff;
-					padding: 0 26rpx 56rpx 26rpx;
-					margin-top: 16rpx;
-					.meetWrap_box_list_order {
-						view {
-							width: 442rpx;
-							height: 46rpx;
-							line-height: 46rpx;
-							text-align: center;
-							font-size: 26rpx;
-							color: #fff;
-						}
-						.meetWrap_box_list_order_one {
-							background: #07ACB6;
-						}
-						.meetWrap_box_list_order_two {
-							background: #8C8C8C;
-						}
-					}
-					&:first-of-type {
-						margin-top: 0;
-					}
-				}
-			}
-		}
+		
 		.playHome_foot {
 			height: 150rpx;
 			background: #F5F5F6;

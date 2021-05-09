@@ -120,22 +120,20 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.__map(_vm.orderDetail.play_with_list, function(item, __i0__) {
-    var $orig = _vm.__get_orig(item)
+  var l0 = _vm.orderDetail.play_with_list.length
+    ? _vm.__map(_vm.orderDetail.play_with_list, function(item, __i0__) {
+        var $orig = _vm.__get_orig(item)
 
-    var g0 = item.image.indexOf("http")
-    return {
-      $orig: $orig,
-      g0: g0
-    }
-  })
+        var g0 = item.image.indexOf("http")
+        return {
+          $orig: $orig,
+          g0: g0
+        }
+      })
+    : null
 
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
-      _vm.paymentShow = false
-    }
-
-    _vm.e1 = function($event) {
       _vm.paymentSuccess = false
     }
   }
@@ -272,10 +270,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       current: 1,
       orderDetail: null,
       paymentShow: false,
-      paymentSuccess: false };
+      paymentSuccess: false,
+      id: 1 };
 
   },
   onLoad: function onLoad(option) {
+    this.id = option.orderId;
     this.getOrderDetail(option.orderId);
   },
   computed: _objectSpread({},
@@ -293,6 +293,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
                 _this.orderDetail = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
     },
+    // 支付返回
+    paymentShowReturn: function paymentShowReturn() {
+      this.paymentShow = false;
+    },
     // 返回上一页
     returnPrev: function returnPrev() {
       uni.navigateBack({
@@ -300,11 +304,13 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
     },
     // 确认选她
-    comfigChoice: function comfigChoice() {
-      this.paymentShow = true;
-      // const { data } = await this.$http('/api/order/define_play_with',{
+    comfigChoice: function comfigChoice() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                _this2.paymentShow = true;_context2.next = 3;return (
+                  _this2.$http('/api/order/define_play_with', {
+                    member_id: _this2.orderDetail.play_with_list[_this2.current - 1].id,
+                    order_id: _this2.id }));case 3:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
 
-      // })
+                console.log(data);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 确认支付
     confirmPayment: function confirmPayment() {

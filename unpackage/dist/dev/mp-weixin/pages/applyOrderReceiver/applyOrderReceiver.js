@@ -257,7 +257,8 @@ var _default =
     // 获取职业标签
     getJob: function getJob() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.$http('/api/tags_job/lists'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
-                _this.jobList = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+                _this.pationText = data[0].title;
+                _this.jobList = data;case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 获取年月日
     bindDateChange: function bindDateChange(e) {

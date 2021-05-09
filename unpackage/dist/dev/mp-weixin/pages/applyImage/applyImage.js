@@ -123,11 +123,6 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  if (!_vm._isMounted) {
-    _vm.e0 = function($event) {
-      _vm.submitShow = false
-    }
-  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -311,35 +306,37 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       }
     },
     // 提交
-    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var images, that, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var images, indexImage, newImage, that, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 images = '';
+                indexImage = [];
+                newImage = [];
                 that = _this2;
                 _this2.imageList.forEach(function (v, i) {
                   if (v) {
-                    images += v + ',';
-                    var arrImg = images.split('');
-                    arrImg.pop();
-                    images = arrImg.join('');
+                    newImage.push(v);
+                    indexImage.push(i);
+                    uni.setStorageSync('indexImage', indexImage);
                   }
-                });if (
-                images) {_context.next = 6;break;}
+                });
+                images = newImage.join(',');if (
+                images) {_context.next = 9;break;}
                 uni.showToast({
                   title: '请选择图片',
-                  icon: 'none' });return _context.abrupt("return");case 6:if (
-
-
-
-                _this2.phone) {_context.next = 9;break;}
-                uni.showToast({
-                  title: '请输入手机号',
                   icon: 'none' });return _context.abrupt("return");case 9:if (
 
 
 
-                _this2.code) {_context.next = 12;break;}
+                _this2.phone) {_context.next = 12;break;}
+                uni.showToast({
+                  title: '请输入手机号',
+                  icon: 'none' });return _context.abrupt("return");case 12:if (
+
+
+
+                _this2.code) {_context.next = 15;break;}
                 uni.showToast({
                   title: '请输入验证码',
-                  icon: 'none' });return _context.abrupt("return");case 12:
+                  icon: 'none' });return _context.abrupt("return");case 15:
 
 
 
@@ -347,8 +344,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                 _this2.params.mobile = _this2.phone;
                 _this2.params.code = _this2.code;
 
-                _this2.$store.commit('setApplyData', _this2.params);_context.next = 18;return (
-                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+                _this2.$store.commit('setApplyData', _this2.params);_context.next = 21;return (
+                  _this2.$http('/api/play_with/apply', _this2.params));case 21:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
                 if (status) {
                   uni.showToast({
                     title: '提交成功',
@@ -362,7 +359,13 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     title: '提交失败',
                     icon: 'none' });
 
-                }case 22:case "end":return _context.stop();}}}, _callee);}))();
+                }case 25:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    submitShowFalse: function submitShowFalse() {
+      this.submitShow = false;
+      uni.navigateTo({
+        url: '/pages/playHome/playHome' });
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

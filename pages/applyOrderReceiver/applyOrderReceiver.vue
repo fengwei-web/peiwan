@@ -99,6 +99,7 @@
 			// 获取职业标签
 			async getJob() {
 				const { data } = await this.$http('/api/tags_job/lists')
+				this.pationText = data[0].title
 				this.jobList = data
 			},
 			// 获取年月日

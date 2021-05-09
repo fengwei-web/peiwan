@@ -63,7 +63,7 @@
 			<view class="image_one_list">
 				以<text>短信的形式</text>通知到你哈~
 			</view>
-			<view class="image_one_btn" @click="submitShow = false">好的</view>
+			<view class="image_one_btn" @click="submitShowFalse">好的</view>
 		</view>
 		<!-- 弹出框2 审核未通过 -->
 		<view
@@ -150,15 +150,17 @@
 			// 提交
 			async setSubmit() {
 				let images = ''
+				let indexImage = []
+				let newImage = []
 				let that = this
 				this.imageList.forEach((v,i) => {
 					if(v) {
-						images += v + ',';
-						let arrImg = images.split('')
-						arrImg.pop()
-						images = arrImg.join('')
+						newImage.push(v)
+						indexImage.push(i)
+						uni.setStorageSync('indexImage',indexImage)
 					}
 				})
+				images = newImage.join(',')
 				if(!images){
 					uni.showToast({
 						title: '请选择图片',
@@ -200,6 +202,12 @@
 						icon: 'none'
 					})
 				}
+			},
+			submitShowFalse(){
+				this.submitShow = false
+				uni.navigateTo({
+					url: '/pages/playHome/playHome'
+				})
 			}
 		}
 	}

@@ -10,18 +10,18 @@
 					interval="2500"
 					@change="swiperChange"
 				>
-					<swiper-item v-for="item in orderDetail.play_with_list" :key="item">
-						<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode=""></image>
-						<view class="swiper_box">
-							<view class="swiper_box_title">{{ item.nickname }}</view>
-							<view class="swiper_box_info">168cm / 48kg / 24 / 双子座</view>
-							<view class="swiper_box_foot flex flex--align-items--center">
-								<view class="swiper_box_foot_left">北京</view>
-								<text>·</text>
-								<view>朝阳区</view>
+					<template v-if="orderDetail.play_with_list.length">
+						<swiper-item v-for="item in orderDetail.play_with_list" :key="item">
+							<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode=""></image>
+							<view class="swiper_box">
+								<view class="swiper_box_title">{{ item.nickname }}</view>
+								<view class="swiper_box_info">{{ item.height }}cm / {{ item.weight }}kg</view>
+								<view class="swiper_box_foot flex flex--align-items--center">
+									<view class="swiper_box_foot_left">{{ item.city !== null? item.city : '暂无' }}</view>
+								</view>
 							</view>
-						</view>
-					</swiper-item>
+						</swiper-item>
+					</template>
 				</swiper>
 				<view class="swiper_dots flex flex--align-items--center">{{ current }}<text>/</text>3</view>
 			</view>
@@ -67,7 +67,7 @@
 				<view>金额将<text>原路返回</text>到您的支付账户</view>
 			</view>
 			<view class="config_popon_foot flex flex--align-items--center flex--justify-content--space-between">
-				<view class="popon_foot_left" @click="paymentShow = false">返回</view>
+				<view class="popon_foot_left" @click="paymentShowReturn">返回</view>
 				<view class="popon_foot_right" @click="confirmPayment">确认支付</view>
 			</view>
 		</view>
@@ -89,10 +89,12 @@
 				current: 1,
 				orderDetail: null,
 				paymentShow: false,
-				paymentSuccess: false
+				paymentSuccess: false,
+				id: 1
 			}
 		},
 		onLoad(option) {
+			this.id = option.orderId
 			this.getOrderDetail(option.orderId)
 		},
 		computed: {
@@ -110,6 +112,10 @@
 				})
 				this.orderDetail = data
 			},
+			// 支付返回
+			paymentShowReturn() {
+				this.paymentShow = false
+			},
 			// 返回上一页
 			returnPrev() {
 				uni.navigateBack({
@@ -117,11 +123,13 @@
 				})
 			},
 			// 确认选她
-			comfigChoice() {
+			async comfigChoice() {
 				this.paymentShow = true
-				// const { data } = await this.$http('/api/order/define_play_with',{
-					
-				// })
+				const { data } = await this.$http('/api/order/define_play_with',{
+					member_id: this.orderDetail.play_with_list[this.current-1].id,
+					order_id: this.id
+				})
+				console.log(data)
 			},
 			// 确认支付
 			confirmPayment() {
