@@ -22,6 +22,7 @@
 		},
 		methods: {
 			getUserInfo() {
+				let that = this;
 				uni.getUserProfile({
 					desc: '用于展示',
 					success(user) {

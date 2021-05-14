@@ -98,6 +98,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
   methods: {
     getUserInfo: function getUserInfo() {
+      var that = this;
       uni.getUserProfile({
         desc: '用于展示',
         success: function success(user) {
