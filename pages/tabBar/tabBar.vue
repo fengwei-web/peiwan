@@ -7,7 +7,7 @@
 				<template v-if="isShow">
 					<view class="index_head_con_btn" @click="goApply">申请接单师</view>
 				</template>
-				<text class="index_head_con_title">OneFun</text>
+				<text class="index_head_con_title">OneBan</text>
 			</view>
 		</view>
 		<view class="box">
@@ -35,14 +35,20 @@
 		</view>
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(1)">
-				<view>
+				<view v-if="isShow" style="width: 50rpx;">
+					<image src="../../static/image/home_ac.jpg" style="width: 50rpx;" mode="widthFix"></image>
+				</view>
+				<view v-else style="width: 122rpx;">
 					<image src="../../static/image/home.png" mode="widthFix"></image>
 				</view>
 				<text>首页</text>
 			</view>
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(2)" style="margin-left: 216rpx;">
-				<view>
+				<view v-if="!isShow">
 					<image src="../../static/image/my.png" mode="widthFix"></image>
+				</view>
+				<view style="width: 122rpx;" v-else>
+					<image src="../../static/image/home.png" style="width: 122rpx;" mode="widthFix"></image>
 				</view>
 				<text>个人中心</text>
 			</view>
@@ -231,12 +237,12 @@
 				view {
 					height: 58rpx;
 					image {
-						width: 40rpx;
+						width: 45rpx;
 					}
 				}
 				text {
 					margin-top: 8rpx;
-					font-size: 20rpx;
+					font-size: 26rpx;
 				}
 				&:first-of-type image {
 					width: 122rpx;

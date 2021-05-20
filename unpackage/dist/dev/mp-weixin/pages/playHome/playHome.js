@@ -460,9 +460,11 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   _this2.$http('/api/play_with/info'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
                 if (data.id) {
                   indexImage = uni.getStorageSync('indexImage');
-                  indexImage.forEach(function (v, i) {
-                    _this2.$set(_this2.imageList, v, data.images[i]);
-                  });
+                  if (indexImage) {
+                    indexImage.forEach(function (v, i) {
+                      _this2.$set(_this2.imageList, v, data.images[i]);
+                    });
+                  }
                   _this2.date = data.birthday;
                   _this2.heights = data.height;
                   _this2.weights = data.weight;
@@ -545,12 +547,19 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     uni.setStorageSync('indexImage', indexImage);
                   }
                 });
-                images = newImage.join(',');
+                images = newImage.join(',');if (
+                images) {_context4.next = 10;break;}
+                uni.showToast({
+                  title: '请添加图片',
+                  icon: 'none' });return _context4.abrupt("return");case 10:
+
+
+
                 if (_this4.job) {
                   job = _this4.job;
                 } else {
                   job = _this4.pationText;
-                }_context4.next = 10;return (
+                }_context4.next = 13;return (
                   _this4.$http('/api/play_with/edit', {
                     birthday: _this4.date,
                     height: _this4.heights,
@@ -558,9 +567,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     job: job,
                     intro: _this4.intro,
                     images: images,
-                    mobile: _this4.mobile }));case 10:_yield$_this4$$http = _context4.sent;status = _yield$_this4$$http.status;
+                    mobile: _this4.mobile }));case 13:_yield$_this4$$http = _context4.sent;status = _yield$_this4$$http.status;
 
-                console.log(status);
                 if (status) {
                   uni.showToast({
                     title: '修改成功',
@@ -575,7 +583,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     title: '修改失败',
                     icon: 'none' });
 
-                }case 14:case "end":return _context4.stop();}}}, _callee4);}))();
+                }case 16:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // tab切换
     setTab: function setTab(index) {

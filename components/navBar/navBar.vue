@@ -6,7 +6,7 @@
 			@click="returnPrev"
 		>
 			<image src="../../static/image/return.png" mode=""></image>
-			<text class="index_head_con_title">OneFun</text>
+			<text class="index_head_con_title">OneBan</text>
 		</view>
 	</view>
 </template>

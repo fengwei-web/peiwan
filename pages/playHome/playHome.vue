@@ -275,9 +275,11 @@
 				const { data } = await this.$http('/api/play_with/info')
 				if(data.id) {
 					let indexImage = uni.getStorageSync('indexImage')
-					indexImage.forEach((v,i) => {
-						this.$set(this.imageList,v,data.images[i])
-					})
+					if(indexImage){
+						indexImage.forEach((v,i) => {
+							this.$set(this.imageList,v,data.images[i])
+						})
+					}
 					this.date = data.birthday
 					this.heights = data.height
 					this.weights = data.weight
@@ -361,6 +363,13 @@
 					}
 				})
 				images = newImage.join(',')
+				if(!images){
+					uni.showToast({
+						title: '请添加图片',
+						icon: 'none'
+					})
+					return
+				}
 				if(this.job) {
 					job = this.job
 				}else {
@@ -375,7 +384,6 @@
 					images,
 					mobile: this.mobile
 				})
-				console.log(status)
 				if(status) {
 					uni.showToast({
 						title: '修改成功',

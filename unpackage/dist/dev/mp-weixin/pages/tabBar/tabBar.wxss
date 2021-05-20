@@ -513,11 +513,11 @@
   height: 58rpx;
 }
 .tabBar .tabBar_foot .tabBar_foot_list view image {
-  width: 40rpx;
+  width: 45rpx;
 }
 .tabBar .tabBar_foot .tabBar_foot_list text {
   margin-top: 8rpx;
-  font-size: 20rpx;
+  font-size: 26rpx;
 }
 .tabBar .tabBar_foot .tabBar_foot_list:first-of-type image {
   width: 122rpx;
