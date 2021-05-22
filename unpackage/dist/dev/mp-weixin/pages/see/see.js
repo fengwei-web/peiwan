@@ -313,14 +313,32 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                 console.log(data);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 确认支付
-    confirmPayment: function confirmPayment() {
-      uni.showToast({
-        title: '暂未开通',
-        icon: 'none' });
+    confirmPayment: function confirmPayment() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                that = _this3;_context3.next = 3;return (
+                  _this3.$http('/api/order/pay', {
+                    order_sn: _this3.orderDetail.order_sn }));case 3:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
 
-      // uni.requestPayment({
-      // 	provider
-      // })
+                uni.requestPayment({
+                  provider: 'wxpay',
+                  orderInfo: data,
+                  timeStamp: data.timeStamp,
+                  nonceStr: data.nonceStr,
+                  package: data.package,
+                  signType: data.signType,
+                  paySign: data.paySign,
+                  success: function success(res) {
+                    uni.showToast({
+                      title: '支付成功',
+                      icon: 'none',
+                      success: function success() {
+                        that.paymentShow = false;
+                      } });
+
+                  },
+                  fail: function fail(err) {
+                    console.log(err);
+                  } });case 6:case "end":return _context3.stop();}}}, _callee3);}))();
+
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

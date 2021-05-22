@@ -512,10 +512,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.orderId = id;
     },
     // 接单确认
-    confirm: function confirm() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, data, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    confirm: function confirm() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, data, status, msg;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 that = _this3;_context3.next = 3;return (
                   _this3.$http('/api/play_with/receive_order', {
-                    order_id: _this3.orderId }));case 3:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;status = _yield$_this3$$http.status;
+                    order_id: _this3.orderId }));case 3:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;status = _yield$_this3$$http.status;msg = _yield$_this3$$http.msg;
 
                 if (status) {
                   uni.showToast({
@@ -528,10 +528,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
                 } else {
                   uni.showToast({
-                    title: '接单失败',
+                    title: msg,
                     icon: 'none' });
 
-                }case 7:case "end":return _context3.stop();}}}, _callee3);}))();
+                }case 8:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 修改信息
     modifyInfo: function modifyInfo() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var images, newImage, indexImage, job, that, _yield$_this4$$http, status;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:

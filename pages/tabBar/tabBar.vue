@@ -28,6 +28,7 @@
 				:codeImage="codeImage"
 				:wxCode="wxCode"
 				:userInfo="userInfo"
+				:orderCount="orderCount"
 				@returnMy = "returnMy"
 				@openAddKuWeixin="openAddKuWeixin"
 				@openAddPersonalWeixin="openAddPersonalWeixin"
@@ -75,7 +76,8 @@
 				addPersonalWeixin: false,
 				codeImage: '',
 				wxCode: '',
-				userInfo: null
+				userInfo: null,
+				orderCount: null
 			}
 		},
 		watch: {
@@ -97,6 +99,7 @@
 					url: '/pages/login/login'
 				})
 			}else {
+				this.getOrderCount()
 				this.getUserInfo()
 			}
 		},
@@ -119,6 +122,11 @@
 			async getBanner() {
 				const { data } = await this.$http('/api/banner/lists')
 				this.swiperList = data
+			},
+			// 获取订单数量
+			async getOrderCount() {
+				const { data } = await this.$http('/api/order/order_count')
+				this.orderCount = data
 			},
 			// 获取标签
 			async getLabel() {

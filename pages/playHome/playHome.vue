@@ -144,7 +144,7 @@
 							</view>
 							<view
 								class="list_btn flex flex--align-items--center flex--justify-content--center"
-								v-if="item.play_with_state === 0 && item.state !== 4"
+								v-if="item.play_with_state === 0 && item.state === 1"
 								@click="myWantOrder(item.id)"
 							>
 								<text></text>
@@ -329,7 +329,7 @@
 			// 接单确认
 			async confirm() {
 				let that = this;
-				const { data, status } = await this.$http('/api/play_with/receive_order', {
+				const { data, status,msg } = await this.$http('/api/play_with/receive_order', {
 					order_id: this.orderId
 				})
 				if(status){
@@ -343,7 +343,7 @@
 					})
 				}else {
 					uni.showToast({
-						title: '接单失败',
+						title: msg,
 						icon: 'none'
 					})
 				}

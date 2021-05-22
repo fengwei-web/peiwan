@@ -1,4 +1,4 @@
-const baseUrl = 'http://139.159.148.119';
+const baseUrl = 'http://peiwan.test02.qcw100.com:8000';
 
 export default {
 	request(url,data = {},header={}) {

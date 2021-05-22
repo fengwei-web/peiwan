@@ -213,6 +213,9 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       type: String },
 
     userInfo: {
+      type: Object },
+
+    orderCount: {
       type: Object } },
 
 
@@ -260,6 +263,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       codeImageData: '',
       myCode: '' };
 
+  },
+  created: function created() {
+    this.orderTabList[0].count = this.orderCount.jinxingzhong;
+    this.orderTabList[1].count = this.orderCount.yiwancheng;
+    this.orderTabList[2].count = this.orderCount.quxiaozhong;
+    this.orderTabList[3].count = this.orderCount.yiquxiao;
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['baseUrl'])),

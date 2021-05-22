@@ -14,7 +14,7 @@
 						class="my_order_box_list flex flex--row flex--align-items--center"
 						@click="goOrder(item.id)"
 					>
-						<text>1</text>
+						<text>{{ item.count }}</text>
 						<view>{{ item.title }}</view>
 					</view>
 				</block>
@@ -98,6 +98,9 @@
 			},
 			userInfo: {
 				type: Object
+			},
+			orderCount: {
+				type: Object
 			}
 		},
 		data() {
@@ -144,6 +147,12 @@
 				codeImageData: '',
 				myCode: ''
 			}
+		},
+		created() {
+			this.orderTabList[0].count = this.orderCount.jinxingzhong
+			this.orderTabList[1].count = this.orderCount.yiwancheng
+			this.orderTabList[2].count = this.orderCount.quxiaozhong
+			this.orderTabList[3].count = this.orderCount.yiquxiao
 		},
 		computed: {
 			...mapState(['baseUrl'])

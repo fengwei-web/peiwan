@@ -23,7 +23,7 @@
 						</swiper-item>
 					</template>
 				</swiper>
-				<view class="swiper_dots flex flex--align-items--center">{{ current }}<text>/</text>3</view>
+				<view class="swiper_dots flex flex--align-items--center">{{ current }}<text>/</text>{{ orderDetail.play_with_list.length }}</view>
 			</view>
 			<!-- 内容 -->
 			<view class="see_box_container">
@@ -132,14 +132,32 @@
 				console.log(data)
 			},
 			// 确认支付
-			confirmPayment() {
-				uni.showToast({
-					title: '暂未开通',
-					icon: 'none'
+			async confirmPayment() {
+				let that = this
+				const { data } = await this.$http('/api/order/pay',{
+					order_sn: this.orderDetail.order_sn
 				})
-				// uni.requestPayment({
-				// 	provider
-				// })
+				uni.requestPayment({
+					provider: 'wxpay',
+					orderInfo: data,
+					timeStamp: data.timeStamp,
+					nonceStr: data.nonceStr,
+					package: data.package,
+					signType: data.signType,
+					paySign: data.paySign,
+					success(res) {
+						uni.showToast({
+							title: '支付成功',
+							icon: 'none',
+							success() {
+								that.paymentShow = false
+							}
+						})
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			}
 		}
 	}
