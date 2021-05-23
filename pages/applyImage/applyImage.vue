@@ -19,7 +19,7 @@
 						@click="uploadImage(index)"
 					>
 						<text v-if="item == ''">添加图片</text>
-						<image v-else :src="baseUrl + item" mode="aspectFill"></image>
+						<image v-else :src="baseUrl + item" mode="aspectFit"></image>
 					</view>
 				</view>
 				<view class="image_album_tip">* 请上传本人的的仙女自拍/网图不通过</view>
@@ -149,18 +149,9 @@
 			},
 			// 提交
 			async setSubmit() {
-				let images = ''
-				let indexImage = []
-				let newImage = []
 				let that = this
-				this.imageList.forEach((v,i) => {
-					if(v) {
-						newImage.push(v)
-						indexImage.push(i)
-						uni.setStorageSync('indexImage',indexImage)
-					}
-				})
-				images = newImage.join(',')
+				let images = ''
+				images = this.imageList.join(',')
 				if(!images){
 					uni.showToast({
 						title: '请选择图片',

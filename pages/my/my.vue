@@ -216,7 +216,14 @@
 			menuOpen(id) {
 				switch(id) {
 					case 1:
-						this.$emit('openAddPersonalWeixin')
+						if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
+							this.$emit('openAddPersonalWeixin')
+						}else {
+							uni.showToast({
+								title: '您已经添加过微信了',
+								icon: 'none'
+							})
+						}
 					break;
 					case 2:
 						this.$emit('openAddKuWeixin')

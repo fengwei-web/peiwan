@@ -233,12 +233,6 @@
 			}
 		},
 		onLoad() {
-			let token = uni.getStorageSync('token')
-			if(!token || token == '') {
-				uni.navigateTo({
-					url: '/pages/login/login'
-				})
-			}
 			this.getPlayWith()
 			this.getPlayHome()
 		},
@@ -274,12 +268,7 @@
 			async getPlayWith() {
 				const { data } = await this.$http('/api/play_with/info')
 				if(data.id) {
-					let indexImage = uni.getStorageSync('indexImage')
-					if(indexImage){
-						indexImage.forEach((v,i) => {
-							this.$set(this.imageList,v,data.images[i])
-						})
-					}
+					this.imageList = data.images.split(',')
 					this.date = data.birthday
 					this.heights = data.height
 					this.weights = data.weight

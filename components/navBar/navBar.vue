@@ -20,6 +20,7 @@
 		},
 		methods: {
 			returnPrev() {
+				console.log('111')
 				uni.navigateBack({
 					delta: 1
 				})

@@ -5,7 +5,12 @@
 			<view class="status_bar"></view>
 			<view class="index_head_con flex flex--align-items--center flex--justify-content--center">
 				<template v-if="isShow">
-					<view class="index_head_con_btn" @click="goApply">申请接单师</view>
+					<template v-if="identity === 1">
+						<view class="index_head_con_btn" @click="goApply">申请接单师</view>
+					</template>
+					<template v-else-if="identity === 2">
+						<view class="index_head_con_btn" @click="goPlayHome">接单工作台</view>
+					</template>
 				</template>
 				<text class="index_head_con_title">OneBan</text>
 			</view>
@@ -36,7 +41,7 @@
 		</view>
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(1)">
-				<view v-if="isShow" style="width: 50rpx;">
+				<view v-if="!isShow" style="width: 50rpx;">
 					<image src="../../static/image/home_ac.jpg" style="width: 50rpx;" mode="widthFix"></image>
 				</view>
 				<view v-else style="width: 122rpx;">
@@ -45,7 +50,7 @@
 				<text>首页</text>
 			</view>
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(2)" style="margin-left: 216rpx;">
-				<view v-if="!isShow">
+				<view v-if="isShow">
 					<image src="../../static/image/my.png" mode="widthFix"></image>
 				</view>
 				<view style="width: 122rpx;" v-else>
@@ -77,7 +82,8 @@
 				codeImage: '',
 				wxCode: '',
 				userInfo: null,
-				orderCount: null
+				orderCount: null,
+				identity: null
 			}
 		},
 		watch: {
@@ -95,9 +101,11 @@
 		},
 		onShow() {
 			if(!uni.getStorageSync('token')){
-				uni.navigateTo({
-					url: '/pages/login/login'
-				})
+				setTimeout(() => {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+				},3000)
 			}else {
 				this.getOrderCount()
 				this.getUserInfo()
@@ -111,11 +119,41 @@
 		},
 		methods: {
 			goApply() {
-				console.log()
-				if(this.userInfo.identity === 1){
+				if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
+					uni.showToast({
+						title: '请添加微信信息',
+						icon: 'none'
+					})
+				}else {
 					uni.navigateTo({
 						url: '/pages/apply/apply'
 					})
+				}
+			},
+			async goPlayHome() {
+				const { data } = await this.$http('/api/play_with/info')
+				data.state = 1
+				if(data.state === 2) {
+					uni.navigateTo({
+						url: '/pages/playHome/playHome'
+					})
+				}else {
+					if(data.state === 1){
+						uni.showToast({
+							title: '审核中',
+							icon: 'none'
+						})
+					}else {
+						uni.showToast({
+							title: '已驳回',
+							icon: 'none'
+						})
+					}
+					setTimeout(()=>{
+						uni.navigateTo({
+							url: '/pages/playHome/playHome'
+						})
+					},1500)
 				}
 			},
 			// 获取轮播图
@@ -148,10 +186,13 @@
 			getAddress() {
 				
 			},
+			// 获取个人信息
 			async getUserInfo() {
 				const { data } = await this.$http('/api/member/info')
 				this.userInfo = data
+				this.identity = data.identity
 			},
+			
 			// index页面（标签）传过来的值
 			setLabel(labelList) {
 				this.labelList = labelList;
@@ -231,7 +272,8 @@
 					left: 14rpx;
 				}
 				.index_head_con_title {
-					font-size: 22rpx;
+					font-size: 24rpx;
+					font-weight: bold;
 				}
 			}
 		}

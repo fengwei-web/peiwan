@@ -136,6 +136,7 @@ var _default =
   },
   methods: {
     returnPrev: function returnPrev() {
+      console.log('111');
       uni.navigateBack({
         delta: 1 });
 

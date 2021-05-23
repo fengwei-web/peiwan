@@ -418,12 +418,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
   },
   onLoad: function onLoad() {
-    var token = uni.getStorageSync('token');
-    if (!token || token == '') {
-      uni.navigateTo({
-        url: '/pages/login/login' });
-
-    }
     this.getPlayWith();
     this.getPlayHome();
   },
@@ -456,15 +450,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   _this.$http('/api/play_with/order_list'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
                 _this.playHomeList = data.data;case 5:case "end":return _context.stop();}}}, _callee);}))();
     },
-    getPlayWith: function getPlayWith() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data, indexImage;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+    getPlayWith: function getPlayWith() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   _this2.$http('/api/play_with/info'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
                 if (data.id) {
-                  indexImage = uni.getStorageSync('indexImage');
-                  if (indexImage) {
-                    indexImage.forEach(function (v, i) {
-                      _this2.$set(_this2.imageList, v, data.images[i]);
-                    });
-                  }
+                  _this2.imageList = data.images.split(',');
                   _this2.date = data.birthday;
                   _this2.heights = data.height;
                   _this2.weights = data.weight;

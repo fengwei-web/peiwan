@@ -498,7 +498,8 @@
   left: 14rpx;
 }
 .tabBar .index_head .index_head_con .index_head_con_title {
-  font-size: 22rpx;
+  font-size: 24rpx;
+  font-weight: bold;
 }
 .tabBar .box {
   -webkit-box-flex: 1;

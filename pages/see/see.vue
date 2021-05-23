@@ -1,76 +1,83 @@
 <template>
 	<view class="see flex flex--row">
 		<navBar></navBar>
-		<view class="see_box">
-			<!-- 轮播图 -->
-			<view class="see_banner">
-				<swiper
-					class="swiper"
-					circular="circular"
-					interval="2500"
-					@change="swiperChange"
-				>
+		<swiper class="see_box">
+			<swiper-item v-for="msg in orderDetail.play_with_list" :key="msg.id">
+				<scroll-view scroll-y="true" style="height: 100%;">
+					<!-- 轮播图 -->
 					<template v-if="orderDetail.play_with_list.length">
-						<swiper-item v-for="item in orderDetail.play_with_list" :key="item">
-							<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode=""></image>
-							<view class="swiper_box">
-								<view class="swiper_box_title">{{ item.nickname }}</view>
-								<view class="swiper_box_info">{{ item.height }}cm / {{ item.weight }}kg</view>
-								<view class="swiper_box_foot flex flex--align-items--center">
-									<view class="swiper_box_foot_left">{{ item.city !== null? item.city : '暂无' }}</view>
-								</view>
-							</view>
-						</swiper-item>
+						<view class="see_banner">
+							<swiper
+								class="swiper"
+								circular="circular"
+								interval="2500"
+								@change="swiperChange"
+							>
+									<swiper-item v-for="item in msg.image" :key="item">
+										<image :src="baseUrl + item" mode="aspectFill"></image>
+										<view class="swiper_box">
+											<view class="swiper_box_title">{{ msg.nickname }}</view>
+											<view class="swiper_box_info">{{ msg.height }}cm / {{ msg.weight }}kg</view>
+											<view class="swiper_box_foot flex flex--align-items--center">
+												<view class="swiper_box_foot_left">{{ msg.city !== null? msg.city : '暂无' }}</view>
+											</view>
+										</view>
+									</swiper-item>
+							</swiper>
+							<view class="swiper_dots flex flex--align-items--center">{{ current }}<text>/</text>{{ msg.image.length }}</view>
+						</view>
 					</template>
-				</swiper>
-				<view class="swiper_dots flex flex--align-items--center">{{ current }}<text>/</text>{{ orderDetail.play_with_list.length }}</view>
-			</view>
-			<!-- 内容 -->
-			<view class="see_box_container">
-				<view class="container_title">订单信息</view>
-				<view class="container_box">
-					<view class="container_box_list flex flex--align-items--center">
-						<view class="container_box_list_left">喊TA做什么：</view>
-						<view class="container_box_list_right">{{ orderDetail.do }}</view>
+					<!-- 内容 -->
+					<view class="see_box_container">
+						<view class="container_title">订单信息</view>
+						<view class="container_box">
+							<view class="container_box_list flex flex--align-items--center">
+								<view class="container_box_list_left">喊TA做什么：</view>
+								<view class="container_box_list_right">{{ orderDetail.do }}</view>
+							</view>
+							<view class="container_box_list flex flex--align-items--center">
+								<view class="container_box_list_left">见面地点：</view>
+								<view class="container_box_list_right">{{ orderDetail.address }}</view>
+							</view>
+							<view class="container_box_list flex flex--align-items--center">
+								<view class="container_box_list_left">见面时间：</view>
+								<view class="container_box_list_right">{{ orderDetail.data }} {{orderDetail.time}}小时</view>
+							</view>
+							<view class="container_box_list flex flex--align-items--center">
+								<view class="container_box_list_left">预计支付的金额：</view>
+								<view class="container_box_list_right" style="color: #0AAFB9;">￥{{ orderDetail.price }}</view>
+							</view>
+							<view class="container_box_foot flex flex--align-items--center flex--justify-content--space-between">
+								<view class="container_box_foot_left" @click="returnPrev">返回</view>
+								<view class="container_box_foot_right" @click="comfigChoice(msg.id)">确认选TA</view>
+							</view>
+						</view>
 					</view>
-					<view class="container_box_list flex flex--align-items--center">
-						<view class="container_box_list_left">见面地点：</view>
-						<view class="container_box_list_right">{{ orderDetail.address }}</view>
-					</view>
-					<view class="container_box_list flex flex--align-items--center">
-						<view class="container_box_list_left">见面时间：</view>
-						<view class="container_box_list_right">{{ orderDetail.data }} {{orderDetail.time}}小时</view>
-					</view>
-					<view class="container_box_list flex flex--align-items--center">
-						<view class="container_box_list_left">预计支付的金额：</view>
-						<view class="container_box_list_right" style="color: #0AAFB9;">￥{{ orderDetail.price }}</view>
-					</view>
-					<view class="container_box_foot flex flex--align-items--center flex--justify-content--space-between">
-						<view class="container_box_foot_left" @click="returnPrev">返回</view>
-						<view class="container_box_foot_right" @click="comfigChoice">确认选TA</view>
-					</view>
-				</view>
-			</view>
-		</view>
+				</scroll-view>
+			</swiper-item>
+		</swiper>
 		<!-- 确认支付弹框 -->
-		<view class="config_popon" v-if="paymentShow">
-			<view class="config_popon_head flex flex--align-items--center flex flex--justify-content--space-between">
-				<view class="popon_head_title">你需要支付的金额</view>
-				<view class="popon_head_price flex flex--align-items--center flex--justify-content--center">
-					<text>￥</text>
-					{{ orderDetail.price }}
+		<template v-if="paymentShow">
+			<view class="config_popon">
+				<view class="config_popon_head flex flex--align-items--center flex flex--justify-content--space-between">
+					<view class="popon_head_title">你需要支付的金额</view>
+					<view class="popon_head_price flex flex--align-items--center flex--justify-content--center">
+						<text>￥</text>
+						{{ orderDetail.price }}
+					</view>
+				</view>
+				<view class="config_popon_con">
+					<view>支付后，TA将会在<text>30分钟内</text>添加你的微信。</view>
+					<view>订单进行中有任何问题，请先联系客服！如取消订单，</view>
+					<view>金额将<text>原路返回</text>到您的支付账户</view>
+				</view>
+				<view class="config_popon_foot flex flex--align-items--center flex--justify-content--space-between">
+					<view class="popon_foot_left" @click="paymentShowReturn">返回</view>
+					<view class="popon_foot_right" @click="confirmPayment">确认支付</view>
 				</view>
 			</view>
-			<view class="config_popon_con">
-				<view>支付后，TA将会在<text>30分钟内</text>添加你的微信。</view>
-				<view>订单进行中有任何问题，请先联系客服！如取消订单，</view>
-				<view>金额将<text>原路返回</text>到您的支付账户</view>
-			</view>
-			<view class="config_popon_foot flex flex--align-items--center flex--justify-content--space-between">
-				<view class="popon_foot_left" @click="paymentShowReturn">返回</view>
-				<view class="popon_foot_right" @click="confirmPayment">确认支付</view>
-			</view>
-		</view>
+		</template>
+		
 		<!-- 支付成功弹框 -->
 		<template v-if="paymentSuccess">
 			<view class="pay_success flex flex--row flex--align-items--center flex--justify-content--center">
@@ -123,17 +130,18 @@
 				})
 			},
 			// 确认选她
-			async comfigChoice() {
-				this.paymentShow = true
-				const { data } = await this.$http('/api/order/define_play_with',{
-					member_id: this.orderDetail.play_with_list[this.current-1].id,
-					order_id: this.id
-				})
-				console.log(data)
+			async comfigChoice(id) {
+				if(this.orderDetail.play_with_list.length){
+					this.paymentShow = true
+				}
 			},
 			// 确认支付
 			async confirmPayment() {
 				let that = this
+				const { data: res } = await this.$http('/api/order/define_play_with',{
+					member_id: id,
+					order_id: this.id
+				})
 				const { data } = await this.$http('/api/order/pay',{
 					order_sn: this.orderDetail.order_sn
 				})
@@ -168,7 +176,6 @@
 		height: 100%;
 		.see_box {
 			flex: 1;
-			overflow: auto;
 			.see_banner {
 				position: relative;
 				swiper {

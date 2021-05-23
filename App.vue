@@ -1,12 +1,12 @@
 <script>
 	export default {
 		async onLaunch() {
-			const { data } = await this.$http('/api/member/info')
-			if(data.identity === 2){
-				uni.reLaunch({
-					url: '/pages/playHome/playHome'
-				})
-			}
+			// const { data } = await this.$http('/api/member/info')
+			// if(data.identity === 2){
+			// 	uni.reLaunch({
+			// 		url: '/pages/playHome/playHome'
+			// 	})
+			// }
 		},
 		onShow: function() {
 			console.log('App Show')

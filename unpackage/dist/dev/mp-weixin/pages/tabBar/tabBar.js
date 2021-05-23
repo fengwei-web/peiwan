@@ -201,6 +201,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
 var _index = _interopRequireDefault(__webpack_require__(/*! ../index/index */ 23));
 var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
@@ -220,7 +225,8 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
       codeImage: '',
       wxCode: '',
       userInfo: null,
-      orderCount: null };
+      orderCount: null,
+      identity: null };
 
   },
   watch: {
@@ -238,9 +244,11 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
   },
   onShow: function onShow() {
     if (!uni.getStorageSync('token')) {
-      uni.navigateTo({
-        url: '/pages/login/login' });
+      setTimeout(function () {
+        uni.navigateTo({
+          url: '/pages/login/login' });
 
+      }, 3000);
     } else {
       this.getOrderCount();
       this.getUserInfo();
@@ -254,47 +262,80 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
   },
   methods: {
     goApply: function goApply() {
-      console.log();
-      if (this.userInfo.identity === 1) {
+      if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
+        uni.showToast({
+          title: '请添加微信信息',
+          icon: 'none' });
+
+      } else {
         uni.navigateTo({
           url: '/pages/apply/apply' });
 
       }
     },
+    goPlayHome: function goPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/play_with/info'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+                data.state = 1;
+                if (data.state === 2) {
+                  uni.navigateTo({
+                    url: '/pages/playHome/playHome' });
+
+                } else {
+                  if (data.state === 1) {
+                    uni.showToast({
+                      title: '审核中',
+                      icon: 'none' });
+
+                  } else {
+                    uni.showToast({
+                      title: '已驳回',
+                      icon: 'none' });
+
+                  }
+                  setTimeout(function () {
+                    uni.navigateTo({
+                      url: '/pages/playHome/playHome' });
+
+                  }, 1500);
+                }case 6:case "end":return _context.stop();}}}, _callee);}))();
+    },
     // 获取轮播图
-    getBanner: function getBanner() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$http('/api/banner/lists'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
-                _this.swiperList = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    getBanner: function getBanner() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/banner/lists'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
+                _this2.swiperList = data;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 获取订单数量
-    getOrderCount: function getOrderCount() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this2.$http('/api/order/order_count'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
-                _this2.orderCount = data;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    getOrderCount: function getOrderCount() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.$http('/api/order/order_count'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
+                _this3.orderCount = data;case 5:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 获取标签
-    getLabel: function getLabel() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this3.$http('/api/tags_do/lists'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
+    getLabel: function getLabel() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this4.$http('/api/tags_do/lists'));case 2:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this3.labelList = data;case 6:case "end":return _context3.stop();}}}, _callee3);}))();
+                _this4.labelList = data;case 6:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // 获取金额
-    getMoney: function getMoney() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
-                  _this4.$http('/api/tags_price/lists'));case 2:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;
+    getMoney: function getMoney() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+                  _this5.$http('/api/tags_price/lists'));case 2:_yield$_this5$$http = _context5.sent;data = _yield$_this5$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this4.moneyList = data;case 6:case "end":return _context4.stop();}}}, _callee4);}))();
+                _this5.moneyList = data;case 6:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     // 获取当前位置
     getAddress: function getAddress() {
 
     },
-    getUserInfo: function getUserInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-                  _this5.$http('/api/member/info'));case 2:_yield$_this5$$http = _context5.sent;data = _yield$_this5$$http.data;
-                _this5.userInfo = data;case 5:case "end":return _context5.stop();}}}, _callee5);}))();
+    // 获取个人信息
+    getUserInfo: function getUserInfo() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$_this6$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+                  _this6.$http('/api/member/info'));case 2:_yield$_this6$$http = _context6.sent;data = _yield$_this6$$http.data;
+                _this6.userInfo = data;
+                _this6.identity = data.identity;case 6:case "end":return _context6.stop();}}}, _callee6);}))();
     },
+
     // index页面（标签）传过来的值
     setLabel: function setLabel(labelList) {
       this.labelList = labelList;
@@ -319,15 +360,15 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
       this.getUserInfo();
     },
     // 获取客户信息
-    getSevrInfo: function getSevrInfo(type) {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$_this6$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
-                  _this6.$http('/api/system/info', {
-                    type: type }));case 2:_yield$_this6$$http = _context6.sent;data = _yield$_this6$$http.data;
+    getSevrInfo: function getSevrInfo(type) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var _yield$_this7$$http, data;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.next = 2;return (
+                  _this7.$http('/api/system/info', {
+                    type: type }));case 2:_yield$_this7$$http = _context7.sent;data = _yield$_this7$$http.data;
 
                 if (type == 2) {
-                  _this6.codeImage = data.content;
+                  _this7.codeImage = data.content;
                 } else {
-                  _this6.wxCode = data.content;
-                }case 5:case "end":return _context6.stop();}}}, _callee6);}))();
+                  _this7.wxCode = data.content;
+                }case 5:case "end":return _context7.stop();}}}, _callee7);}))();
     },
     // 在我的页面打开客服
     openAddKuWeixin: function openAddKuWeixin() {
@@ -1200,7 +1241,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     menuOpen: function menuOpen(id) {
       switch (id) {
         case 1:
-          this.$emit('openAddPersonalWeixin');
+          if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
+            this.$emit('openAddPersonalWeixin');
+          } else {
+            uni.showToast({
+              title: '您已经添加过微信了',
+              icon: 'none' });
+
+          }
           break;
         case 2:
           this.$emit('openAddKuWeixin');

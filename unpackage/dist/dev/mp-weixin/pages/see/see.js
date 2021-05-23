@@ -120,32 +120,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  var l0 = _vm.orderDetail.play_with_list.length
-    ? _vm.__map(_vm.orderDetail.play_with_list, function(item, __i0__) {
-        var $orig = _vm.__get_orig(item)
-
-        var g0 = item.image.indexOf("http")
-        return {
-          $orig: $orig,
-          g0: g0
-        }
-      })
-    : null
-
   if (!_vm._isMounted) {
     _vm.e0 = function($event) {
       _vm.paymentSuccess = false
     }
   }
-
-  _vm.$mp.data = Object.assign(
-    {},
-    {
-      $root: {
-        l0: l0
-      }
-    }
-  )
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -180,6 +159,13 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _regenerator = _interopRequireDefault(__webpack_require__(/*! ./node_modules/@babel/runtime/regenerator */ 8));
+
+
+
+
+
+
+
 
 
 
@@ -304,19 +290,20 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
     },
     // 确认选她
-    comfigChoice: function comfigChoice() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                _this2.paymentShow = true;_context2.next = 3;return (
-                  _this2.$http('/api/order/define_play_with', {
-                    member_id: _this2.orderDetail.play_with_list[_this2.current - 1].id,
-                    order_id: _this2.id }));case 3:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
-
-                console.log(data);case 6:case "end":return _context2.stop();}}}, _callee2);}))();
+    comfigChoice: function comfigChoice(id) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                if (_this2.orderDetail.play_with_list.length) {
+                  _this2.paymentShow = true;
+                }case 1:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 确认支付
-    confirmPayment: function confirmPayment() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    confirmPayment: function confirmPayment() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, res, _yield$_this3$$http2, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
                 that = _this3;_context3.next = 3;return (
+                  _this3.$http('/api/order/define_play_with', {
+                    member_id: id,
+                    order_id: _this3.id }));case 3:_yield$_this3$$http = _context3.sent;res = _yield$_this3$$http.data;_context3.next = 7;return (
+
                   _this3.$http('/api/order/pay', {
-                    order_sn: _this3.orderDetail.order_sn }));case 3:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
+                    order_sn: _this3.orderDetail.order_sn }));case 7:_yield$_this3$$http2 = _context3.sent;data = _yield$_this3$$http2.data;
 
                 uni.requestPayment({
                   provider: 'wxpay',
@@ -337,7 +324,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   },
                   fail: function fail(err) {
                     console.log(err);
-                  } });case 6:case "end":return _context3.stop();}}}, _callee3);}))();
+                  } });case 10:case "end":return _context3.stop();}}}, _callee3);}))();
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
