@@ -17,7 +17,7 @@
 										<image :src="baseUrl + item" mode="aspectFill"></image>
 										<view class="swiper_box">
 											<view class="swiper_box_title">{{ msg.nickname }}</view>
-											<view class="swiper_box_info">{{ msg.height }}cm / {{ msg.weight }}kg</view>
+											<view class="swiper_box_info">{{ msg.height }}cm / {{ msg.weight }}kg / {{ conste || '暂无' }}</view>
 											<view class="swiper_box_foot flex flex--align-items--center">
 												<view class="swiper_box_foot_left">{{ msg.city !== null? msg.city : '暂无' }}</view>
 											</view>

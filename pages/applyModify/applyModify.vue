@@ -92,6 +92,7 @@
 			bindDateChange(e) {
 				this.date = e.target.value
 			},
+			
 		}
 	}
 </script>

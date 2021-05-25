@@ -241,16 +241,18 @@ var _default =
 {
   data: function data() {
     return {
-      date: '2021-04-27',
+      date: '2021-05-25',
       heights: '',
       weight: '',
       text: '',
       pationIndex: 0,
       pationText: '',
+      listing: '',
       jobList: [] };
 
   },
   onLoad: function onLoad() {
+    this.getListing('5.25');
     this.getJob();
   },
   methods: {
@@ -263,6 +265,21 @@ var _default =
     // 获取年月日
     bindDateChange: function bindDateChange(e) {
       this.date = e.target.value;
+      var date = this.date.split('-');
+      date[1] = parseInt(date[1]) < 10 ? date[1].split('')[1] : date[1];
+      date[2] = parseInt(date[2]) < 10 ? date[2].split('')[1] : date[2];
+      var newDate = date[1] + '.' + date[2];
+      console.log(newDate);
+      this.getListing(newDate);
+    },
+    // 获取星座
+    getListing: function getListing(newDate) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/conste/listing', {
+                    data: newDate }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
+
+                if (data.title) {
+                  _this2.listing = data.title;
+                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 选择标签
     setPation: function setPation(index, title) {
@@ -288,7 +305,8 @@ var _default =
         height: this.heights,
         weight: this.weight,
         job: this.pationText,
-        intro: this.text };
+        intro: this.text,
+        conste: this.listing };
 
       this.$store.commit('setApplyData', data);
       uni.navigateTo({

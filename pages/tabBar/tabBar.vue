@@ -149,11 +149,11 @@
 							icon: 'none'
 						})
 					}
-					setTimeout(()=>{
-						uni.navigateTo({
-							url: '/pages/playHome/playHome'
-						})
-					},1500)
+					// setTimeout(()=>{
+					// 	uni.navigateTo({
+					// 		url: '/pages/playHome/playHome'
+					// 	})
+					// },1500)
 				}
 			},
 			// 获取轮播图

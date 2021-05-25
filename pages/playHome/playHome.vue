@@ -150,6 +150,10 @@
 								<text></text>
 								我要接单
 							</view>
+							<view
+								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								v-if="item.play_with_state === 2 && item.state === 1"
+							>您已被用户选中</view>
 						</view>
 					</view>
 					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
@@ -220,7 +224,7 @@
 						title: '我要接单'
 					}
 				],
-				tabIndex: 0,
+				tabIndex: 1,
 				orderId: 1,
 				date: '2021-05-06',
 				heights: '',

@@ -123,6 +123,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.confirmShow = false
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -271,10 +276,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     return {
       orderData: null,
       cancelShow: false,
+      confirmShow: false,
       type: 1,
       typeText: '',
       cancelState: 1,
-      cancelId: 0 };
+      cancelId: 0,
+      confirmId: null };
 
   },
   onLoad: function onLoad(option) {
@@ -316,15 +323,34 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.cancelId = orderId;
       this.cancelShow = true;
     },
+
     // 取消订单返回
     cancelShowReturn: function cancelShowReturn() {
       this.cancelShow = false;
     },
-    cancelShowComfig: function cancelShowComfig() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                that = _this2;if (!(
-                _this2.cancelState == 1)) {_context2.next = 7;break;}_context2.next = 4;return (
-                  _this2.$http('/api/order/cancel_order', {
-                    order_id: _this2.cancelId }));case 4:_yield$_this2$$http = _context2.sent;status = _yield$_this2$$http.status;
+    // 打开确认弹窗
+    confirmShowTrue: function confirmShowTrue(id) {
+      this.confirmId = id;
+      this.confirmShow = true;
+    },
+    // 确认订单
+    confirmOrder: function confirmOrder() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/order/order_finish', {
+                    order_id: _this2.confirmId }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+
+                if (status) {
+                  uni.showToast({
+                    title: '确认订单成功',
+                    icon: 'none' });
+
+                }
+                _this2.confirmShow = false;case 7:case "end":return _context2.stop();}}}, _callee2);}))();
+    },
+    cancelShowComfig: function cancelShowComfig() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                that = _this3;if (!(
+                _this3.cancelState == 1)) {_context3.next = 7;break;}_context3.next = 4;return (
+                  _this3.$http('/api/order/cancel_order', {
+                    order_id: _this3.cancelId }));case 4:_yield$_this3$$http = _context3.sent;status = _yield$_this3$$http.status;
 
                 if (status) {
                   uni.showToast({
@@ -343,7 +369,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       that.cancelShow = false;
                     } });
 
-                }case 7:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 7:case "end":return _context3.stop();}}}, _callee3);}))();
 
     },
     // 跳转选择查看陪玩

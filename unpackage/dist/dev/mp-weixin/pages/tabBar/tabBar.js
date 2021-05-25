@@ -292,11 +292,11 @@ var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));functi
                       icon: 'none' });
 
                   }
-                  setTimeout(function () {
-                    uni.navigateTo({
-                      url: '/pages/playHome/playHome' });
-
-                  }, 1500);
+                  // setTimeout(()=>{
+                  // 	uni.navigateTo({
+                  // 		url: '/pages/playHome/playHome'
+                  // 	})
+                  // },1500)
                 }case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 获取轮播图

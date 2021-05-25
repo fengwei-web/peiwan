@@ -71,6 +71,12 @@
           "pathName": "pages/tabBar/tabBar",
           "query": "",
           "scene": null
+        },
+        {
+          "name": "pages/orderDetail/orderDetail",
+          "pathName": "pages/orderDetail/orderDetail",
+          "query": "type=1",
+          "scene": null
         }
       ]
     }

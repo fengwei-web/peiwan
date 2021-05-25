@@ -2,15 +2,34 @@
 	<view class="apply flex flex--row">
 		<navBar></navBar>
 		<view class="apply_con">
-			<image src="../../static/logo.png" mode=""></image>
+			<image :src="baseUrl + back" mode=""></image>
 			<view class="apply_con_btn" @click="goApplyOrderReceiver">申请成为首席陪玩官</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
+		data() {
+			return {
+				back: ''
+			}
+		},
+		onLoad() {
+			this.getBackground()
+		},
+		computed: {
+			...mapState(['baseUrl'])
+		},
 		methods: {
+			// 背景图
+			async getBackground() {
+				const { data } = await this.$http('/api/system/info',{
+					type: 6
+				})
+				this.back = data.content
+			},
 			// 进入申请接单师
 			goApplyOrderReceiver() {
 				uni.navigateTo({

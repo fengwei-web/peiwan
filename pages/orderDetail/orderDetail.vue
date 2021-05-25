@@ -69,7 +69,7 @@
 							<view
 								class="detail_con_foot_right"
 								v-if="item.state === 1 && item.order_state !== 1"
-								@click="confirmOrder"
+								@click="confirmShowTrue(item.id)"
 							>确认完成</view>
 							<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
 							<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
@@ -94,12 +94,12 @@
 			</view>
 		</template>
 		<!-- 进行中确认完成 -->
-		<template v-if="false">
+		<template v-if="confirmShow">
 			<view class="detail_cancel flex flex--row flex--align-items--center">
 				<view class="detail_cancel_list">确认完成后，<text>订单费用</text>将结算给陪玩官</view>
 				<view class="detail_cancel_foot flex flex--align-items--center">
-					<view class="detail_cancel_foot_left">返回</view>
-					<view class="detail_cancel_foot_right">确认完成</view>
+					<view class="detail_cancel_foot_left" @click="confirmShow = false">返回</view>
+					<view class="detail_cancel_foot_right" @click="confirmOrder">确认完成</view>
 				</view>
 			</view>
 		</template>
@@ -113,10 +113,12 @@
 			return {
 				orderData: null,
 				cancelShow: false,
+				confirmShow: false,
 				type: 1,
 				typeText: '',
 				cancelState: 1,
-				cancelId: 0
+				cancelId: 0,
+				confirmId: null
 			}
 		},
 		onLoad(option) {
@@ -158,9 +160,28 @@
 				this.cancelId = orderId
 				this.cancelShow = true
 			},
+			
 			// 取消订单返回
 			cancelShowReturn() {
 				this.cancelShow = false
+			},
+			// 打开确认弹窗
+			confirmShowTrue(id) {
+				this.confirmId = id
+				this.confirmShow = true
+			},
+			// 确认订单
+			async confirmOrder() {
+				const { data,status } = await this.$http('/api/order/order_finish',{
+					order_id: this.confirmId
+				})
+				if(status) {
+					uni.showToast({
+						title: '确认订单成功',
+						icon: 'none'
+					})
+				}
+				this.confirmShow = false
 			},
 			async cancelShowComfig() {
 				let that = this

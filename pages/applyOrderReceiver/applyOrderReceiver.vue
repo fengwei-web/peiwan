@@ -17,7 +17,7 @@
 							<view style="width: 100%;">{{ date }}</view>
 						</picker>
 					</view>
-					<view class="receiver_box_com_con_right">星座</view>
+					<view class="receiver_box_com_con_right">{{ listing || '星座' }}</view>
 				</view>
 			</view>
 			<!-- 你的身高 -->
@@ -83,16 +83,18 @@
 	export default {
 		data() {
 			return {
-				date: '2021-04-27',
+				date: '2021-05-25',
 				heights: '',
 				weight: '',
 				text: '',
 				pationIndex: 0,
 				pationText: '',
+				listing: '',
 				jobList: []
 			}
 		},
 		onLoad() {
+			this.getListing('5.25')
 			this.getJob()
 		},
 		methods: {
@@ -105,6 +107,21 @@
 			// 获取年月日
 			bindDateChange(e) {
 				this.date = e.target.value
+				let date = this.date.split('-')
+				date[1] = parseInt(date[1]) < 10 ? date[1].split('')[1] : date[1]
+				date[2] = parseInt(date[2]) < 10 ? date[2].split('')[1] : date[2]
+				let newDate = date[1] + '.' + date[2]
+				console.log(newDate)
+				this.getListing(newDate)
+			},
+			// 获取星座
+			async getListing(newDate){
+				const { data } = await this.$http('/api/conste/listing', {
+					data: newDate
+				})
+				if(data.title){
+					this.listing = data.title
+				}
 			},
 			// 选择标签
 			setPation(index,title) {
@@ -130,7 +147,8 @@
 					height: this.heights,
 					weight: this.weight,
 					job: this.pationText,
-					intro: this.text
+					intro: this.text,
+					conste: this.listing
 				}
 				this.$store.commit('setApplyData',data)
 				uni.navigateTo({
