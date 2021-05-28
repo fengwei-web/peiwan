@@ -22,7 +22,7 @@
 						<image v-else :src="baseUrl + item" mode="aspectFit"></image>
 					</view>
 				</view>
-				<view class="image_album_tip">* 请上传本人的的仙女自拍/网图不通过</view>
+				<view class="image_album_tip">* 请上传本人的仙女自拍（网图）不通过</view>
 			</view>
 			<!-- 手机号 -->
 			<view class="image_mobile">
@@ -196,8 +196,8 @@
 			},
 			submitShowFalse(){
 				this.submitShow = false
-				uni.navigateTo({
-					url: '/pages/playHome/playHome'
+				uni.reLaunch({
+					url: '/pages/tabBar/tabBar'
 				})
 			}
 		}

@@ -47,7 +47,8 @@
 				left: 14rpx;
 			}
 			.index_head_con_title {
-				font-size: 22rpx;
+				font-size: 24rpx;
+				font-weight: bold;
 			}
 		}
 	}

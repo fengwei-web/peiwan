@@ -354,8 +354,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     submitShowFalse: function submitShowFalse() {
       this.submitShow = false;
-      uni.navigateTo({
-        url: '/pages/playHome/playHome' });
+      uni.reLaunch({
+        url: '/pages/tabBar/tabBar' });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

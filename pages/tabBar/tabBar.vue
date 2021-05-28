@@ -132,7 +132,6 @@
 			},
 			async goPlayHome() {
 				const { data } = await this.$http('/api/play_with/info')
-				data.state = 1
 				if(data.state === 2) {
 					uni.navigateTo({
 						url: '/pages/playHome/playHome'
