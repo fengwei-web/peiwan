@@ -229,6 +229,10 @@
   color: #2B3039;
 }
 .playHome .playHome_foot .playHome_foot_con .playHome_foot_con_left view.data-v-1fe62034 {
+  max-width: 110rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   padding: 6rpx 28rpx;
   background: #000;
   border-radius: 40rpx;

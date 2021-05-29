@@ -111,7 +111,6 @@
 				date[1] = parseInt(date[1]) < 10 ? date[1].split('')[1] : date[1]
 				date[2] = parseInt(date[2]) < 10 ? date[2].split('')[1] : date[2]
 				let newDate = date[1] + '.' + date[2]
-				console.log(newDate)
 				this.getListing(newDate)
 			},
 			// 获取星座

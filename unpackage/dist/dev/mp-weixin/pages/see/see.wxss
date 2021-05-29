@@ -105,6 +105,7 @@
 }
 .see .see_box .see_box_container .container_box .container_box_foot .container_box_foot_right.data-v-3e60e8ae {
   background: #0AAFB9;
+  margin-left: 20rpx;
 }
 .see .config_popon.data-v-3e60e8ae {
   padding: 44rpx 62rpx 67rpx 62rpx;

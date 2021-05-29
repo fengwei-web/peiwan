@@ -22,6 +22,7 @@
 				:labelList="labelList"
 				:moneyList="moneyList"
 				:userInfo="userInfo"
+				:nums="nums"
 				@setLabel="setLabel"
 				@choiceDoWhat="choiceDoWhat"
 				@goAddWeixi="goAddWeixi"
@@ -65,6 +66,7 @@
 <script>
 	import index from '../index/index'
 	import my from '../my/my'
+	import QQMapWX from '../../static/qqmap-wx-jssdk.min.js'
 	export default {
 		components: {
 			index,
@@ -83,7 +85,8 @@
 				wxCode: '',
 				userInfo: null,
 				orderCount: null,
-				identity: null
+				identity: null,
+				nums: 0
 			}
 		},
 		watch: {
@@ -91,13 +94,13 @@
 				if(this.isShow){
 					return
 				}
-				console.log('离开当前页面')
 			}
 		},
 		onLoad(option) {
 			this.getBanner()
 			this.getLabel()
 			this.getMoney()
+			this.getAddress()
 		},
 		onShow() {
 			if(!uni.getStorageSync('token')){
@@ -144,15 +147,18 @@
 						})
 					}else {
 						uni.showToast({
-							title: '已驳回',
-							icon: 'none'
+							title: data.state_intro || '已驳回',
+							icon: 'none',
+							duration: 1500,
+							success() {
+								setTimeout(()=>{
+									uni.navigateTo({
+										url: '/pages/applyOrderReceiver/applyOrderReceiver'
+									})
+								}, 1500)
+							}
 						})
 					}
-					// setTimeout(()=>{
-					// 	uni.navigateTo({
-					// 		url: '/pages/playHome/playHome'
-					// 	})
-					// },1500)
 				}
 			},
 			// 获取轮播图
@@ -183,7 +189,41 @@
 			},
 			// 获取当前位置
 			getAddress() {
-				
+				let that = this
+				uni.authorize({
+					scope: "scope.userLocation",
+					success() {
+						let qqmapsdk = new QQMapWX({
+							key: 'ZCFBZ-UFVRJ-SY4FQ-KX55X-N46K3-DNBNR'
+						});
+						uni.getLocation({
+							type: 'gcj02',
+							success(res) {
+								qqmapsdk.reverseGeocoder({
+									location: {
+										latitude: res.latitude,
+										longitude: res.longitude
+									},
+									async success(res) {
+										// 
+										const { data } = await that.$http('/api/member/play_with_num', {
+											province: res.result.address_component.province,
+											city: res.result.address_component.city
+										})
+										that.nums = data || 0
+									}
+								})	
+							},
+							fail(res){
+								uni.showToast({
+									icon :"none",
+									title: '注意：需要获取您的定位授权,否则部分功能将无法使用',
+									duration: 2000
+								})
+							}
+						})
+					}
+				})
 			},
 			// 获取个人信息
 			async getUserInfo() {

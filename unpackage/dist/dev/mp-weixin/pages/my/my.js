@@ -436,7 +436,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 40:
+/***/ 41:
 /*!************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/project/uni-app/peiwan/main.js?{"page":"pages%2Fmy%2Fmy"} ***!
   \************************************************************************************************/
@@ -452,5 +452,5 @@ createPage(_my.default);
 
 /***/ })
 
-},[[40,"common/runtime","common/vendor"]]]);
+},[[41,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/my/my.js.map

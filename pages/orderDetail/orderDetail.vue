@@ -61,11 +61,23 @@
 							</view>
 						</view>
 						<view class="detail_con_foot flex flex--align-items--center flex--justify-content--center">
-							<view
-								class="detail_con_foot_left"
-								v-if="item.order_state === 1"
-								@click="cancelShowClick(item.state,item.id)"
-							>取消订单</view>
+							<template v-if="item.state === 1">
+								<template v-if="item.order_state === 1">
+									<!-- 未支付 -->
+									<view
+										class="detail_con_foot_left"
+										@click="cancelShowClick(item.state,item.id,item.order_state)"
+									>取消订单</view>
+								</template>
+								<template v-else>
+									<!-- 已支付 -->
+									<view
+										class="detail_con_foot_left"
+										@click="cancelShowClick(item.state,item.id,item.order_state)"
+									>取消订单</view>
+								</template>
+							</template>
+							
 							<view
 								class="detail_con_foot_right"
 								v-if="item.state === 1 && item.order_state !== 1"
@@ -118,6 +130,7 @@
 				typeText: '',
 				cancelState: 1,
 				cancelId: 0,
+				cancelOrder: 1,
 				confirmId: null
 			}
 		},
@@ -155,12 +168,12 @@
 				this.orderData = data
 			},
 			// 取消订单显示
-			cancelShowClick(state,orderId) {
+			cancelShowClick(state,orderId,orderState) {
 				this.cancelState = state
 				this.cancelId = orderId
+				this.cancelOrder = orderState
 				this.cancelShow = true
 			},
-			
 			// 取消订单返回
 			cancelShowReturn() {
 				this.cancelShow = false
@@ -185,8 +198,30 @@
 			},
 			async cancelShowComfig() {
 				let that = this
-				if(this.cancelState == 1) {
+				if(this.cancelOrder == 1) {
 					const { status } = await this.$http('/api/order/cancel_order',{
+						order_id: this.cancelId
+					})
+					if(status) {
+						uni.showToast({
+							title: '取消成功',
+							icon: 'none',
+							success() {
+								that.cancelShow = false
+								that.getOrederList(that.type)
+							}
+						})
+					}else {
+						uni.showToast({
+							title: '取消失败',
+							icon: 'none',
+							success() {
+								that.cancelShow = false
+							}
+						})
+					}
+				}else {
+					const { status } = await this.$http('/api/order/cancel_order_pay',{
 						order_id: this.cancelId
 					})
 					if(status) {

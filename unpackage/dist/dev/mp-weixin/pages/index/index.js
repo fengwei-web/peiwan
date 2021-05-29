@@ -304,7 +304,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       type: Array },
 
     userInfo: {
-      type: Object } },
+      type: Object },
+
+    nums: {
+      type: Number } },
 
 
   data: function data() {
@@ -312,7 +315,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       format: true });
 
     return {
-      date: '2021-04-22',
+      date: '',
       time: '13:00',
       hourArray: [2, 3, 4, 5, 6, 7, 8],
       hour: '2',
@@ -341,6 +344,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     } },
 
   created: function created() {
+    // 初始化时间
+    this.getCurrentDate();
     var releaseData = this.$store.state.releaseData;
     if (releaseData !== null) {
       var date = releaseData.data.split(' ');
@@ -353,6 +358,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     }
   },
   methods: {
+    // 初始化时间
+    getCurrentDate: function getCurrentDate() {
+      var date = new Date();
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      this.date = year + '-' + month + '-' + day;
+    },
     // 选择做什么
     setCheckbox: function setCheckbox(index) {
       var labelList = this.labelList;
@@ -448,7 +461,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.$emit('goAddWeixi', data);
     },
     // 确认发布
-    confirmRelease: function confirmRelease() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var that, data, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    confirmRelease: function confirmRelease() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var that, data, _yield$_this2$$http, status, msg;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 that = _this2;
                 data = {
                   address: _this2.cityText,
@@ -457,7 +470,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   do: _this2.checkboxText,
                   price: _this2.moneyCon };_context.next = 4;return (
 
-                  _this2.$http('/api/order/create_order', data));case 4:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;
+                  _this2.$http('/api/order/create_order', data));case 4:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;
                 if (status) {
                   uni.showToast({
                     title: '发布成功',
@@ -469,10 +482,13 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
                 } else {
                   uni.showToast({
-                    title: '发布失败',
-                    icon: 'none' });
+                    title: msg,
+                    icon: 'none',
+                    success: function success() {
+                      that.threeShow = false;
+                    } });
 
-                }case 7:case "end":return _context.stop();}}}, _callee);}))();
+                }case 8:case "end":return _context.stop();}}}, _callee);}))();
     },
     goMyOrder: function goMyOrder() {
       uni.navigateTo({
@@ -529,7 +545,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ 39:
+/***/ 40:
 /*!******************************************************************************************************!*\
   !*** C:/Users/Administrator/Desktop/project/uni-app/peiwan/main.js?{"page":"pages%2Findex%2Findex"} ***!
   \******************************************************************************************************/
@@ -545,5 +561,5 @@ createPage(_index.default);
 
 /***/ })
 
-},[[39,"common/runtime","common/vendor"]]]);
+},[[40,"common/runtime","common/vendor"]]]);
 //# sourceMappingURL=../../../.sourcemap/mp-weixin/pages/index/index.js.map

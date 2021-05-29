@@ -42,7 +42,7 @@
 							</picker>
 						</view>
 						<view class="modify_com_con_right">
-							星座
+							{{ listing || '星座' }}
 							<!-- <picker mode="date" :value="date" @change="bindDateChange">
 								<view style="width: 100%;">{{ date }}</view>
 							</picker> -->
@@ -175,7 +175,7 @@
 				<view class="playHome_foot_con flex flex--align-items--center">
 					<view class="playHome_foot_con_left flex flex--align-items--center flex--justify-content--center">
 						<text>当前城市</text>
-						<view>北京</view>
+						<view>{{ currentCity }}</view>
 					</view>
 					<view class="playHome_foot_con_right flex flex--align-items--center flex--justify-content--center">
 						<text>正在接单</text>
@@ -208,6 +208,7 @@
 
 <script>
 	import { mapState } from 'vuex'
+	import QQMapWX from '../../static/qqmap-wx-jssdk.min.js'
 	export default {
 		data() {
 			return {
@@ -226,19 +227,23 @@
 				],
 				tabIndex: 1,
 				orderId: 1,
-				date: '2021-05-06',
+				date: '2021-05-25',
 				heights: '',
 				weights: '',
 				intro: '',
 				imageList: ['','','','','',''],
 				pationText: '',
 				job: '',
-				mobile: ''
+				mobile: '',
+				currentCity: '北京',
+				listing: ''
 			}
 		},
 		onLoad() {
 			this.getPlayWith()
 			this.getPlayHome()
+			this.getAddress()
+			this.getListing('5.25')
 		},
 		filters: {
 			states(item) {
@@ -264,6 +269,15 @@
 			...mapState(['baseUrl'])
 		},
 		methods: {
+			// 获取星座
+			async getListing(newDate){
+				const { data } = await this.$http('/api/conste/listing', {
+					data: newDate
+				})
+				if(data.title){
+					this.listing = data.title
+				}
+			},
 			// 获取
 			async getPlayHome() {
 				const { data } = await this.$http('/api/play_with/order_list')
@@ -281,9 +295,46 @@
 					this.mobile = data.mobile
 				}
 			}, 
+			getAddress() {
+				let that = this
+				uni.authorize({
+					scope: "scope.userLocation",
+					success() {
+						let qqmapsdk = new QQMapWX({
+							key: 'ZCFBZ-UFVRJ-SY4FQ-KX55X-N46K3-DNBNR'
+						});
+						uni.getLocation({
+							type: 'gcj02',
+							success(res) {
+								qqmapsdk.reverseGeocoder({
+									location: {
+										latitude: res.latitude,
+										longitude: res.longitude
+									},
+									success(res) {
+										that.currentCity = res.result.address_component.city
+									}
+								})	
+							},
+							fail(res){
+								uni.showToast({
+									icon :"none",
+									title: '注意：需要获取您的定位授权,否则部分功能将无法使用',
+									duration: 2000
+								})
+							}
+						})
+					}
+				})
+			},
 			// 日期
 			bindDateChange(e) {
 				this.date = e.detail.value
+				let date = this.date.split('-')
+				date[1] = parseInt(date[1]) < 10 ? date[1].split('')[1] : date[1]
+				date[2] = parseInt(date[2]) < 10 ? date[2].split('')[1] : date[2]
+				let newDate = date[1] + '.' + date[2]
+				this.getListing(newDate)
 			},
 			// 上传图片
 			uploadImage(index) {
@@ -375,7 +426,8 @@
 					job,
 					intro: this.intro,
 					images,
-					mobile: this.mobile
+					mobile: this.mobile,
+					conste: this.listing
 				})
 				if(status) {
 					uni.showToast({
@@ -631,6 +683,10 @@
 						color: #2B3039;
 					}
 					view {
+						max-width: 110rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						white-space: nowrap;
 						padding: 6rpx 28rpx;
 						background: #000;
 						border-radius: 40rpx;

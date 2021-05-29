@@ -1,7 +1,7 @@
 <template>
 	<view class="see flex flex--row">
 		<navBar></navBar>
-		<swiper class="see_box">
+		<swiper class="see_box" indicator-dots="true">
 			<swiper-item v-for="msg in orderDetail.play_with_list" :key="msg.id">
 				<scroll-view scroll-y="true" style="height: 100%;">
 					<!-- 轮播图 -->
@@ -47,9 +47,12 @@
 								<view class="container_box_list_left">预计支付的金额：</view>
 								<view class="container_box_list_right" style="color: #0AAFB9;">￥{{ orderDetail.price }}</view>
 							</view>
-							<view class="container_box_foot flex flex--align-items--center flex--justify-content--space-between">
+							<view
+								class="container_box_foot flex flex--align-items--center flex--justify-content--center">
 								<view class="container_box_foot_left" @click="returnPrev">返回</view>
-								<view class="container_box_foot_right" @click="comfigChoice(msg.id)">确认选TA</view>
+								<template v-if="orderDetail.order_state === 1">
+									<view class="container_box_foot_right" @click="comfigChoice(msg.id)">确认选TA</view>
+								</template>
 							</view>
 						</view>
 					</view>
@@ -97,7 +100,8 @@
 				orderDetail: null,
 				paymentShow: false,
 				paymentSuccess: false,
-				id: 1
+				id: 1,
+				currentId: null
 			}
 		},
 		onLoad(option) {
@@ -131,6 +135,7 @@
 			},
 			// 确认选她
 			async comfigChoice(id) {
+				this.currentId = id
 				if(this.orderDetail.play_with_list.length){
 					this.paymentShow = true
 				}
@@ -139,7 +144,7 @@
 			async confirmPayment() {
 				let that = this
 				const { data: res } = await this.$http('/api/order/define_play_with',{
-					member_id: id,
+					member_id: this.currentId,
 					order_id: this.id
 				})
 				const { data } = await this.$http('/api/order/pay',{
@@ -273,6 +278,7 @@
 						}
 						.container_box_foot_right {
 							background: #0AAFB9;
+							margin-left: 20rpx;
 						}
 					}
 				}

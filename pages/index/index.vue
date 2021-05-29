@@ -19,7 +19,7 @@
 			<!-- 公告 -->
 			<view class="index_notice flex flex--align-items--center">
 				<image src="../../static/image/notice.png" mode=""></image>
-				<text>附近 182 陪玩在线</text>
+				<text>附近 {{ nums }} 陪玩在线</text>
 			</view>
 		</view>
 		<!-- 第一部分 -->
@@ -176,6 +176,9 @@
 			},
 			userInfo: {
 				type: Object
+			},
+			nums: {
+				type: Number
 			}
 		},
 		data() {
@@ -183,7 +186,7 @@
 				format: true
 			})
 			return {
-				date: '2021-04-22',
+				date: '',
 				time: '13:00',
 				hourArray: [2,3,4,5,6,7,8],
 				hour: '2',
@@ -212,6 +215,8 @@
 			}
 		},
 		created() {
+			// 初始化时间
+			this.getCurrentDate()
 			let releaseData = this.$store.state.releaseData;
 			if(releaseData !== null){
 				let date = releaseData.data.split(' ')
@@ -224,6 +229,14 @@
 			}
 		},
 		methods: {
+			// 初始化时间
+			getCurrentDate() {
+				let date = new Date();
+				let year = date.getFullYear()
+				let month = date.getMonth() + 1;
+				let day = date.getDate()
+				this.date = year + '-' + month + '-' + day
+			},
 			// 选择做什么
 			setCheckbox(index) {
 				let labelList = this.labelList;
@@ -328,7 +341,7 @@
 					do: this.checkboxText,
 					price: this.moneyCon
 				}
-				const { status } = await this.$http('/api/order/create_order',data);
+				const { status, msg } = await this.$http('/api/order/create_order',data);
 				if(status) {
 					uni.showToast({
 						title: '发布成功',
@@ -340,8 +353,11 @@
 					})
 				}else{
 					uni.showToast({
-						title: '发布失败',
-						icon: 'none'
+						title: msg,
+						icon: 'none',
+						success() {
+							that.threeShow = false
+						}
 					})
 				}
 			},
