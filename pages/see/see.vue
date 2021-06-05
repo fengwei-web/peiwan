@@ -143,6 +143,13 @@
 			// 确认支付
 			async confirmPayment() {
 				let that = this
+				if(this.orderDetail.state === 4) {
+					uni.showToast({
+						title: '已取消的订单不能再次付款',
+						icon: 'none'
+					})
+					return
+				}
 				const { data: res } = await this.$http('/api/order/define_play_with',{
 					member_id: this.currentId,
 					order_id: this.id

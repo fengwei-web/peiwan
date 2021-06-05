@@ -384,8 +384,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
         title: '提示',
         content: '您确认要删除吗?',
         success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$that$$http, data, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:if (!
-                    res.comfirm) {_context3.next = 7;break;}_context3.next = 3;return (
-                      that.$http('/api/order/order_finish', { id: id }));case 3:_yield$that$$http = _context3.sent;data = _yield$that$$http.data;status = _yield$that$$http.status;
+                    res.confirm) {_context3.next = 7;break;}_context3.next = 3;return (
+                      that.$http('/api/order/order_delete', { id: id }));case 3:_yield$that$$http = _context3.sent;data = _yield$that$$http.data;status = _yield$that$$http.status;
                     if (status) {
                       uni.showToast({
                         title: '删除订单成功',

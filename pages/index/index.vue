@@ -250,7 +250,7 @@
 				labelList[index].isShow = !labelList[index].isShow
 				let arr = [];
 				labelList.forEach(v=>{
-					if(v.isShow) arr.push(v.title)
+					if(v.isShow) arr.push(v.id)
 				})
 				this.checkboxText = arr.join(',')
 				this.$emit('setLabel',labelList);

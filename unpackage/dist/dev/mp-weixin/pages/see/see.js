@@ -302,13 +302,20 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 确认支付
     confirmPayment: function confirmPayment() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, res, _yield$_this3$$http2, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
-                that = _this3;_context3.next = 3;return (
+                that = _this3;if (!(
+                _this3.orderDetail.state === 4)) {_context3.next = 4;break;}
+                uni.showToast({
+                  title: '已取消的订单不能再次付款',
+                  icon: 'none' });return _context3.abrupt("return");case 4:_context3.next = 6;return (
+
+
+
                   _this3.$http('/api/order/define_play_with', {
                     member_id: _this3.currentId,
-                    order_id: _this3.id }));case 3:_yield$_this3$$http = _context3.sent;res = _yield$_this3$$http.data;_context3.next = 7;return (
+                    order_id: _this3.id }));case 6:_yield$_this3$$http = _context3.sent;res = _yield$_this3$$http.data;_context3.next = 10;return (
 
                   _this3.$http('/api/order/pay', {
-                    order_sn: _this3.orderDetail.order_sn }));case 7:_yield$_this3$$http2 = _context3.sent;data = _yield$_this3$$http2.data;
+                    order_sn: _this3.orderDetail.order_sn }));case 10:_yield$_this3$$http2 = _context3.sent;data = _yield$_this3$$http2.data;
 
                 uni.requestPayment({
                   provider: 'wxpay',
@@ -334,7 +341,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   },
                   fail: function fail(err) {
                     console.log(err);
-                  } });case 10:case "end":return _context3.stop();}}}, _callee3);}))();
+                  } });case 13:case "end":return _context3.stop();}}}, _callee3);}))();
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

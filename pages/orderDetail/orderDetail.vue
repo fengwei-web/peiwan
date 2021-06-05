@@ -221,8 +221,8 @@
 					title: '提示',
 					content: '您确认要删除吗?',
 					async success(res) {
-						if(res.comfirm) {
-							const { data, status } = await that.$http('/api/order/order_finish',{ id })
+						if(res.confirm) {
+							const { data, status } = await that.$http('/api/order/order_delete',{ id })
 							if(status) {
 								uni.showToast({
 									title: '删除订单成功',

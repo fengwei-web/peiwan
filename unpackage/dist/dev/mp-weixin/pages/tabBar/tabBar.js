@@ -811,7 +811,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       labelList[index].isShow = !labelList[index].isShow;
       var arr = [];
       labelList.forEach(function (v) {
-        if (v.isShow) arr.push(v.title);
+        if (v.isShow) arr.push(v.id);
       });
       this.checkboxText = arr.join(',');
       this.$emit('setLabel', labelList);
