@@ -136,7 +136,7 @@
 				<view class="index_two_box">
 					<view class="index_two_box_list">
 						<view class="index_two_box_list_title">喊TA做什么：</view>
-						<view class="index_two_box_list_desc">{{ checkboxText }}</view>
+						<view class="index_two_box_list_desc">{{ checkboxText1 }}</view>
 					</view>
 					<view class="index_two_box_list">
 						<view class="index_two_box_list_title">见面地点：</view>
@@ -193,6 +193,7 @@
 				cityText: '请选择见面地址',
 				moneyText: '',
 				checkboxText: '', // 选择做什么的字符串
+				checkboxText1: '',
 				moneyCon: '',
 				oneShow: false,
 				twoShow: false,
@@ -260,10 +261,15 @@
 				let labelList = this.labelList;
 				labelList[index].isShow = !labelList[index].isShow
 				let arr = [];
+				let newArr = []
 				labelList.forEach(v=>{
-					if(v.isShow) arr.push(v.id)
+					if(v.isShow){
+						newArr.push(v.title)
+						arr.push(v.id)
+					} 
 				})
 				this.checkboxText = arr.join(',')
+				this.checkboxText1 = newArr.join(',')
 				this.$emit('setLabel',labelList);
 			},
 			// 选择支付金额

@@ -322,6 +322,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       cityText: '请选择见面地址',
       moneyText: '',
       checkboxText: '', // 选择做什么的字符串
+      checkboxText1: '',
       moneyCon: '',
       oneShow: false,
       twoShow: false,
@@ -389,10 +390,15 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       var labelList = this.labelList;
       labelList[index].isShow = !labelList[index].isShow;
       var arr = [];
+      var newArr = [];
       labelList.forEach(function (v) {
-        if (v.isShow) arr.push(v.id);
+        if (v.isShow) {
+          newArr.push(v.title);
+          arr.push(v.id);
+        }
       });
       this.checkboxText = arr.join(',');
+      this.checkboxText1 = newArr.join(',');
       this.$emit('setLabel', labelList);
     },
     // 选择支付金额
