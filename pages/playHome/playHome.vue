@@ -1,7 +1,7 @@
 <template>
 	<view class="playHome flex flex--row">
 		<navBar></navBar>
-		<view class="playHome_tab flex flex--align-items--center flex--justify-content--center">
+		<view class="playHome_tab flex flex--align-items--center flex--justify-content--space-around">
 			<view
 				class="playHome_tab_list flex flex--align-items--center flex--justify-content--center"
 				:class="{ 'active': tabIndex === index }"
@@ -30,7 +30,7 @@
 							<view class="modify_album_box_list_del" @click="deleteImage(index)">删除</view>
 						</view>
 					</view>
-					<view class="modify_album_tip">* 请上传本人的的仙女自拍/网图不通过</view>
+					<view class="modify_album_tip">* 请上传本人的仙女自拍（网图）不通过</view>
 				</view>
 				<!-- 你的生日 -->
 				<view class="modify_com">
@@ -95,7 +95,7 @@
 			</view>
 		</template>
 		
-		<template v-else>
+		<template v-else-if="tabIndex === 1">
 			<view class="playHome_box">
 				<template v-if="playHomeList.length">
 					<view class="playHome_wrap">
@@ -169,6 +169,86 @@
 			</view>
 		</template>
 		
+		<template v-else-if="tabIndex === 2">
+			<view class="playHome_box">
+				<template v-if="orderList.length">
+					<view class="playHome_wrap">
+						<view class="playHome_wrap_list" v-for="item in orderList" :key="item.id">
+							<view class="meetWrap_box_list_order flex flex--align-items--center flex--justify-content--space-between">
+								<title title="订单状态"></title>
+								<view
+									class="meetWrap_box_list_order_two"
+									:class="{ 'meetWrap_box_list_order_one': item.state === 1 || item.state === 2 }"
+								>
+									{{ item.state | states }}
+								</view>
+							</view>
+							<template v-if="item.do.length">
+								<title title="需要你做"></title>
+								<view class="list_one_container flex flex--wrap">
+									<view
+										class="list_one_container_term"
+										v-for="value in item.do"
+										:key="value.id"
+									>{{ value.title }}</view>
+								</view>
+							</template>
+							
+							<title title="见面时间"></title>
+							<view class="list_two_container flex flex--align-items--center">
+								<view class="list_two_container_date">{{ item.data.split(' ')[0] }}</view>
+								<view class="list_two_container_time">{{ item.data.split(' ')[1] }}</view>
+								<view class="list_two_container_length">{{ item.time }}小时</view>
+							</view>
+							<title title="见面地点"></title>
+							<view class="list_three_container flex flex--align-items--center flex--justify-content--space-between">
+								<image src="../../static/image/xiaoxi.png" mode="widthFix"></image>
+								<view class="list_three_container_address">{{ item.address }}</view>
+								<view class="list_three_container_num">1人</view>
+							</view>
+							<title title="下单用户"></title>
+							<view class="list_four_container flex flex--align-items--center">
+								<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode="aspectFill" />
+								<text>愿意支付</text>
+								<view
+									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
+									<text>¥</text>
+									{{ item.price }}
+								</view>
+							</view>
+							
+							<view class="list_wx flex flex--align-items--center flex--justify-content--space-between">
+								<view class="flex flex--align-items--center">
+									<image src="../../static/image/wxs.jpg" mode="widthFix"></image>
+									<text style="margin-left: 95rpx;">{{ item.wx_code }}</text>
+								</view>
+								<view></view>
+								<image :src="baseUrl + item.wx_image" mode="aspectFill" @click="setBoxImage(baseUrl + item.wx_image)"></image>
+							</view>
+							<view
+								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								v-if="item.play_with_state === 0 && item.state === 1"
+								@click="myWantOrder(item.id)"
+							>
+								<text></text>
+								我要接单
+							</view>
+							<view
+								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								v-if="item.play_with_state === 2 && item.state === 1"
+							>您已被用户选中</view>
+						</view>
+					</view>
+					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
+				</template>
+				<!-- 暂无数据 -->
+				<template v-else>
+					<view class="playHome_box_no_list flex flex--justify-content--center">
+						<image src="../../static/image/no_order.png" mode=""></image>
+					</view>
+				</template>
+			</view>
+		</template>
 		<!-- 底部 -->
 		<template v-if="tabIndex === 1">
 			<view class="playHome_foot">
@@ -184,6 +264,7 @@
 				</view>
 			</view>
 		</template>
+		
 		<!-- 陪玩申请后审核通过 -->
 		<view
 			class="playHome_adopt flex flex--row flex--align-items--center"
@@ -200,8 +281,12 @@
 			v-if="receivingShow"
 		>
 			<view class="playHome_meet_list">确认接单后，</view>
-			<view class="playHome_meet_list">在<text>我的接单</text>查看订单状态。</view>
+			<view class="playHome_meet_list">在<text>我的订单</text>查看订单状态。</view>
 			<view class="playHome_meet_btn" @click="confirm">好的</view>
+		</view>
+		
+		<view class="boxImage flex flex--align-items--center" v-if="boxShow" @click="boxShow = false">
+			<image :src="boxImage" mode="widthFix"></image>
 		</view>
 	</view>
 </template>
@@ -215,6 +300,7 @@
 				switchShow: true,
 				receivingShow: false,
 				playHomeList: [],
+				orderList: [],
 				tabList: [
 					{
 						id: 1,
@@ -222,7 +308,11 @@
 					},
 					{
 						id: 2,
-						title: '我要接单'
+						title: '订单列表'
+					},
+					{
+						id: 3,
+						title: '我的订单'
 					}
 				],
 				tabIndex: 1,
@@ -236,13 +326,16 @@
 				job: '',
 				mobile: '',
 				currentCity: '北京',
-				listing: ''
+				listing: '',
+				boxImage: '',
+				boxShow: false
 			}
 		},
 		onLoad() {
 			this.getPlayWith()
 			this.getPlayHome()
 			this.getAddress()
+			this.getOrderLists()
 			this.getListing('5.25')
 		},
 		filters: {
@@ -269,6 +362,16 @@
 			...mapState(['baseUrl'])
 		},
 		methods: {
+			// 放大图片
+			setBoxImage(src) {
+				this.boxImage = src
+				this.boxShow = true
+			},
+			// 获取我的订单数据
+			async getOrderLists() {
+				const { data } = await this.$http('/api/play_with/order_list_finish')
+				this.orderList = data
+			},
 			// 获取星座
 			async getListing(newDate){
 				const { data } = await this.$http('/api/conste/listing', {
@@ -383,6 +486,7 @@
 						success() {
 							that.receivingShow = false
 							that.getPlayHome()
+							that.getOrderLists()
 						}
 					})
 				}else {
@@ -406,7 +510,7 @@
 						uni.setStorageSync('indexImage',indexImage)
 					}
 				})
-				images = newImage.join(',')
+				images = newImage.join(',');
 				if(!images){
 					uni.showToast({
 						title: '请添加图片',
@@ -419,31 +523,40 @@
 				}else {
 					job = this.pationText
 				}
-				const { status } = await this.$http('/api/play_with/edit',{
-					birthday: this.date,
-					height: this.heights,
-					weight: this.weights,
-					job,
-					intro: this.intro,
-					images,
-					mobile: this.mobile,
-					conste: this.listing
+				uni.showModal({
+					title: '提示',
+					content: '是否确定重新提交审核',
+					async success(res) {
+						if(res.confirm){
+							const { status } = await that.$http('/api/play_with/edit',{
+								birthday: that.date,
+								height: that.heights,
+								weight: that.weights,
+								job,
+								intro: that.intro,
+								images,
+								mobile: that.mobile,
+								conste: that.listing
+							})
+							if(status) {
+								uni.showToast({
+									title: '修改成功',
+									icon: 'none'
+								})
+								setTimeout(() => {
+									uni.reLaunch({
+										url: '/pages/tabBar/tabBar'
+									})
+								},1000)
+							}else {
+								uni.showToast({
+									title: '修改失败',
+									icon: 'none'
+								})
+							}
+						}
+					}
 				})
-				if(status) {
-					uni.showToast({
-						title: '修改成功',
-						icon: 'none'
-					})
-					setTimeout(() => {
-						that.job = ''
-						that.getPlayWith()
-					},1500)
-				}else {
-					uni.showToast({
-						title: '修改失败',
-						icon: 'none'
-					})
-				}
 			},
 			// tab切换
 			setTab(index) {
@@ -460,14 +573,11 @@
 			height: 134rpx;
 			background: #F5F5F6;
 			.playHome_tab_list {
-				width: 250rpx;
-				height: 90rpx;
+				width: 200rpx;
+				height: 70rpx;
 				background: #fff;
 				border-radius: 45rpx;
 				font-size: 28rpx;
-				&:last-of-type {
-					margin-left: 48rpx;
-				}
 				&.active {
 					color: #07ACB6;
 				}
@@ -631,6 +741,21 @@
 						}
 						.meetWrap_box_list_order_one {
 							background: #07ACB6;
+						}
+					}
+					.list_wx {
+						margin-top: 40rpx;
+						padding-left: 55rpx;
+						view {
+							font-size: 28rpx;
+							font-weight: bold;
+							image {
+								width: 80rpx;
+							}
+						}
+						image {
+							width: 180rpx;
+							height: 180rpx;
 						}
 					}
 					.list_btn {
@@ -884,6 +1009,17 @@
 					font-weight: normal;
 					margin: 15rpx 20rpx 0 0;
 				}
+			}
+		}
+		.boxImage {
+			width: 100%;
+			height: 100%;
+			background: #000;
+			position: fixed;
+			top: 0;
+			left: 0;
+			image {
+				width: 100%;
 			}
 		}
 	}

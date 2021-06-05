@@ -63,6 +63,10 @@
   font-size: 28rpx;
   margin-top: 16rpx;
 }
+.detail .detail_box .detail_con .detail_con_head .detail_con_you.data-v-c547daf4 {
+  width: 80rpx;
+  border-radius: 0;
+}
 .detail .detail_box .detail_con .list_one_container .list_one_container_term.data-v-c547daf4 {
   width: 200rpx;
   height: 62rpx;

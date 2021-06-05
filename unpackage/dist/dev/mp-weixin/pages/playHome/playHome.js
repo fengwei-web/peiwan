@@ -124,7 +124,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   var l0 =
-    !(_vm.tabIndex === 0) && _vm.playHomeList.length
+    !(_vm.tabIndex === 0) && _vm.tabIndex === 1 && _vm.playHomeList.length
       ? _vm.__map(_vm.playHomeList, function(item, __i0__) {
           var $orig = _vm.__get_orig(item)
 
@@ -142,11 +142,41 @@ var render = function() {
           }
         })
       : null
+  var l1 =
+    !(_vm.tabIndex === 0) &&
+    !(_vm.tabIndex === 1) &&
+    _vm.tabIndex === 2 &&
+    _vm.orderList.length
+      ? _vm.__map(_vm.orderList, function(item, __i2__) {
+          var $orig = _vm.__get_orig(item)
+
+          var f1 = _vm._f("states")(item.state)
+
+          var g3 = item.data.split(" ")
+          var g4 = item.data.split(" ")
+          var g5 = item.image.indexOf("http")
+          return {
+            $orig: $orig,
+            f1: f1,
+            g3: g3,
+            g4: g4,
+            g5: g5
+          }
+        })
+      : null
+
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.boxShow = false
+    }
+  }
+
   _vm.$mp.data = Object.assign(
     {},
     {
       $root: {
-        l0: l0
+        l0: l0,
+        l1: l1
       }
     }
   )
@@ -392,6 +422,91 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 15);
 var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../static/qqmap-wx-jssdk.min.js */ 37));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
@@ -400,6 +515,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       switchShow: true,
       receivingShow: false,
       playHomeList: [],
+      orderList: [],
       tabList: [
       {
         id: 1,
@@ -407,7 +523,11 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
       {
         id: 2,
-        title: '我要接单' }],
+        title: '订单列表' },
+
+      {
+        id: 3,
+        title: '我的订单' }],
 
 
       tabIndex: 1,
@@ -421,13 +541,16 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       job: '',
       mobile: '',
       currentCity: '北京',
-      listing: '' };
+      listing: '',
+      boxImage: '',
+      boxShow: false };
 
   },
   onLoad: function onLoad() {
     this.getPlayWith();
     this.getPlayHome();
     this.getAddress();
+    this.getOrderLists();
     this.getListing('5.25');
   },
   filters: {
@@ -454,31 +577,41 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
   (0, _vuex.mapState)(['baseUrl'])),
 
   methods: {
+    // 放大图片
+    setBoxImage: function setBoxImage(src) {
+      this.boxImage = src;
+      this.boxShow = true;
+    },
+    // 获取我的订单数据
+    getOrderLists: function getOrderLists() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/play_with/order_list_finish'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+                _this.orderList = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
     // 获取星座
-    getListing: function getListing(newDate) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$http('/api/conste/listing', {
-                    data: newDate }));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+    getListing: function getListing(newDate) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/conste/listing', {
+                    data: newDate }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
 
                 if (data.title) {
-                  _this.listing = data.title;
-                }case 5:case "end":return _context.stop();}}}, _callee);}))();
+                  _this2.listing = data.title;
+                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 获取
-    getPlayHome: function getPlayHome() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this2.$http('/api/play_with/order_list'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
-                _this2.playHomeList = data.data;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    getPlayHome: function getPlayHome() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.$http('/api/play_with/order_list'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
+                _this3.playHomeList = data.data;case 5:case "end":return _context3.stop();}}}, _callee3);}))();
     },
-    getPlayWith: function getPlayWith() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this3.$http('/api/play_with/info'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
+    getPlayWith: function getPlayWith() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this4.$http('/api/play_with/info'));case 2:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;
                 if (data.id) {
-                  _this3.imageList = data.images.split(',');
-                  _this3.date = data.birthday;
-                  _this3.heights = data.height;
-                  _this3.weights = data.weight;
-                  _this3.pationText = data.job;
-                  _this3.intro = data.intro;
-                  _this3.mobile = data.mobile;
-                }case 5:case "end":return _context3.stop();}}}, _callee3);}))();
+                  _this4.imageList = data.images.split(',');
+                  _this4.date = data.birthday;
+                  _this4.heights = data.height;
+                  _this4.weights = data.weight;
+                  _this4.pationText = data.job;
+                  _this4.intro = data.intro;
+                  _this4.mobile = data.mobile;
+                }case 5:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     getAddress: function getAddress() {
       var that = this;
@@ -556,10 +689,10 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       this.orderId = id;
     },
     // 接单确认
-    confirm: function confirm() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var that, _yield$_this4$$http, data, status, msg;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
-                that = _this4;_context4.next = 3;return (
-                  _this4.$http('/api/play_with/receive_order', {
-                    order_id: _this4.orderId }));case 3:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;status = _yield$_this4$$http.status;msg = _yield$_this4$$http.msg;
+    confirm: function confirm() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var that, _yield$_this5$$http, data, status, msg;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+                that = _this5;_context5.next = 3;return (
+                  _this5.$http('/api/play_with/receive_order', {
+                    order_id: _this5.orderId }));case 3:_yield$_this5$$http = _context5.sent;data = _yield$_this5$$http.data;status = _yield$_this5$$http.status;msg = _yield$_this5$$http.msg;
 
                 if (status) {
                   uni.showToast({
@@ -568,6 +701,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                     success: function success() {
                       that.receivingShow = false;
                       that.getPlayHome();
+                      that.getOrderLists();
                     } });
 
                 } else {
@@ -575,16 +709,16 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                     title: msg,
                     icon: 'none' });
 
-                }case 8:case "end":return _context4.stop();}}}, _callee4);}))();
+                }case 8:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     // 修改信息
-    modifyInfo: function modifyInfo() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var images, newImage, indexImage, job, that, _yield$_this5$$http, status;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:
+    modifyInfo: function modifyInfo() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var images, newImage, indexImage, job, that;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:
                 images = '';
                 newImage = [];
                 indexImage = [];
                 job = '';
-                that = _this5;
-                _this5.imageList.forEach(function (v, i) {
+                that = _this6;
+                _this6.imageList.forEach(function (v, i) {
                   if (v) {
                     newImage.push(v);
                     indexImage.push(i);
@@ -592,43 +726,52 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                   }
                 });
                 images = newImage.join(',');if (
-                images) {_context5.next = 10;break;}
+                images) {_context7.next = 10;break;}
                 uni.showToast({
                   title: '请添加图片',
-                  icon: 'none' });return _context5.abrupt("return");case 10:
+                  icon: 'none' });return _context7.abrupt("return");case 10:
 
 
 
-                if (_this5.job) {
-                  job = _this5.job;
+                if (_this6.job) {
+                  job = _this6.job;
                 } else {
-                  job = _this5.pationText;
-                }_context5.next = 13;return (
-                  _this5.$http('/api/play_with/edit', {
-                    birthday: _this5.date,
-                    height: _this5.heights,
-                    weight: _this5.weights,
-                    job: job,
-                    intro: _this5.intro,
-                    images: images,
-                    mobile: _this5.mobile,
-                    conste: _this5.listing }));case 13:_yield$_this5$$http = _context5.sent;status = _yield$_this5$$http.status;
+                  job = _this6.pationText;
+                }
+                uni.showModal({
+                  title: '提示',
+                  content: '是否确定重新提交审核',
+                  success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$that$$http, status;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:if (!
+                              res.confirm) {_context6.next = 6;break;}_context6.next = 3;return (
+                                that.$http('/api/play_with/edit', {
+                                  birthday: that.date,
+                                  height: that.heights,
+                                  weight: that.weights,
+                                  job: job,
+                                  intro: that.intro,
+                                  images: images,
+                                  mobile: that.mobile,
+                                  conste: that.listing }));case 3:_yield$that$$http = _context6.sent;status = _yield$that$$http.status;
 
-                if (status) {
-                  uni.showToast({
-                    title: '修改成功',
-                    icon: 'none' });
+                              if (status) {
+                                uni.showToast({
+                                  title: '修改成功',
+                                  icon: 'none' });
 
-                  setTimeout(function () {
-                    that.job = '';
-                    that.getPlayWith();
-                  }, 1500);
-                } else {
-                  uni.showToast({
-                    title: '修改失败',
-                    icon: 'none' });
+                                setTimeout(function () {
+                                  uni.reLaunch({
+                                    url: '/pages/tabBar/tabBar' });
 
-                }case 16:case "end":return _context5.stop();}}}, _callee5);}))();
+                                }, 1000);
+                              } else {
+                                uni.showToast({
+                                  title: '修改失败',
+                                  icon: 'none' });
+
+                              }case 6:case "end":return _context6.stop();}}}, _callee6);}))();
+
+                  } });case 12:case "end":return _context7.stop();}}}, _callee7);}))();
+
     },
     // tab切换
     setTab: function setTab(index) {

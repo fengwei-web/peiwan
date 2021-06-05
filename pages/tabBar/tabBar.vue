@@ -43,7 +43,7 @@
 		<view class="tabBar_foot flex flex--align-items--center flex--justify-content--center">
 			<view class="tabBar_foot_list flex flex--row flex--align-items--center" @click.top="setSelected(1)">
 				<view v-if="!isShow" style="width: 50rpx;">
-					<image src="../../static/image/home_ac.jpg" style="width: 50rpx;" mode="widthFix"></image>
+					<image src="../../static/image/home_ac.png" style="width: 50rpx;" mode="widthFix"></image>
 				</view>
 				<view v-else style="width: 122rpx;">
 					<image src="../../static/image/home.png" mode="widthFix"></image>
@@ -91,7 +91,8 @@
 		},
 		watch: {
 			isShow(e) {
-				if(this.isShow){
+				if(!this.isShow){
+					this.getOrderCount()
 					return
 				}
 			}
@@ -110,14 +111,15 @@
 					})
 				},3000)
 			}else {
-				this.getOrderCount()
 				this.getUserInfo()
+				this.getOrderCount()
 			}
 		},
 		onShareAppMessage(res) {
 			return {
-				title: '分享好友',
-				path: '/pages/tabBar/tabBar'
+				title: 'ONE BAN  让快乐加伴',
+				path: '/pages/tabBar/tabBar',
+				imageUrl: '../../static/image/share.jpg'
 			}
 		},
 		methods: {
@@ -211,6 +213,10 @@
 											city: res.result.address_component.city
 										})
 										that.nums = data || 0
+										await that.$http('/api/member/address', {
+											province: res.result.address_component.province,
+											city: res.result.address_component.city
+										})
 									}
 								})	
 							},

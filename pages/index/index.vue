@@ -235,7 +235,14 @@
 				let year = date.getFullYear()
 				let month = date.getMonth() + 1;
 				let day = date.getDate()
+				let hour = date.getHours()
+				let minute = date.getMinutes()
+				month = month < 10 ? `0${ month }` : month
+				day = day < 10 ? `0${ day }` : day
+				hour = hour < 10 ? `0${ hour }` : hour
+				minute = minute < 10 ? `0${ minute }` : minute
 				this.date = year + '-' + month + '-' + day
+				this.time = hour + ':' + minute
 			},
 			// 选择做什么
 			setCheckbox(index) {

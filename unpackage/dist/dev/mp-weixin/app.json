@@ -25,6 +25,5 @@
       "desc": "scope.userLocation"
     }
   },
-  "usingComponents": {},
-  "sitemapLocation": "sitemap.json"
+  "usingComponents": {}
 }

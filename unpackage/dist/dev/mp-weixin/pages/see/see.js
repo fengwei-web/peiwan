@@ -324,6 +324,11 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       icon: 'none',
                       success: function success() {
                         that.paymentShow = false;
+                        setTimeout(function () {
+                          uni.navigateBack({
+                            delta: 1 });
+
+                        }, 1000);
                       } });
 
                   },

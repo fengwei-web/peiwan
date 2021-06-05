@@ -51,7 +51,7 @@
 					@click="clickWeixinCode"
 				>
 					<text v-if="!codeImageData">点击添加微信二维码</text>
-					<image v-else :src="baseUrl + codeImageData" mode=""></image>
+					<image v-else :src="baseUrl + codeImageData" mode="aspectFill"></image>
 				</view>
 				<view class="my_addWx_foot flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_addWx_foot_left" @click="$emit('returnMy',1)">返回</view>
@@ -109,7 +109,7 @@
 					{
 						id: 1,
 						src: '../../static/image/wx.png',
-						title: '添加微信',
+						title: '添加 / 修改微信',
 						desc: '完善资料，让陪玩官更准确效率的找到你'
 					},
 					{
@@ -148,11 +148,17 @@
 				myCode: ''
 			}
 		},
-		created() {
+		async created() {
 			this.orderTabList[0].count = this.orderCount.jinxingzhong
 			this.orderTabList[1].count = this.orderCount.yiwancheng
 			this.orderTabList[2].count = this.orderCount.quxiaozhong
 			this.orderTabList[3].count = this.orderCount.yiquxiao
+			this.weixinNumber = this.userInfo.wx_num || ''
+			const { data } = await this.$http('/api/system/info',{
+				type: 2
+			})
+			this.codeImageData = data.content
+			this.myCode = this.userInfo.wx_image
 		},
 		computed: {
 			...mapState(['baseUrl'])
@@ -216,14 +222,15 @@
 			menuOpen(id) {
 				switch(id) {
 					case 1:
-						if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
-							this.$emit('openAddPersonalWeixin')
-						}else {
-							uni.showToast({
-								title: '您已经添加过微信了',
-								icon: 'none'
-							})
-						}
+						this.$emit('openAddPersonalWeixin')
+						// if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
+						// 	this.$emit('openAddPersonalWeixin')
+						// }else {
+						// 	uni.showToast({
+						// 		title: '您已经添加过微信了',
+						// 		icon: 'none'
+						// 	})
+						// }
 					break;
 					case 2:
 						this.$emit('openAddKuWeixin')

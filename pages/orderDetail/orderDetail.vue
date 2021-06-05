@@ -12,19 +12,25 @@
 				<block v-for="item in orderData.data" :key="item.id">
 					<view class="detail_con">
 						<view class="detail_con_head flex flex--align-items--center" @click="goPeiWan(item)">
-							<image :src="item.play_with_list[0].image ? item.play_with_list[0].image :'../../static/image/onelogo.png'" mode="aspectFill"/>
-							<template v-if="item.little_state == 2">
-								<view class="detail_con_head_right">
-									<view class="detail_con_head_right_title">
-										{{ item.play_with_list[0].nickname? item.play_with_list[0].nickname : '暂无' }}
+							<image :src="item.little_state == 3 ? item.play_with_list[0].image : '../../static/image/onelogo.png'" mode="aspectFill"/>
+							<template v-if="item.little_state == 2 || item.little_state == 3">
+								<template v-if="item.little_state !== 3">
+									<view class="detail_con_head_right_no">已有{{ item.play_with_list_count }}人接单</view>
+								</template>
+								<template v-else>
+									<view class="detail_con_head_right">
+										<view class="detail_con_head_right_title">
+											{{ item.play_with_list[0].nickname? item.play_with_list[0].nickname : '暂无' }}
+										</view>
+										<view class="detail_con_head_right_desc">
+											{{ item.play_with_list[0].height }}cm / {{ item.play_with_list[0].weight }}kg / {{ item.play_with_list[0].conste }}
+										</view>
+										<view class="detail_con_head_right_address">
+											{{ item.play_with_list[0].address? item.play_with_list[0].address : '暂无' }}
+										</view>
 									</view>
-									<view class="detail_con_head_right_desc">
-										{{ item.play_with_list[0].height }}cm / {{ item.play_with_list[0].weight }}kg
-									</view>
-									<view class="detail_con_head_right_address">
-										{{ item.play_with_list[0].address? item.play_with_list[0].address : '暂无' }}
-									</view>
-								</view>
+								</template>
+								<image class="detail_con_you" src="../../static/image/you.png" mode="widthFix"></image>
 							</template>
 							<template v-else>
 								<view class="detail_con_head_right_no">正在为您匹配，请等待</view>
@@ -83,8 +89,12 @@
 								v-if="item.state === 1 && item.order_state !== 1"
 								@click="confirmShowTrue(item.id)"
 							>确认完成</view>
-							<view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view>
-							<view class="detail_con_foot_right" v-if="item.state === 4">删除订单</view>
+							<!-- <view class="detail_con_foot_right" v-if="item.state === 3">取消状态</view> -->
+							<view
+								class="detail_con_foot_right"
+								v-if="item.state === 4"
+								@click="deleteOrder(item.id)"
+							>删除订单</view>
 						</view>
 					</view>
 				</block>
@@ -150,7 +160,9 @@
 				break;
 			}
 			this.type = option.type
-			this.getOrederList(option.type)
+		},
+		onShow() {
+			this.getOrederList(this.type)
 		},
 		computed: {
 			...mapState(['baseUrl'])
@@ -186,15 +198,46 @@
 			// 确认订单
 			async confirmOrder() {
 				const { data,status } = await this.$http('/api/order/order_finish',{
-					order_id: this.confirmId
+					id: this.confirmId
 				})
 				if(status) {
 					uni.showToast({
 						title: '确认订单成功',
 						icon: 'none'
 					})
+					this.getOrederList(this.type)
+				}else {
+					uni.showToast({
+						title: '确认失败',
+						icon: 'none'
+					})
 				}
 				this.confirmShow = false
+			},
+			// 删除订单
+			deleteOrder(id) {
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '您确认要删除吗?',
+					async success(res) {
+						if(res.comfirm) {
+							const { data, status } = await that.$http('/api/order/order_finish',{ id })
+							if(status) {
+								uni.showToast({
+									title: '删除订单成功',
+									icon: 'none'
+								})
+								that.getOrederList(that.type)
+							}else {
+								uni.showToast({
+									title: '删除失败',
+									icon: 'none'
+								})
+							}
+						}
+					}
+				})
 			},
 			async cancelShowComfig() {
 				let that = this
@@ -314,6 +357,10 @@
 							font-size: 28rpx;
 							margin-top: 16rpx;
 						}
+					}
+					.detail_con_you {
+						width: 80rpx;
+						border-radius: 0;
 					}
 				}
 				.list_one_container {

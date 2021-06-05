@@ -17,7 +17,7 @@
 										<image :src="baseUrl + item" mode="aspectFill"></image>
 										<view class="swiper_box">
 											<view class="swiper_box_title">{{ msg.nickname }}</view>
-											<view class="swiper_box_info">{{ msg.height }}cm / {{ msg.weight }}kg / {{ conste || '暂无' }}</view>
+											<view class="swiper_box_info">{{ msg.height }}cm / {{ msg.weight }}kg / {{ msg.conste || '暂无' }}</view>
 											<view class="swiper_box_foot flex flex--align-items--center">
 												<view class="swiper_box_foot_left">{{ msg.city !== null? msg.city : '暂无' }}</view>
 											</view>
@@ -44,7 +44,7 @@
 								<view class="container_box_list_right">{{ orderDetail.data }} {{orderDetail.time}}小时</view>
 							</view>
 							<view class="container_box_list flex flex--align-items--center">
-								<view class="container_box_list_left">预计支付的金额：</view>
+								<view class="container_box_list_left">{{ orderDetail.order_state === 2 ? '已' : '预计' }}支付的金额：</view>
 								<view class="container_box_list_right" style="color: #0AAFB9;">￥{{ orderDetail.price }}</view>
 							</view>
 							<view
@@ -70,7 +70,7 @@
 					</view>
 				</view>
 				<view class="config_popon_con">
-					<view>支付后，TA将会在<text>30分钟内</text>添加你的微信。</view>
+					<view>支付后，TA将会在<text>订单开始前2小时内</text>添加你的微信。</view>
 					<view>订单进行中有任何问题，请先联系客服！如取消订单，</view>
 					<view>金额将<text>原路返回</text>到您的支付账户</view>
 				</view>
@@ -164,6 +164,11 @@
 							icon: 'none',
 							success() {
 								that.paymentShow = false
+								setTimeout(() => {
+									uni.navigateBack({
+										delta: 1
+									})
+								}, 1000)
 							}
 						})
 					},

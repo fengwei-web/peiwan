@@ -282,6 +282,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   data: function data() {
@@ -313,7 +323,9 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
         break;}
 
     this.type = option.type;
-    this.getOrederList(option.type);
+  },
+  onShow: function onShow() {
+    this.getOrederList(this.type);
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['baseUrl'])),
@@ -349,21 +361,52 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     // 确认订单
     confirmOrder: function confirmOrder() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
                   _this2.$http('/api/order/order_finish', {
-                    order_id: _this2.confirmId }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+                    id: _this2.confirmId }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
 
                 if (status) {
                   uni.showToast({
                     title: '确认订单成功',
                     icon: 'none' });
 
+                  _this2.getOrederList(_this2.type);
+                } else {
+                  uni.showToast({
+                    title: '确认失败',
+                    icon: 'none' });
+
                 }
                 _this2.confirmShow = false;case 7:case "end":return _context2.stop();}}}, _callee2);}))();
     },
-    cancelShowComfig: function cancelShowComfig() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this3$$http, status, _yield$_this3$$http2, _status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+    // 删除订单
+    deleteOrder: function deleteOrder(id) {
+      var that = this;
+      uni.showModal({
+        title: '提示',
+        content: '您确认要删除吗?',
+        success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$that$$http, data, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:if (!
+                    res.comfirm) {_context3.next = 7;break;}_context3.next = 3;return (
+                      that.$http('/api/order/order_finish', { id: id }));case 3:_yield$that$$http = _context3.sent;data = _yield$that$$http.data;status = _yield$that$$http.status;
+                    if (status) {
+                      uni.showToast({
+                        title: '删除订单成功',
+                        icon: 'none' });
+
+                      that.getOrederList(that.type);
+                    } else {
+                      uni.showToast({
+                        title: '删除失败',
+                        icon: 'none' });
+
+                    }case 7:case "end":return _context3.stop();}}}, _callee3);}))();
+
+        } });
+
+    },
+    cancelShowComfig: function cancelShowComfig() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var that, _yield$_this3$$http, status, _yield$_this3$$http2, _status;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:
                 that = _this3;if (!(
-                _this3.cancelOrder == 1)) {_context3.next = 9;break;}_context3.next = 4;return (
+                _this3.cancelOrder == 1)) {_context4.next = 9;break;}_context4.next = 4;return (
                   _this3.$http('/api/order/cancel_order', {
-                    order_id: _this3.cancelId }));case 4:_yield$_this3$$http = _context3.sent;status = _yield$_this3$$http.status;
+                    order_id: _this3.cancelId }));case 4:_yield$_this3$$http = _context4.sent;status = _yield$_this3$$http.status;
 
                 if (status) {
                   uni.showToast({
@@ -382,10 +425,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       that.cancelShow = false;
                     } });
 
-                }_context3.next = 14;break;case 9:_context3.next = 11;return (
+                }_context4.next = 14;break;case 9:_context4.next = 11;return (
 
                   _this3.$http('/api/order/cancel_order_pay', {
-                    order_id: _this3.cancelId }));case 11:_yield$_this3$$http2 = _context3.sent;_status = _yield$_this3$$http2.status;
+                    order_id: _this3.cancelId }));case 11:_yield$_this3$$http2 = _context4.sent;_status = _yield$_this3$$http2.status;
 
                 if (_status) {
                   uni.showToast({
@@ -404,7 +447,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       that.cancelShow = false;
                     } });
 
-                }case 14:case "end":return _context3.stop();}}}, _callee3);}))();
+                }case 14:case "end":return _context4.stop();}}}, _callee4);}))();
 
     },
     // 跳转选择查看陪玩

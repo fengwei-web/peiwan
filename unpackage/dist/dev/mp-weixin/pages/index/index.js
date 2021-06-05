@@ -364,7 +364,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       var day = date.getDate();
+      var hour = date.getHours();
+      var minute = date.getMinutes();
+      month = month < 10 ? "0".concat(month) : month;
+      day = day < 10 ? "0".concat(day) : day;
+      hour = hour < 10 ? "0".concat(hour) : hour;
+      minute = minute < 10 ? "0".concat(minute) : minute;
       this.date = year + '-' + month + '-' + day;
+      this.time = hour + ':' + minute;
     },
     // 选择做什么
     setCheckbox: function setCheckbox(index) {

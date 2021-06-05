@@ -234,7 +234,8 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
   },
   watch: {
     isShow: function isShow(e) {
-      if (this.isShow) {
+      if (!this.isShow) {
+        this.getOrderCount();
         return;
       }
     } },
@@ -253,14 +254,15 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
       }, 3000);
     } else {
-      this.getOrderCount();
       this.getUserInfo();
+      this.getOrderCount();
     }
   },
   onShareAppMessage: function onShareAppMessage(res) {
     return {
-      title: '分享好友',
-      path: '/pages/tabBar/tabBar' };
+      title: 'ONE BAN  让快乐加伴',
+      path: '/pages/tabBar/tabBar',
+      imageUrl: '../../static/image/share.jpg' };
 
   },
   methods: {
@@ -353,7 +355,11 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                                 province: res.result.address_component.province,
                                 city: res.result.address_component.city }));case 2:_yield$that$$http = _context6.sent;data = _yield$that$$http.data;
 
-                            that.nums = data || 0;case 5:case "end":return _context6.stop();}}}, _callee6);}))();
+                            that.nums = data || 0;_context6.next = 7;return (
+                              that.$http('/api/member/address', {
+                                province: res.result.address_component.province,
+                                city: res.result.address_component.city }));case 7:case "end":return _context6.stop();}}}, _callee6);}))();
+
                 } });
 
             },
@@ -790,7 +796,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       var day = date.getDate();
+      var hour = date.getHours();
+      var minute = date.getMinutes();
+      month = month < 10 ? "0".concat(month) : month;
+      day = day < 10 ? "0".concat(day) : day;
+      hour = hour < 10 ? "0".concat(hour) : hour;
+      minute = minute < 10 ? "0".concat(minute) : minute;
       this.date = year + '-' + month + '-' + day;
+      this.time = hour + ':' + minute;
     },
     // 选择做什么
     setCheckbox: function setCheckbox(index) {
@@ -1160,7 +1173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
+var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   name: 'my',
   props: {
@@ -1189,7 +1202,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       {
         id: 1,
         src: '../../static/image/wx.png',
-        title: '添加微信',
+        title: '添加 / 修改微信',
         desc: '完善资料，让陪玩官更准确效率的找到你' },
 
       {
@@ -1228,11 +1241,17 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       myCode: '' };
 
   },
-  created: function created() {
-    this.orderTabList[0].count = this.orderCount.jinxingzhong;
-    this.orderTabList[1].count = this.orderCount.yiwancheng;
-    this.orderTabList[2].count = this.orderCount.quxiaozhong;
-    this.orderTabList[3].count = this.orderCount.yiquxiao;
+  created: function created() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+              _this.orderTabList[0].count = _this.orderCount.jinxingzhong;
+              _this.orderTabList[1].count = _this.orderCount.yiwancheng;
+              _this.orderTabList[2].count = _this.orderCount.quxiaozhong;
+              _this.orderTabList[3].count = _this.orderCount.yiquxiao;
+              _this.weixinNumber = _this.userInfo.wx_num || '';_context.next = 7;return (
+                _this.$http('/api/system/info', {
+                  type: 2 }));case 7:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+
+              _this.codeImageData = data.content;
+              _this.myCode = _this.userInfo.wx_image;case 11:case "end":return _context.stop();}}}, _callee);}))();
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['baseUrl'])),
@@ -1296,14 +1315,15 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     menuOpen: function menuOpen(id) {
       switch (id) {
         case 1:
-          if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
-            this.$emit('openAddPersonalWeixin');
-          } else {
-            uni.showToast({
-              title: '您已经添加过微信了',
-              icon: 'none' });
-
-          }
+          this.$emit('openAddPersonalWeixin');
+          // if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
+          // 	this.$emit('openAddPersonalWeixin')
+          // }else {
+          // 	uni.showToast({
+          // 		title: '您已经添加过微信了',
+          // 		icon: 'none'
+          // 	})
+          // }
           break;
         case 2:
           this.$emit('openAddKuWeixin');
@@ -1324,12 +1344,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
             name: 'file',
             filePath: tempFilePaths[0],
             fileType: 'image',
-            success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
-                        that.myCode = JSON.parse(res.data).data;_context.next = 3;return (
+            success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+                        that.myCode = JSON.parse(res.data).data;_context2.next = 3;return (
                           that.$http('/api/system/info', {
-                            type: 2 }));case 3:_yield$that$$http = _context.sent;data = _yield$that$$http.data;
+                            type: 2 }));case 3:_yield$that$$http = _context2.sent;data = _yield$that$$http.data;
 
-                        that.codeImageData = data.content;case 6:case "end":return _context.stop();}}}, _callee);}))();
+                        that.codeImageData = data.content;case 6:case "end":return _context2.stop();}}}, _callee2);}))();
             } });
 
           // const { data } = await this.$http
@@ -1337,25 +1357,25 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
     },
     // 添加微信
-    preservation: function preservation() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, _yield$_this$$http, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
-                that = _this;if (
-                _this.weixinNumber) {_context2.next = 4;break;}
+    preservation: function preservation() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
+                that = _this2;if (
+                _this2.weixinNumber) {_context3.next = 4;break;}
                 uni.showToast({
                   title: '请输入微信号',
-                  icon: 'none' });return _context2.abrupt("return");case 4:if (
+                  icon: 'none' });return _context3.abrupt("return");case 4:if (
 
 
 
-                _this.myCode) {_context2.next = 7;break;}
+                _this2.myCode) {_context3.next = 7;break;}
                 uni.showToast({
                   title: '请添加二维码',
-                  icon: 'none' });return _context2.abrupt("return");case 7:_context2.next = 9;return (
+                  icon: 'none' });return _context3.abrupt("return");case 7:_context3.next = 9;return (
 
 
 
-                  _this.$http('/api/member/wx_info', {
-                    wx_num: _this.weixinNumber,
-                    wx_image: _this.myCode }));case 9:_yield$_this$$http = _context2.sent;status = _yield$_this$$http.status;
+                  _this2.$http('/api/member/wx_info', {
+                    wx_num: _this2.weixinNumber,
+                    wx_image: _this2.myCode }));case 9:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
 
                 if (status) {
                   uni.showToast({
@@ -1365,7 +1385,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       that.$emit('returnMy', 1);
                     } });
 
-                }case 12:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 12:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 
