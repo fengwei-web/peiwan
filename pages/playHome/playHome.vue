@@ -216,7 +216,6 @@
 									{{ item.price }}
 								</view>
 							</view>
-							
 							<view class="list_wx flex flex--align-items--center flex--justify-content--space-between">
 								<view class="flex flex--align-items--center">
 									<image src="../../static/image/wxs.jpg" mode="widthFix"></image>
@@ -239,7 +238,7 @@
 							>您已被用户选中</view>
 						</view>
 					</view>
-					<view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view>
+					<!-- <view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view> -->
 				</template>
 				<!-- 暂无数据 -->
 				<template v-else>
