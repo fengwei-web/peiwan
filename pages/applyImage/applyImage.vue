@@ -22,7 +22,7 @@
 						<image v-else :src="baseUrl + item" mode="aspectFit"></image>
 					</view>
 				</view>
-				<view class="image_album_tip">* 请上传本人的仙女自拍（网图）不通过</view>
+				<view class="image_album_tip">* 请小可爱们务必上传本人照片哦～（网图等不予通过）</view>
 			</view>
 			<!-- 手机号 -->
 			<view class="image_mobile">

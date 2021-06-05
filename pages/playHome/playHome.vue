@@ -30,7 +30,7 @@
 							<view class="modify_album_box_list_del" @click="deleteImage(index)">删除</view>
 						</view>
 					</view>
-					<view class="modify_album_tip">* 请上传本人的仙女自拍（网图）不通过</view>
+					<view class="modify_album_tip">* 请小可爱们务必上传本人照片哦～（网图等不予通过）</view>
 				</view>
 				<!-- 你的生日 -->
 				<view class="modify_com">
