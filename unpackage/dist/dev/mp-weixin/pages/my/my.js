@@ -401,13 +401,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     wx_image: _this2.myCode }));case 9:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
 
                 if (status) {
-                  uni.showToast({
-                    title: '添加成功',
-                    icon: 'none',
-                    success: function success() {
-                      that.$emit('returnMy', 1);
-                    } });
-
+                  that.$emit('returnMy', 1);
                 }case 12:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

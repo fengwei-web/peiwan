@@ -40,9 +40,9 @@
 						<view class="list_one_container flex flex--wrap" @click="goPeiWan(item)">
 							<view
 								class="list_one_container_term"
-								v-for="msg in item.do"
-								:key="msg"
-							>{{msg}}</view>
+								v-for="msg in item.do_arr"
+								:key="msg.id"
+							>{{msg.title}}</view>
 						</view>
 						<title title="见面时间" @click="goPeiWan(item)"></title>
 						<view class="list_two_container flex flex--align-items--center" @click="goPeiWan(item)">
@@ -173,10 +173,7 @@
 				const { data } = await this.$http('/api/order/order_list',{
 					state: type
 				})
-				data.data.forEach(v=>{
-					v.do = v.do.split(',')
-					v.data = v.data.split(' ')
-				})
+				data.data.forEach(v => v.data = v.data.split(' '))
 				this.orderData = data
 			},
 			// 取消订单显示

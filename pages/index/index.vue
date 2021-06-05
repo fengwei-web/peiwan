@@ -212,6 +212,7 @@
 			moneyText(e){
 				let str = e.replace(/\s*/g,"");
 				this.moneyText = str
+				
 			}
 		},
 		created() {
@@ -227,6 +228,16 @@
 				this.checkboxText = releaseData.do
 				this.moneyCon = releaseData.price
 			}
+		},
+		updated() {
+			let data = {
+				address: this.cityText,
+				data: this.date + ' ' + this.time,
+				time: this.hour,
+				do: this.checkboxText,
+				price: this.moneyCon
+			}
+			this.$store.commit('setReleaseData',data);
 		},
 		methods: {
 			// 初始化时间
@@ -277,7 +288,12 @@
 						};
 					})
 				}else{
-					this.moneyCon = this.moneyText
+					if(parseInt(this.moneyText) < 400) {
+						this.moneyCon = 400
+						this.moneyText = 400
+					}else {
+						this.moneyCon = this.moneyText
+					}
 				}
 				this.$emit('choiceDoWhat',moneyList)
 			},
@@ -348,6 +364,7 @@
 					do: this.checkboxText,
 					price: this.moneyCon
 				}
+				this.$store.commit('setReleaseData',data);
 				const { status, msg } = await this.$http('/api/order/create_order',data);
 				if(status) {
 					uni.showToast({

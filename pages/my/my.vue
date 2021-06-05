@@ -285,13 +285,7 @@
 					wx_image: this.myCode
 				})
 				if(status){
-					uni.showToast({
-						title: '添加成功',
-						icon: 'none',
-						success() {
-							that.$emit('returnMy',1)
-						}
-					})
+					that.$emit('returnMy', 1)
 				}
 			}
 		}

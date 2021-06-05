@@ -336,10 +336,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   _this.$http('/api/order/order_list', {
                     state: type }));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
 
-                data.data.forEach(function (v) {
-                  v.do = v.do.split(',');
-                  v.data = v.data.split(' ');
-                });
+                data.data.forEach(function (v) {return v.data = v.data.split(' ');});
                 _this.orderData = data;case 6:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 取消订单显示

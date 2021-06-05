@@ -398,6 +398,10 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     // my 返回
     returnMy: function returnMy(type) {
       if (type == 1) {
+        uni.showToast({
+          title: '操作成功',
+          icon: 'none' });
+
         this.addPersonalWeixin = false;
       } else {
         this.addServWeixin = false;
@@ -773,6 +777,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     moneyText: function moneyText(e) {
       var str = e.replace(/\s*/g, "");
       this.moneyText = str;
+
     } },
 
   created: function created() {
@@ -788,6 +793,16 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.checkboxText = releaseData.do;
       this.moneyCon = releaseData.price;
     }
+  },
+  updated: function updated() {
+    var data = {
+      address: this.cityText,
+      data: this.date + ' ' + this.time,
+      time: this.hour,
+      do: this.checkboxText,
+      price: this.moneyCon };
+
+    this.$store.commit('setReleaseData', data);
   },
   methods: {
     // 初始化时间
@@ -838,7 +853,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
           };
         });
       } else {
-        this.moneyCon = this.moneyText;
+        if (parseInt(this.moneyText) < 400) {
+          this.moneyCon = 400;
+          this.moneyText = 400;
+        } else {
+          this.moneyCon = this.moneyText;
+        }
       }
       this.$emit('choiceDoWhat', moneyList);
     },
@@ -907,9 +927,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   data: _this2.date + ' ' + _this2.time,
                   time: _this2.hour,
                   do: _this2.checkboxText,
-                  price: _this2.moneyCon };_context.next = 4;return (
+                  price: _this2.moneyCon };
 
-                  _this2.$http('/api/order/create_order', data));case 4:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;
+                _this2.$store.commit('setReleaseData', data);_context.next = 5;return (
+                  _this2.$http('/api/order/create_order', data));case 5:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;
                 if (status) {
                   uni.showToast({
                     title: '发布成功',
@@ -927,7 +948,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                       that.threeShow = false;
                     } });
 
-                }case 8:case "end":return _context.stop();}}}, _callee);}))();
+                }case 9:case "end":return _context.stop();}}}, _callee);}))();
     },
     goMyOrder: function goMyOrder() {
       uni.navigateTo({
@@ -1378,13 +1399,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     wx_image: _this2.myCode }));case 9:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
 
                 if (status) {
-                  uni.showToast({
-                    title: '添加成功',
-                    icon: 'none',
-                    success: function success() {
-                      that.$emit('returnMy', 1);
-                    } });
-
+                  that.$emit('returnMy', 1);
                 }case 12:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))

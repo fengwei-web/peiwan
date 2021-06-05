@@ -255,6 +255,10 @@
 			// my 返回
 			returnMy(type) {
 				if(type == 1){
+					uni.showToast({
+						title: '操作成功',
+						icon: 'none'
+					})
 					this.addPersonalWeixin = false
 				}else {
 					this.addServWeixin = false
