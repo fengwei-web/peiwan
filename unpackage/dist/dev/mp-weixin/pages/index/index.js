@@ -307,7 +307,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       type: Object },
 
     nums: {
-      type: Number } },
+      type: Number },
+
+    address: {
+      type: String } },
 
 
   data: function data() {
@@ -357,6 +360,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.cityText = releaseData.address;
       this.checkboxText = releaseData.do;
       this.moneyCon = releaseData.price;
+    } else {
+      this.cityText = this.address;
     }
   },
   updated: function updated() {

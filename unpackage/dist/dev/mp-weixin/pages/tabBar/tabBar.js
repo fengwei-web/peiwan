@@ -207,6 +207,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var _index = _interopRequireDefault(__webpack_require__(/*! ../index/index */ 23));
 var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));
 var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../static/qqmap-wx-jssdk.min.js */ 37));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
@@ -229,7 +230,8 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       userInfo: null,
       orderCount: null,
       identity: null,
-      nums: 0 };
+      nums: 0,
+      address: '' };
 
   },
   watch: {
@@ -349,16 +351,17 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                   latitude: res.latitude,
                   longitude: res.longitude },
 
-                success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
-
+                success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                            // 
+                            that.address = res.result.address_component.province + '-' + res.result.address_component.city + '-' + res.result.address_component.district;_context6.next = 3;return (
                               that.$http('/api/member/play_with_num', {
                                 province: res.result.address_component.province,
-                                city: res.result.address_component.city }));case 2:_yield$that$$http = _context6.sent;data = _yield$that$$http.data;
+                                city: res.result.address_component.city }));case 3:_yield$that$$http = _context6.sent;data = _yield$that$$http.data;
 
-                            that.nums = data || 0;_context6.next = 7;return (
+                            that.nums = data || 0;_context6.next = 8;return (
                               that.$http('/api/member/address', {
                                 province: res.result.address_component.province,
-                                city: res.result.address_component.city }));case 7:case "end":return _context6.stop();}}}, _callee6);}))();
+                                city: res.result.address_component.city }));case 8:case "end":return _context6.stop();}}}, _callee6);}))();
 
                 } });
 
@@ -743,7 +746,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       type: Object },
 
     nums: {
-      type: Number } },
+      type: Number },
+
+    address: {
+      type: String } },
 
 
   data: function data() {
@@ -793,6 +799,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.cityText = releaseData.address;
       this.checkboxText = releaseData.do;
       this.moneyCon = releaseData.price;
+    } else {
+      this.cityText = this.address;
     }
   },
   updated: function updated() {

@@ -179,6 +179,9 @@
 			},
 			nums: {
 				type: Number
+			},
+			address: {
+				type: String
 			}
 		},
 		data() {
@@ -228,6 +231,8 @@
 				this.cityText = releaseData.address
 				this.checkboxText = releaseData.do
 				this.moneyCon = releaseData.price
+			}else {
+				this.cityText = this.address
 			}
 		},
 		updated() {

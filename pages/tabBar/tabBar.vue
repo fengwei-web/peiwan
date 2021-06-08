@@ -17,18 +17,19 @@
 		</view>
 		<view class="box">
 			<index
-				v-if="isShow"
+				v-if="isShow && address"
 				:swiperList="swiperList"
 				:labelList="labelList"
 				:moneyList="moneyList"
 				:userInfo="userInfo"
 				:nums="nums"
+				:address="address"
 				@setLabel="setLabel"
 				@choiceDoWhat="choiceDoWhat"
 				@goAddWeixi="goAddWeixi"
 			/>
 			<my
-				v-else
+				v-if="!isShow"
 				:addServWeixin="addServWeixin"
 				:addPersonalWeixin="addPersonalWeixin"
 				:codeImage="codeImage"
@@ -86,7 +87,8 @@
 				userInfo: null,
 				orderCount: null,
 				identity: null,
-				nums: 0
+				nums: 0,
+				address: ''
 			}
 		},
 		watch: {
@@ -208,6 +210,7 @@
 									},
 									async success(res) {
 										// 
+										that.address = res.result.address_component.province + '-' + res.result.address_component.city + '-' + res.result.address_component.district
 										const { data } = await that.$http('/api/member/play_with_num', {
 											province: res.result.address_component.province,
 											city: res.result.address_component.city
