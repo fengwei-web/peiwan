@@ -1,8 +1,8 @@
-const baseUrl = 'http://peiwan.test02.qcw100.com:8000';
+const baseUrl = 'https://oneban.cn';
 
 export default {
 	request(url,data = {},header={}) {
-		data.token = uni.getStorageSync('token') || '4845bb4183cce379ccb65b14270bb20c'
+		data.token = uni.getStorageSync('token')
 		return new Promise((resolve,reject) => {
 			uni.showLoading({
 				mask: true,

@@ -305,13 +305,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       uni.getSetting({
         success: function success(res) {
           var data = res.authSetting['scope.writePhotosAlbum'];
-          if (data) {return;}
+          // if (data) { return }
           uni.authorize({
             scope: 'scope.writePhotosAlbum',
             success: function success() {
               uni.downloadFile({
-                url: 'http://139.159.148.119' + that.codeImage,
+                url: 'https://oneban.cn/' + that.codeImage,
                 success: function success(val) {
+                  console.log(val);
                   uni.saveImageToPhotosAlbum({
                     filePath: val.tempFilePath,
                     success: function success() {

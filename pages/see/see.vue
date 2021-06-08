@@ -121,6 +121,11 @@
 				const { data } = await this.$http('/api/order/info',{
 					order_id: orderId
 				})
+				let arr = []
+				data.do_arr.forEach(v=> {
+					arr.push(v.title)
+				})
+				data.do = arr.join(',')
 				this.orderDetail = data
 			},
 			// 支付返回

@@ -401,11 +401,13 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     // my 返回
     returnMy: function returnMy(type) {
       if (type == 1) {
-        uni.showToast({
-          title: '操作成功',
-          icon: 'none' });
-
         this.addPersonalWeixin = false;
+        setTimeout(function () {
+          uni.showToast({
+            title: '操作成功',
+            icon: 'none' });
+
+        });
       } else {
         this.addServWeixin = false;
       }
@@ -1317,13 +1319,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       uni.getSetting({
         success: function success(res) {
           var data = res.authSetting['scope.writePhotosAlbum'];
-          if (data) {return;}
+          // if (data) { return }
           uni.authorize({
             scope: 'scope.writePhotosAlbum',
             success: function success() {
               uni.downloadFile({
-                url: 'http://139.159.148.119' + that.codeImage,
+                url: 'https://oneban.cn/' + that.codeImage,
                 success: function success(val) {
+                  console.log(val);
                   uni.saveImageToPhotosAlbum({
                     filePath: val.tempFilePath,
                     success: function success() {

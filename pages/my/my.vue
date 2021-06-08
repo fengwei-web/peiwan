@@ -51,7 +51,7 @@
 					@click="clickWeixinCode"
 				>
 					<text v-if="!codeImageData">点击添加微信二维码</text>
-					<image v-else :src="baseUrl + codeImageData" mode="aspectFill"></image>
+					<image v-else :src="baseUrl + myCode" mode="aspectFill"></image>
 				</view>
 				<view class="my_addWx_foot flex flex--align-items--center flex--justify-content--space-between">
 					<view class="my_addWx_foot_left" @click="$emit('returnMy',1)">返回</view>
@@ -189,13 +189,14 @@
 				uni.getSetting({
 					success(res) {
 						let data = res.authSetting['scope.writePhotosAlbum']
-						if (data) { return }
+						// if (data) { return }
 						uni.authorize({
 							scope: 'scope.writePhotosAlbum',
 							success() {
 								uni.downloadFile({
-									url: 'http://139.159.148.119' + that.codeImage,
+									url: 'https://oneban.cn/' + that.codeImage,
 									success(val) {
+										console.log(val)
 										uni.saveImageToPhotosAlbum({
 											filePath: val.tempFilePath,
 											success() {

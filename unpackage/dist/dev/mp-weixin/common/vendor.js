@@ -8891,7 +8891,7 @@ _vue.default.use(_vuex.default);
 var store = new _vuex.default.Store({
   state: {
     releaseData: null,
-    baseUrl: 'http://peiwan.test02.qcw100.com:8000',
+    baseUrl: 'https://oneban.cn',
     applyData: null },
 
   mutations: {
@@ -10029,11 +10029,11 @@ var index = {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var baseUrl = 'http://peiwan.test02.qcw100.com:8000';var _default =
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var baseUrl = 'https://oneban.cn';var _default =
 
 {
   request: function request(url) {var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var header = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-    data.token = uni.getStorageSync('token') || '4845bb4183cce379ccb65b14270bb20c';
+    data.token = uni.getStorageSync('token');
     return new Promise(function (resolve, reject) {
       uni.showLoading({
         mask: true,

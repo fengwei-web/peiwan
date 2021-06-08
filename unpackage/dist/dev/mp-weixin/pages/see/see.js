@@ -277,11 +277,16 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.current = e.detail.current + 1;
     },
     // 获取订单详情
-    getOrderDetail: function getOrderDetail(orderId) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+    getOrderDetail: function getOrderDetail(orderId) {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data, arr;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
                   _this.$http('/api/order/info', {
                     order_id: orderId }));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
 
-                _this.orderDetail = data;case 5:case "end":return _context.stop();}}}, _callee);}))();
+                arr = [];
+                data.do_arr.forEach(function (v) {
+                  arr.push(v.title);
+                });
+                data.do = arr.join(',');
+                _this.orderDetail = data;case 8:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 支付返回
     paymentShowReturn: function paymentShowReturn() {
