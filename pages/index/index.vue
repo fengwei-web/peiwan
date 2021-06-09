@@ -354,8 +354,6 @@
 					})
 					return
 				}
-				
-				
 				if(!this.userInfo.wx_num){
 					this.oneShow = true
 				}else {
