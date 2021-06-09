@@ -250,11 +250,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
   },
   onShow: function onShow() {
     if (!uni.getStorageSync('token')) {
-      setTimeout(function () {
-        uni.navigateTo({
-          url: '/pages/login/login' });
 
-      }, 3000);
     } else {
       this.getUserInfo();
       this.getOrderCount();
@@ -440,6 +436,12 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     },
     // tabBar切换页面
     setSelected: function setSelected(type) {
+      if (!uni.getStorageSync('token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+        return;
+      }
       type === 1 ? this.isShow = true : this.isShow = false;
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
@@ -896,6 +898,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 首页发布订单
     releaseOrder: function releaseOrder() {
+
       if (!this.checkboxText) {
         uni.showToast({
           title: '请选择服务内容',
@@ -917,6 +920,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
         return;
       }
+      if (!uni.getStorageSync('token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+        return;
+      }
+
+
       if (!this.userInfo.wx_num) {
         this.oneShow = true;
       } else {

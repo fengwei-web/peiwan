@@ -455,6 +455,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 首页发布订单
     releaseOrder: function releaseOrder() {
+
       if (!this.checkboxText) {
         uni.showToast({
           title: '请选择服务内容',
@@ -476,6 +477,14 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
         return;
       }
+      if (!uni.getStorageSync('token')) {
+        uni.navigateTo({
+          url: '/pages/login/login' });
+
+        return;
+      }
+
+
       if (!this.userInfo.wx_num) {
         this.oneShow = true;
       } else {

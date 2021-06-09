@@ -107,11 +107,7 @@
 		},
 		onShow() {
 			if(!uni.getStorageSync('token')){
-				setTimeout(() => {
-					uni.navigateTo({
-						url: '/pages/login/login'
-					})
-				},3000)
+				
 			}else {
 				this.getUserInfo()
 				this.getOrderCount()
@@ -297,6 +293,12 @@
 			},
 			// tabBar切换页面
 			setSelected(type) {
+				if(!uni.getStorageSync('token')) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+					return
+				}
 				type === 1 ? this.isShow = true : this.isShow = false;
 			}
 		}

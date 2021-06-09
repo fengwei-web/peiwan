@@ -326,6 +326,7 @@
 			},
 			// 首页发布订单
 			releaseOrder() {
+				
 				if(!this.checkboxText){
 					uni.showToast({
 						title: '请选择服务内容',
@@ -347,6 +348,14 @@
 					})
 					return;
 				}
+				if(!uni.getStorageSync('token')) {
+					uni.navigateTo({
+						url: '/pages/login/login'
+					})
+					return
+				}
+				
+				
 				if(!this.userInfo.wx_num){
 					this.oneShow = true
 				}else {
