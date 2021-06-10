@@ -51,7 +51,7 @@
 								class="container_box_foot flex flex--align-items--center flex--justify-content--center">
 								<view class="container_box_foot_left" @click="returnPrev">返回</view>
 								<template v-if="orderDetail.order_state === 1">
-									<view class="container_box_foot_right" @click="comfigChoice(msg.id)">确认选TA</view>
+									<view class="container_box_foot_right" @click="comfigChoice(msg.member_id)">确认选TA</view>
 								</template>
 							</view>
 						</view>

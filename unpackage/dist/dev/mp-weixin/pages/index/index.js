@@ -483,8 +483,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
         return;
       }
-
-
       if (!this.userInfo.wx_num) {
         this.oneShow = true;
       } else {
