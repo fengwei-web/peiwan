@@ -149,13 +149,6 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                         }case 7:case "end":return _context.stop();}}}, _callee);}))();
             } });
 
-        },
-        fail: function fail(err) {
-          console.log(err);
-          uni.showToast({
-            title: '微信版本过低，请先升级微信再打开小程序',
-            icon: 'none' });
-
         } });
 
     },

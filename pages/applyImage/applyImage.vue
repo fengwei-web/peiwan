@@ -128,8 +128,15 @@
 				})
 			},
 			// 获取验证码
-			getCode() {
+			async getCode() {
 				if(/^1[34578]\d{9}$/.test(this.phone)){
+					const res = await this.$http('/api/member/get_code', {
+						mobile: this.phone
+					})
+					uni.showToast({
+						title: '获取成功',
+						icon: 'none'
+					})
 					this.timeShow = true
 					this.timer = setInterval(() => {
 						--this.time

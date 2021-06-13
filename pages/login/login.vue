@@ -51,13 +51,6 @@
 								}
 							}
 						});
-					},
-					fail(err) {
-						console.log(err)
-						uni.showToast({
-							title: '微信版本过低，请先升级微信再打开小程序',
-							icon: 'none'
-						})
 					}
 				})
 			},

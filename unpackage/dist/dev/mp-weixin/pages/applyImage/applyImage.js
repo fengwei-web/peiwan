@@ -286,48 +286,55 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
     },
     // 获取验证码
-    getCode: function getCode() {var _this = this;
-      if (/^1[34578]\d{9}$/.test(this.phone)) {
-        this.timeShow = true;
-        this.timer = setInterval(function () {
-          --_this.time;
-          _this.timeShow = true;
-        }, 1000);
-        setTimeout(function () {
-          clearInterval(_this.timer);
-          _this.time = 60;
-          _this.timeShow = false;
-        }, 60000);
-      } else {
-        uni.showToast({
-          title: '手机号错误',
-          icon: 'none' });
+    getCode: function getCode() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var res;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
+                /^1[34578]\d{9}$/.test(_this.phone)) {_context.next = 10;break;}_context.next = 3;return (
+                  _this.$http('/api/member/get_code', {
+                    mobile: _this.phone }));case 3:res = _context.sent;
 
-      }
+                uni.showToast({
+                  title: '获取成功',
+                  icon: 'none' });
+
+                _this.timeShow = true;
+                _this.timer = setInterval(function () {
+                  --_this.time;
+                  _this.timeShow = true;
+                }, 1000);
+                setTimeout(function () {
+                  clearInterval(_this.timer);
+                  _this.time = 60;
+                  _this.timeShow = false;
+                }, 60000);_context.next = 11;break;case 10:
+
+                uni.showToast({
+                  title: '手机号错误',
+                  icon: 'none' });case 11:case "end":return _context.stop();}}}, _callee);}))();
+
+
     },
     // 提交
-    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var that, images, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, images, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
                 that = _this2;
                 images = '';
                 images = _this2.imageList.join(',');if (
-                images) {_context.next = 6;break;}
+                images) {_context2.next = 6;break;}
                 uni.showToast({
                   title: '请选择图片',
-                  icon: 'none' });return _context.abrupt("return");case 6:if (
+                  icon: 'none' });return _context2.abrupt("return");case 6:if (
 
 
 
-                _this2.phone) {_context.next = 9;break;}
+                _this2.phone) {_context2.next = 9;break;}
                 uni.showToast({
                   title: '请输入手机号',
-                  icon: 'none' });return _context.abrupt("return");case 9:if (
+                  icon: 'none' });return _context2.abrupt("return");case 9:if (
 
 
 
-                _this2.code) {_context.next = 12;break;}
+                _this2.code) {_context2.next = 12;break;}
                 uni.showToast({
                   title: '请输入验证码',
-                  icon: 'none' });return _context.abrupt("return");case 12:
+                  icon: 'none' });return _context2.abrupt("return");case 12:
 
 
 
@@ -335,8 +342,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                 _this2.params.mobile = _this2.phone;
                 _this2.params.code = _this2.code;
 
-                _this2.$store.commit('setApplyData', _this2.params);_context.next = 18;return (
-                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+                _this2.$store.commit('setApplyData', _this2.params);_context2.next = 18;return (
+                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
                 if (status) {
                   uni.showToast({
                     title: '提交成功',
@@ -350,7 +357,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     title: '提交失败',
                     icon: 'none' });
 
-                }case 22:case "end":return _context.stop();}}}, _callee);}))();
+                }case 22:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     submitShowFalse: function submitShowFalse() {
       this.submitShow = false;
