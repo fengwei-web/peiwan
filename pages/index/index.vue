@@ -44,8 +44,8 @@
 		<view class="index_box">
 			<!-- 标题 -->
 			<view class="index_box_head flex flex--align-items--center flex--justify-content--space-between">
-				<view class="index_box_title">见面时间</view>
-				<view class="index_box_desc">* 见面时间为约定对方的时间，请按照行程合理选择</view>
+				<view class="index_box_title">时间</view>
+				<view class="index_box_desc">* 时间为约定对方的时间，请按照行程合理选择</view>
 			</view>
 			<!-- 内容 -->
 			<view class="index_box_time flex flex--align-items--center">
@@ -64,7 +64,7 @@
 		<view class="index_box">
 			<!-- 标题 -->
 			<view class="index_box_head flex flex--align-items--center flex--justify-content--space-between">
-				<view class="index_box_title">见面地点</view>
+				<view class="index_box_title">地点</view>
 				<view class="index_box_desc">* 该任务将匹配同一状态的用户，请认真选择，提高匹配率</view>
 			</view>
 			<!-- 内容 -->
