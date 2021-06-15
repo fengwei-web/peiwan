@@ -231,7 +231,8 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       orderCount: null,
       identity: null,
       nums: 0,
-      address: '' };
+      address: '',
+      accountShow: false };
 
   },
   watch: {
@@ -247,6 +248,14 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     this.getLabel();
     this.getMoney();
     this.getAddress();
+    var accountInfo = wx.getAccountInfoSync();
+    // env类型
+    var env = accountInfo.miniProgram.envVersion;
+    if (env === 'release') {
+      this.accountShow = false;
+    } else {
+      this.accountShow = true;
+    }
   },
   onShow: function onShow() {
     if (!uni.getStorageSync('token')) {
@@ -320,6 +329,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
     },
     goApply: function goApply() {
+      if (this.accountShow) return;
       if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
         uni.showToast({
           title: '请添加微信信息',
@@ -331,8 +341,9 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
       }
     },
-    goPlayHome: function goPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$http('/api/play_with/info'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+    goPlayHome: function goPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
+                _this.accountShow) {_context.next = 2;break;}return _context.abrupt("return");case 2:_context.next = 4;return (
+                  _this.$http('/api/play_with/info'));case 4:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
                 if (data.state === 2) {
                   uni.navigateTo({
                     url: '/pages/playHome/playHome' });
@@ -357,7 +368,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                       } });
 
                   }
-                }case 5:case "end":return _context.stop();}}}, _callee);}))();
+                }case 7:case "end":return _context.stop();}}}, _callee);}))();
     },
     // 获取轮播图
     getBanner: function getBanner() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
@@ -790,7 +801,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   name: 'index',
@@ -966,7 +976,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 首页发布订单
     releaseOrder: function releaseOrder() {
-
+      if (this.accountShow) return;
       if (!this.checkboxText) {
         uni.showToast({
           title: '请选择服务内容',
@@ -1352,10 +1362,11 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
       weixinNumber: '',
       codeImageData: '',
-      myCode: '' };
+      myCode: '',
+      accountShow: false };
 
   },
-  created: function created() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+  created: function created() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data, accountInfo, env;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
               _this.orderTabList[0].count = _this.orderCount.jinxingzhong;
               _this.orderTabList[1].count = _this.orderCount.yiwancheng;
               _this.orderTabList[2].count = _this.orderCount.quxiaozhong;
@@ -1365,7 +1376,15 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   type: 2 }));case 7:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
 
               _this.codeImageData = data.content;
-              _this.myCode = _this.userInfo.wx_image;case 11:case "end":return _context.stop();}}}, _callee);}))();
+              _this.myCode = _this.userInfo.wx_image;
+              accountInfo = wx.getAccountInfoSync();
+              // env类型
+              env = accountInfo.miniProgram.envVersion;
+              if (env === 'release') {
+                _this.accountShow = false;
+              } else {
+                _this.accountShow = true;
+              }case 14:case "end":return _context.stop();}}}, _callee);}))();
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['baseUrl'])),
@@ -1373,6 +1392,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
   methods: {
     // 进入订单
     goOrder: function goOrder(id) {
+      if (this.accountShow) return;
       uni.navigateTo({
         url: '/pages/orderDetail/orderDetail?type=' + id });
 
@@ -1430,6 +1450,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     menuOpen: function menuOpen(id) {
       switch (id) {
         case 1:
+          if (this.accountShow) return;
           this.$emit('openAddPersonalWeixin');
           // if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
           // 	this.$emit('openAddPersonalWeixin')
@@ -1441,6 +1462,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
           // }
           break;
         case 2:
+          if (this.accountShow) return;
           this.$emit('openAddKuWeixin');
           break;
         case 3:
@@ -1449,6 +1471,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 点击上传二维码
     clickWeixinCode: function clickWeixinCode() {
+      if (this.accountShow) return;
       var that = this;
       uni.chooseImage({
         count: 1,
@@ -1473,28 +1496,29 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 添加微信
     preservation: function preservation() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
-                that = _this2;if (
-                _this2.weixinNumber) {_context3.next = 4;break;}
+                that = _this2;if (!
+                _this2.accountShow) {_context3.next = 3;break;}return _context3.abrupt("return");case 3:if (
+                _this2.weixinNumber) {_context3.next = 6;break;}
                 uni.showToast({
                   title: '请输入微信号',
-                  icon: 'none' });return _context3.abrupt("return");case 4:if (
+                  icon: 'none' });return _context3.abrupt("return");case 6:if (
 
 
 
-                _this2.myCode) {_context3.next = 7;break;}
+                _this2.myCode) {_context3.next = 9;break;}
                 uni.showToast({
                   title: '请添加二维码',
-                  icon: 'none' });return _context3.abrupt("return");case 7:_context3.next = 9;return (
+                  icon: 'none' });return _context3.abrupt("return");case 9:_context3.next = 11;return (
 
 
 
                   _this2.$http('/api/member/wx_info', {
                     wx_num: _this2.weixinNumber,
-                    wx_image: _this2.myCode }));case 9:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
+                    wx_image: _this2.myCode }));case 11:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
 
                 if (status) {
                   that.$emit('returnMy', 1);
-                }case 12:case "end":return _context3.stop();}}}, _callee3);}))();
+                }case 14:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

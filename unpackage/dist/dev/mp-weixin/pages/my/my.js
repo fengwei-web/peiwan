@@ -261,10 +261,11 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
       weixinNumber: '',
       codeImageData: '',
-      myCode: '' };
+      myCode: '',
+      accountShow: false };
 
   },
-  created: function created() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
+  created: function created() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data, accountInfo, env;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
               _this.orderTabList[0].count = _this.orderCount.jinxingzhong;
               _this.orderTabList[1].count = _this.orderCount.yiwancheng;
               _this.orderTabList[2].count = _this.orderCount.quxiaozhong;
@@ -274,7 +275,15 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   type: 2 }));case 7:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
 
               _this.codeImageData = data.content;
-              _this.myCode = _this.userInfo.wx_image;case 11:case "end":return _context.stop();}}}, _callee);}))();
+              _this.myCode = _this.userInfo.wx_image;
+              accountInfo = wx.getAccountInfoSync();
+              // env类型
+              env = accountInfo.miniProgram.envVersion;
+              if (env === 'release') {
+                _this.accountShow = false;
+              } else {
+                _this.accountShow = true;
+              }case 14:case "end":return _context.stop();}}}, _callee);}))();
   },
   computed: _objectSpread({},
   (0, _vuex.mapState)(['baseUrl'])),
@@ -282,6 +291,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
   methods: {
     // 进入订单
     goOrder: function goOrder(id) {
+      if (this.accountShow) return;
       uni.navigateTo({
         url: '/pages/orderDetail/orderDetail?type=' + id });
 
@@ -339,6 +349,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     menuOpen: function menuOpen(id) {
       switch (id) {
         case 1:
+          if (this.accountShow) return;
           this.$emit('openAddPersonalWeixin');
           // if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
           // 	this.$emit('openAddPersonalWeixin')
@@ -350,6 +361,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
           // }
           break;
         case 2:
+          if (this.accountShow) return;
           this.$emit('openAddKuWeixin');
           break;
         case 3:
@@ -358,6 +370,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 点击上传二维码
     clickWeixinCode: function clickWeixinCode() {
+      if (this.accountShow) return;
       var that = this;
       uni.chooseImage({
         count: 1,
@@ -382,28 +395,29 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
     },
     // 添加微信
     preservation: function preservation() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var that, _yield$_this2$$http, status;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:
-                that = _this2;if (
-                _this2.weixinNumber) {_context3.next = 4;break;}
+                that = _this2;if (!
+                _this2.accountShow) {_context3.next = 3;break;}return _context3.abrupt("return");case 3:if (
+                _this2.weixinNumber) {_context3.next = 6;break;}
                 uni.showToast({
                   title: '请输入微信号',
-                  icon: 'none' });return _context3.abrupt("return");case 4:if (
+                  icon: 'none' });return _context3.abrupt("return");case 6:if (
 
 
 
-                _this2.myCode) {_context3.next = 7;break;}
+                _this2.myCode) {_context3.next = 9;break;}
                 uni.showToast({
                   title: '请添加二维码',
-                  icon: 'none' });return _context3.abrupt("return");case 7:_context3.next = 9;return (
+                  icon: 'none' });return _context3.abrupt("return");case 9:_context3.next = 11;return (
 
 
 
                   _this2.$http('/api/member/wx_info', {
                     wx_num: _this2.weixinNumber,
-                    wx_image: _this2.myCode }));case 9:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
+                    wx_image: _this2.myCode }));case 11:_yield$_this2$$http = _context3.sent;status = _yield$_this2$$http.status;
 
                 if (status) {
                   that.$emit('returnMy', 1);
-                }case 12:case "end":return _context3.stop();}}}, _callee3);}))();
+                }case 14:case "end":return _context3.stop();}}}, _callee3);}))();
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

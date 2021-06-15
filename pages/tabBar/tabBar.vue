@@ -88,7 +88,8 @@
 				orderCount: null,
 				identity: null,
 				nums: 0,
-				address: ''
+				address: '',
+				accountShow: false
 			}
 		},
 		watch: {
@@ -104,6 +105,14 @@
 			this.getLabel()
 			this.getMoney()
 			this.getAddress()
+			const accountInfo = wx.getAccountInfoSync();
+			// env类型
+			const env = accountInfo.miniProgram.envVersion;
+			if(env === 'release') {
+				this.accountShow = false
+			}else {
+				this.accountShow = true
+			}
 		},
 		onShow() {
 			if(!uni.getStorageSync('token')){
@@ -177,6 +186,7 @@
 				})
 			},
 			goApply() {
+				if(this.accountShow) return
 				if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
 					uni.showToast({
 						title: '请添加微信信息',
@@ -189,6 +199,7 @@
 				}
 			},
 			async goPlayHome() {
+				if(this.accountShow) return
 				const { data } = await this.$http('/api/play_with/info')
 				if(data.state === 2) {
 					uni.navigateTo({

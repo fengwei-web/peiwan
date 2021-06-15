@@ -17,10 +17,12 @@
 				</template>
 			</swiper>
 			<!-- 公告 -->
-			<!-- <view class="index_notice flex flex--align-items--center">
-				<image src="../../static/image/notice.png" mode=""></image>
-				<text>附近 {{ nums }} 陪玩在线</text>
-			</view> -->
+			<template v-if="!accountShow">
+				<view class="index_notice flex flex--align-items--center">
+					<image src="../../static/image/notice.png" mode=""></image>
+					<text>附近 {{ nums }} 陪玩在线</text>
+				</view>
+			</template>
 		</view>
 		<!-- 第一部分 -->
 		<view class="index_box">
@@ -156,9 +158,6 @@
 					<view class="index_two_foot_right" @click="confirmRelease">确认发布</view>
 				</view>
 			</view>
-		</template>
-		<template v-if="accountShow">
-			<image class="moren" src="../../static/image/zanshi.jpg" mode="" />
 		</template>
 	</view>
 </template>
@@ -339,7 +338,7 @@
 			},
 			// 首页发布订单
 			releaseOrder() {
-				
+				if(this.accountShow) return
 				if(!this.checkboxText){
 					uni.showToast({
 						title: '请选择服务内容',
@@ -698,9 +697,9 @@
 		}
 		.moren {
 			width: 100%;
-			height: 1035rpx;
+			height: 100%;
 			position: fixed;
-			top: 136rpx;
+			top: 0;
 			left: 0;
 		}
 	}

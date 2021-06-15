@@ -145,7 +145,8 @@
 				],
 				weixinNumber: '',
 				codeImageData: '',
-				myCode: ''
+				myCode: '',
+				accountShow: false
 			}
 		},
 		async created() {
@@ -159,6 +160,14 @@
 			})
 			this.codeImageData = data.content
 			this.myCode = this.userInfo.wx_image
+			const accountInfo = wx.getAccountInfoSync();
+			// env类型
+			const env = accountInfo.miniProgram.envVersion;
+			if(env === 'release') {
+				this.accountShow = false
+			}else {
+				this.accountShow = true
+			}
 		},
 		computed: {
 			...mapState(['baseUrl'])
@@ -166,6 +175,7 @@
 		methods: {
 			// 进入订单
 			goOrder(id) {
+				if(this.accountShow) return
 				uni.navigateTo({
 					url: '/pages/orderDetail/orderDetail?type=' + id
 				})
@@ -223,6 +233,7 @@
 			menuOpen(id) {
 				switch(id) {
 					case 1:
+						if(this.accountShow) return
 						this.$emit('openAddPersonalWeixin')
 						// if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
 						// 	this.$emit('openAddPersonalWeixin')
@@ -234,6 +245,7 @@
 						// }
 					break;
 					case 2:
+						if(this.accountShow) return
 						this.$emit('openAddKuWeixin')
 					break;
 					case 3:
@@ -242,6 +254,7 @@
 			},
 			// 点击上传二维码
 			clickWeixinCode() {
+				if(this.accountShow) return
 				let that = this;
 				uni.chooseImage({
 					count: 1,
@@ -267,6 +280,7 @@
 			// 添加微信
 			async preservation() {
 				let that = this
+				if(this.accountShow) return
 				if(!this.weixinNumber){
 					uni.showToast({
 						title: '请输入微信号',
