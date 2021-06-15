@@ -249,4 +249,11 @@
 .index .index_one .index_one_foot .index_one_foot_right.data-v-57280228 {
   background: #0AAFB9;
 }
+.index .moren.data-v-57280228 {
+  width: 100%;
+  height: 1035rpx;
+  position: fixed;
+  top: 136rpx;
+  left: 0;
+}
 

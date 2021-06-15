@@ -17,10 +17,10 @@
 				</template>
 			</swiper>
 			<!-- 公告 -->
-			<view class="index_notice flex flex--align-items--center">
+			<!-- <view class="index_notice flex flex--align-items--center">
 				<image src="../../static/image/notice.png" mode=""></image>
 				<text>附近 {{ nums }} 陪玩在线</text>
-			</view>
+			</view> -->
 		</view>
 		<!-- 第一部分 -->
 		<view class="index_box">
@@ -157,6 +157,9 @@
 				</view>
 			</view>
 		</template>
+		<template v-if="accountShow">
+			<image class="moren" src="../../static/image/zanshi.jpg" mode="" />
+		</template>
 	</view>
 </template>
 
@@ -198,6 +201,7 @@
 				checkboxText: '', // 选择做什么的字符串
 				checkboxText1: '',
 				moneyCon: '',
+				accountShow: false,
 				oneShow: false,
 				twoShow: false,
 				threeShow: false
@@ -233,6 +237,15 @@
 				this.moneyCon = releaseData.price
 			}else {
 				this.cityText = this.address
+			}
+			
+			const accountInfo = wx.getAccountInfoSync();
+			// env类型
+			const env = accountInfo.miniProgram.envVersion;
+			if(env === 'release') {
+				this.accountShow = false
+			}else {
+				this.accountShow = true
 			}
 		},
 		updated() {
@@ -682,6 +695,13 @@
 					background: #0AAFB9;
 				}
 			}
+		}
+		.moren {
+			width: 100%;
+			height: 1035rpx;
+			position: fixed;
+			top: 136rpx;
+			left: 0;
 		}
 	}
 </style>
