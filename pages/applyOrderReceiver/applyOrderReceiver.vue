@@ -224,6 +224,7 @@
 						text-align: center;
 						background: #F8F8F8;
 						font-size: 26rpx;
+						color: #fff;
 						margin: 20rpx 20rpx 0 0;
 						&:nth-child(4n+4) {
 							margin-right: 0;

@@ -263,7 +263,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     } else {
       this.getUserInfo();
       this.getOrderCount();
-      this.getDingYue();
+      // this.getDingYue()
     }
   },
   onShareAppMessage: function onShareAppMessage(res) {
@@ -274,60 +274,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
   },
   methods: {
-    // 获取订阅
-    getDingYue: function getDingYue() {
-      var tmplIds = 'VQVd9k7i_T4FfxWlB_knQ2FSByXPCdNIcjQQQK__KYM';
-      wx.getSetting({
-        withSubscriptions: true, //  这里设置为true,下面才会返回mainSwitch
-        success: function success(res) {
-          // 调起授权界面弹窗
-          if (res.subscriptionsSetting.mainSwitch) {// 用户打开了订阅消息总开关
-            if (res.subscriptionsSetting.itemSettings != null) {// 用户同意总是保持是否推送消息的选择, 这里表示以后不会再拉起推送消息的授权
-              var moIdState = res.subscriptionsSetting.itemSettings[tmplIds]; // 用户同意的消息模板id
-              if (moIdState === 'accept') {
-                console.log('接受了消息推送');
 
-              } else if (moIdState === 'reject') {
-                console.log("拒绝消息推送");
-
-              } else if (moIdState === 'ban') {
-                console.log("已被后台封禁");
-
-              }
-            } else {
-              // 当用户没有点击 ’总是保持以上选择，不再询问‘  按钮。那每次执到这都会拉起授权弹窗
-              wx.showModal({
-                title: '提示',
-                content: '请授权开通服务通知',
-                showCancel: true,
-                success: function success(ress) {
-                  if (ress.confirm) {
-                    wx.requestSubscribeMessage({ // 调起消息订阅界面
-                      tmplIds: [tmplIds],
-                      success: function success(res) {
-                        console.log('订阅消息 成功 ');
-                        console.log(res);
-                      },
-                      fail: function fail(er) {
-                        console.log("订阅消息 失败 ");
-                        console.log(er);
-                      } });
-
-
-                  }
-                } });
-
-            }
-
-          } else {
-            console.log('订阅消息未开启');
-          }
-        },
-        fail: function fail(error) {
-          console.log(error);
-        } });
-
-    },
     goApply: function goApply() {
       if (this.accountShow) return;
       if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
@@ -855,9 +802,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
   watch: {
     moneyText: function moneyText(e) {
-      var str = e.replace(/\s*/g, "");
+      var str = e.replace(/\s*/g, '');
       this.moneyText = str;
-
     } },
 
   created: function created() {
@@ -949,9 +895,9 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
           };
         });
       } else {
-        if (parseInt(this.moneyText) < 400) {
-          this.moneyCon = 400;
-          this.moneyText = 400;
+        if (parseInt(this.moneyText) < 600) {
+          this.moneyCon = 600;
+          this.moneyText = 600;
         } else {
           this.moneyCon = this.moneyText;
         }
@@ -1022,6 +968,60 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.$store.commit('setReleaseData', data);
       this.$emit('goAddWeixi', data);
     },
+    // 获取订阅
+    getDingYue: function getDingYue() {
+      var tmplIds = 'VQVd9k7i_T4FfxWlB_knQ2FSByXPCdNIcjQQQK__KYM';
+      wx.getSetting({
+        withSubscriptions: true, //  这里设置为true,下面才会返回mainSwitch
+        success: function success(res) {
+          // 调起授权界面弹窗
+          if (res.subscriptionsSetting.mainSwitch) {// 用户打开了订阅消息总开关
+            if (res.subscriptionsSetting.itemSettings != null) {// 用户同意总是保持是否推送消息的选择, 这里表示以后不会再拉起推送消息的授权
+              var moIdState = res.subscriptionsSetting.itemSettings[tmplIds]; // 用户同意的消息模板id
+              if (moIdState === 'accept') {
+                console.log('接受了消息推送');
+
+              } else if (moIdState === 'reject') {
+                console.log("拒绝消息推送");
+
+              } else if (moIdState === 'ban') {
+                console.log("已被后台封禁");
+
+              }
+            } else {
+              // 当用户没有点击 ’总是保持以上选择，不再询问‘  按钮。那每次执到这都会拉起授权弹窗
+              wx.showModal({
+                title: '提示',
+                content: '请授权开通服务通知',
+                showCancel: true,
+                success: function success(ress) {
+                  if (ress.confirm) {
+                    wx.requestSubscribeMessage({ // 调起消息订阅界面
+                      tmplIds: [tmplIds],
+                      success: function success(res) {
+                        console.log('订阅消息 成功 ');
+                        console.log(res);
+                      },
+                      fail: function fail(er) {
+                        console.log("订阅消息 失败 ");
+                        console.log(er);
+                      } });
+
+
+                  }
+                } });
+
+            }
+
+          } else {
+            console.log('订阅消息未开启');
+          }
+        },
+        fail: function fail(error) {
+          console.log(error);
+        } });
+
+    },
     // 确认发布
     confirmRelease: function confirmRelease() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var that, data, _yield$_this2$$http, status, msg;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:
                 that = _this2;
@@ -1041,6 +1041,9 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                     success: function success() {
                       that.threeShow = false;
                       that.twoShow = true;
+                      setTimeout(function () {
+                        that.getDingYue();
+                      }, 1000);
                     } });
 
                 } else {
