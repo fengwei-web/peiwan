@@ -2,6 +2,17 @@
 	<view class="index">
 		<!-- 轮播图 -->
 		<view class="index_banner">
+			<!-- 公告 -->
+			<template v-if="!accountShow">
+				<view
+					class="index_notice flex flex--align-items--center flex--justify-content--center"
+					@click="goPlayList"
+				>
+					<image src="../../static/image/notice.png" mode="widthFix"></image>
+					<!-- <text>附近 {{ nums }} 陪玩在线</text> -->
+					<view>点我查看<text>{{ nums }}</text>位在线陪玩官</view>
+				</view>
+			</template>
 			<!-- 轮播 -->
 			<swiper
 				class="swiper"
@@ -16,16 +27,9 @@
 					</swiper-item>
 				</template>
 			</swiper>
-			<!-- 公告 -->
-			<template v-if="!accountShow">
-				<view class="index_notice flex flex--align-items--center">
-					<image src="../../static/image/notice.png" mode=""></image>
-					<text>附近 {{ nums }} 陪玩在线</text>
-				</view>
-			</template>
 		</view>
 		<!-- 第一部分 -->
-		<view class="index_box">
+		<view class="index_box" v-if="!accountShow">
 			<!-- 标题 -->
 			<view class="index_box_head flex flex--align-items--center flex--justify-content--space-between">
 				<view class="index_box_title">喊TA做什么</view>
@@ -62,8 +66,26 @@
 				</picker>
 			</view>
 		</view>
+		<!-- 性别 -->
+		<view class="index_box" v-if="!accountShow">
+			<!-- 标题 -->
+			<view class="index_box_head flex flex--align-items--center flex--justify-content--space-between">
+				<view class="index_box_title">我想喊Ta</view>
+				<view class="index_box_desc"></view>
+			</view>
+			<!-- 内容 -->
+			<view class="index_box_con flex flex--wrap">
+				<view
+					v-for="(item,index) in sexList"
+					:key="item.id"
+					class="index_box_con_list"
+					:class="{'index_box_con_list_active': sexIndex == index}"
+					@click="setCheckSex(index)"
+				>{{ item.title }}</view>
+			</view>
+		</view>
 		<!-- 第三部分 -->
-		<view class="index_box">
+		<view class="index_box" v-if="!accountShow">
 			<!-- 标题 -->
 			<view class="index_box_head flex flex--align-items--center flex--justify-content--space-between">
 				<view class="index_box_title">地点</view>
@@ -75,7 +97,9 @@
 				<picker mode="region" @change="bindCityChange">
 					<view class="index_box_time_address">{{ cityText }}</view>
 				</picker>
+				
 				<text class="index_box_time_number">1人</text>
+				
 			</view>
 		</view>
 		<!-- 第四部分 -->
@@ -159,6 +183,8 @@
 				</view>
 			</view>
 		</template>
+		
+		
 	</view>
 </template>
 
@@ -203,7 +229,23 @@
 				accountShow: false,
 				oneShow: false,
 				twoShow: false,
-				threeShow: false
+				threeShow: false,
+				sexList: [
+					{
+						id: 1,
+						title: '男生'
+					},
+					{
+						id: 2,
+						title: '女生'
+					},
+					{
+						id: 3,
+						title: '不限'
+					}
+				],
+				sex: 2,
+				sexIndex: 1
 			}
 		},
 		computed: {
@@ -232,10 +274,12 @@
 				this.hour = releaseData.time
 				this.cityText = releaseData.address
 				this.checkboxText = releaseData.do
-				this.moneyCon = releaseData.price
+				this.moneyCon = releaseData.price,
+				this.sex = releaseData.sex
 			}else {
 				this.cityText = this.address
 			}
+			
 			
 			const accountInfo = wx.getAccountInfoSync();
 			// env类型
@@ -252,11 +296,19 @@
 				data: this.date + ' ' + this.time,
 				time: this.hour,
 				do: this.checkboxText,
-				price: this.moneyCon
+				price: this.moneyCon,
+				sex: this.sex
 			}
 			this.$store.commit('setReleaseData',data);
 		},
 		methods: {
+			
+			// 进入陪玩列表页面
+			goPlayList() {
+				uni.navigateTo({
+					url: '/pages/playList/playList'
+				})
+			},
 			// 初始化时间
 			getCurrentDate() {
 				let date = new Date();
@@ -287,6 +339,10 @@
 				this.checkboxText = arr.join(',')
 				this.checkboxText1 = newArr.join(',')
 				this.$emit('setLabel',labelList);
+			},
+			setCheckSex(index) {
+				this.sexIndex = index
+				this.sex = this.sexList[index].id
 			},
 			// 选择支付金额
 			choiceDoWhat(index) {
@@ -445,7 +501,8 @@
 					data: this.date + ' ' + this.time,
 					time: this.hour,
 					do: this.checkboxText,
-					price: this.moneyCon
+					price: this.moneyCon,
+					sex: this.sex
 				}
 				this.$store.commit('setReleaseData',data);
 				const { status, msg } = await this.$http('/api/order/create_order',data);
@@ -507,6 +564,7 @@
 		background: #fff;
 		box-shadow: 0 -16rpx 288rpx -52rpx rgba(0,0,0,0.50);
 		border-radius: 50rpx 50rpx 0 0;
+		
 		.index_two_title {
 			width: 186rpx;
 			height: 46rpx;
@@ -562,34 +620,40 @@
 	.index {
 		height: 100%;
 		.index_banner {
-			height: 446rpx;
+			// height: 446rpx;
 			position: relative;
 			swiper {
-				height: 100%;
+				padding: 0 28rpx;
+				height: 246rpx;
 				swiper-item {
 					height: 100%;
 					image {
 						width: 100%;
 						height: 100%;
+						border-radius: 10rpx;
+						overflow: hidden;
 					}
 				}
 			}
 			.index_notice {
-				padding: 15rpx 20rpx;
+				padding: 20rpx 20rpx;
 				background: #fff;
-				border: 3rpx solid #F3F3F3;
-				border-radius: 40rpx;
-				position: absolute;
-				top: 22rpx;
-				left: 24rpx;
+				// border-radius: 40rpx;
+				// border: 3rpx solid #F3F3F3;
+				// position: absolute;
+				// top: 22rpx;
+				// left: 24rpx;
 				image {
 					width: 61rpx;
 					height: 31rpx;
 				}
-				text {
+				view {
 					margin-left: 10rpx;
-					font-size: 18rpx;
+					font-size: 24rpx;
 					color: #FF4E4E;
+					text {
+						font-size: 34rpx;
+					}
 				}
 			}
 		}
@@ -686,6 +750,14 @@
 				}
 				.index_box_time_number {
 					width: 118rpx;
+					height: 80rpx;
+					line-height: 80rpx;
+					text-align: center;
+					background: #F8F8F8;
+					font-size: 32rpx;
+				}
+				.index_box_time_sex {
+					width: 100%;
 					height: 80rpx;
 					line-height: 80rpx;
 					text-align: center;

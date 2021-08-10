@@ -33,6 +33,9 @@
 						<view class="my_box_list_cen_bot">{{ item.desc }}</view>
 					</view>
 					<text class="icon iconfont iconyoubianjiantou"></text>
+					<template v-if="item.id === 2">
+						<button class="my_box_list_btn" open-type="contact">客服</button>
+					</template>
 					
 					<template v-if="item.id === 3">
 						<button class="my_box_list_btn" open-type="share">分享</button>
@@ -245,8 +248,8 @@
 						// }
 					break;
 					case 2:
-						if(this.accountShow) return
-						this.$emit('openAddKuWeixin')
+						// if(this.accountShow) return
+						// this.$emit('openAddKuWeixin')
 					break;
 					case 3:
 					break;

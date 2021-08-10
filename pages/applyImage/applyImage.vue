@@ -159,6 +159,7 @@
 				let that = this
 				let images = ''
 				images = this.imageList.join(',')
+				// console.log(images)
 				if(!images){
 					uni.showToast({
 						title: '请选择图片',
@@ -185,7 +186,7 @@
 				this.params.code = this.code
 				
 				this.$store.commit('setApplyData',this.params)
-				const { data,status } = await this.$http('/api/play_with/apply',this.params)
+				const { data,status, msg } = await this.$http('/api/play_with/apply',this.params)
 				if(status) {
 					uni.showToast({
 						title: '提交成功',
@@ -196,7 +197,7 @@
 					})
 				}else {
 					uni.showToast({
-						title: '提交失败',
+						title: msg,
 						icon: 'none'
 					})
 				}

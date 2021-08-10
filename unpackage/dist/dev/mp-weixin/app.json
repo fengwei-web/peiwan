@@ -11,7 +11,8 @@
     "pages/playHome/playHome",
     "pages/orderDetail/orderDetail",
     "pages/login/login",
-    "pages/agreement/agreement"
+    "pages/agreement/agreement",
+    "pages/playList/playList"
   ],
   "subPackages": [],
   "window": {

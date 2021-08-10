@@ -46,6 +46,18 @@
 					<view class="receiver_box_com_con_right">kg</view>
 				</view>
 			</view>
+			<view class="receiver_box_pation">
+				<title title="你的性别"></title>
+				<view class="receiver_box_pation_con flex flex--wrap">
+					<view
+						class="box_pation_con_list"
+						:class="{ 'active': sexIndex === index }"
+						v-for="(item,index) in sexList"
+						:key="item.id"
+						@click="setSex(index,item.id)"
+					>{{ item.title }}</view>
+				</view>
+			</view>
 			<!-- 你的职业 -->
 			<view class="receiver_box_pation">
 				<title title="你的职业"></title>
@@ -59,20 +71,29 @@
 					>{{ item.title }}</view>
 					<input
 						class="box_pation_con_list"
-						style="background: #07ACB6;"
+						style="background: #07ACB6;color: #fff;"
 						type="text"
 						placeholder="自定义"
 						placeholder-style="color: #fff;"/>
 				</view>
 			</view>
 			<!-- 个人简介 -->
-			<view class="receiver_box_text">
+			<view class="receiver_box_pation">
 				<title title="个人简介"></title>
-				<textarea
+				<view class="receiver_box_pation_con flex flex--wrap">
+					<view
+						class="box_pation_con_list"
+						:class="{ 'active': item.isShow  }"
+						v-for="(item,index) in detailList"
+						:key="item.id"
+						@click="setDetail(index,item.title)"
+					>{{ item.title }}</view>
+				</view>
+				<!-- <textarea
 					class="box_text_con"
 					placeholder="请输入你的个人简介，让别人记住你哈。"
 					v-model="text"
-				/>
+				/> -->
 			</view>
 			<view class="receiver_box_btn" @click="setNext">下一步</view>
 		</view>
@@ -86,18 +107,38 @@
 				date: '2021-05-25',
 				heights: '',
 				weight: '',
-				text: '',
 				pationIndex: 0,
 				pationText: '',
 				listing: '',
-				jobList: []
+				jobList: [],
+				sexList: [
+					{
+						id: 1,
+						title: '男'
+					},
+					{
+						id: 2,
+						title: '女'
+					}
+				],
+				sexIndex: 0,
+				sex: 1,
+				detailList: [],
+				detailText: ''
 			}
 		},
 		onLoad() {
 			this.getListing('5.25')
 			this.getJob()
+			this.getDetail()
 		},
 		methods: {
+			// 获取个人简介
+			async getDetail() {
+				const { data } = await this.$http('/api/tags_detail/lists')
+				data.forEach(v => v['isShow'] = false)
+				this.detailList = data
+			},
 			// 获取职业标签
 			async getJob() {
 				const { data } = await this.$http('/api/tags_job/lists')
@@ -127,6 +168,20 @@
 				this.pationIndex = index
 				this.pationText = title
 			},
+			setSex(index, id) {
+				this.sex = id
+				this.sexIndex = index
+			},
+			setDetail(index, title) {
+				this.detailList[index].isShow = !this.detailList[index].isShow
+				let arr = []
+				this.detailList.forEach(v=>{
+					if(v.isShow){
+						arr.push(v.title)
+					} 
+				})
+				this.detailText = arr.join(',')
+			},
 			// 下一步
 			setNext() {
 				if(this.heights === '') {
@@ -146,8 +201,9 @@
 					height: this.heights,
 					weight: this.weight,
 					job: this.pationText,
-					intro: this.text,
-					conste: this.listing
+					intro: this.detailText,
+					conste: this.listing,
+					sex: this.sex
 				}
 				this.$store.commit('setApplyData',data)
 				uni.navigateTo({
@@ -224,7 +280,7 @@
 						text-align: center;
 						background: #F8F8F8;
 						font-size: 26rpx;
-						color: #fff;
+						color: #333;
 						margin: 20rpx 20rpx 0 0;
 						&:nth-child(4n+4) {
 							margin-right: 0;

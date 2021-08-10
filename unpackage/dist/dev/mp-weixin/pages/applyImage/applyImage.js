@@ -96,10 +96,10 @@ var components
 try {
   components = {
     navBar: function() {
-      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 114))
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 122))
     },
     title: function() {
-      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 121))
+      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 129))
     }
   }
 } catch (e) {
@@ -313,11 +313,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
     },
     // 提交
-    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, images, _yield$_this2$$http, data, status;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
+    setSubmit: function setSubmit() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var that, images, _yield$_this2$$http, data, status, msg;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:
                 that = _this2;
                 images = '';
-                images = _this2.imageList.join(',');if (
-                images) {_context2.next = 6;break;}
+                images = _this2.imageList.join(',');
+                // console.log(images)
+                if (images) {_context2.next = 6;break;}
                 uni.showToast({
                   title: '请选择图片',
                   icon: 'none' });return _context2.abrupt("return");case 6:if (
@@ -343,7 +344,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                 _this2.params.code = _this2.code;
 
                 _this2.$store.commit('setApplyData', _this2.params);_context2.next = 18;return (
-                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;
+                  _this2.$http('/api/play_with/apply', _this2.params));case 18:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;
                 if (status) {
                   uni.showToast({
                     title: '提交成功',
@@ -354,10 +355,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
 
                 } else {
                   uni.showToast({
-                    title: '提交失败',
+                    title: msg,
                     icon: 'none' });
 
-                }case 22:case "end":return _context2.stop();}}}, _callee2);}))();
+                }case 23:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     submitShowFalse: function submitShowFalse() {
       this.submitShow = false;

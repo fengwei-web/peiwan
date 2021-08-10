@@ -63,11 +63,11 @@
   height: 100%;
 }
 .index .index_banner.data-v-57280228 {
-  height: 446rpx;
   position: relative;
 }
 .index .index_banner swiper.data-v-57280228 {
-  height: 100%;
+  padding: 0 28rpx;
+  height: 246rpx;
 }
 .index .index_banner swiper swiper-item.data-v-57280228 {
   height: 100%;
@@ -75,24 +75,24 @@
 .index .index_banner swiper swiper-item image.data-v-57280228 {
   width: 100%;
   height: 100%;
+  border-radius: 10rpx;
+  overflow: hidden;
 }
 .index .index_banner .index_notice.data-v-57280228 {
-  padding: 15rpx 20rpx;
+  padding: 20rpx 20rpx;
   background: #fff;
-  border: 3rpx solid #F3F3F3;
-  border-radius: 40rpx;
-  position: absolute;
-  top: 22rpx;
-  left: 24rpx;
 }
 .index .index_banner .index_notice image.data-v-57280228 {
   width: 61rpx;
   height: 31rpx;
 }
-.index .index_banner .index_notice text.data-v-57280228 {
+.index .index_banner .index_notice view.data-v-57280228 {
   margin-left: 10rpx;
-  font-size: 18rpx;
+  font-size: 24rpx;
   color: #FF4E4E;
+}
+.index .index_banner .index_notice view text.data-v-57280228 {
+  font-size: 34rpx;
 }
 .index .index_box.data-v-57280228 {
   padding: 0 28rpx;
@@ -186,6 +186,14 @@
 }
 .index .index_box .index_box_time .index_box_time_number.data-v-57280228 {
   width: 118rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background: #F8F8F8;
+  font-size: 32rpx;
+}
+.index .index_box .index_box_time .index_box_time_sex.data-v-57280228 {
+  width: 100%;
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;

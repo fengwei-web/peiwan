@@ -48,6 +48,7 @@
 										}
 									})
 									uni.setStorageSync('token',data.token)
+									uni.setStorageSync('first',data.first)
 								}
 							}
 						});

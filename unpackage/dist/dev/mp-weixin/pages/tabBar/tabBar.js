@@ -110,6 +110,11 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
+  if (!_vm._isMounted) {
+    _vm.e0 = function($event) {
+      _vm.isXie = false
+    }
+  }
 }
 var recyclableRender = false
 var staticRenderFns = []
@@ -208,6 +213,25 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _index = _interopRequireDefault(__webpack_require__(/*! ../index/index */ 23));
 var _my = _interopRequireDefault(__webpack_require__(/*! ../my/my */ 30));
 var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../static/qqmap-wx-jssdk.min.js */ 37));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
@@ -218,6 +242,9 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
   data: function data() {
     return {
+      statusBarHeight: 0,
+      navHeightNoBar: 0,
+      navHeight: 0,
       isShow: true,
       swiperList: [],
       labelList: [],
@@ -232,7 +259,9 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       identity: null,
       nums: 0,
       address: '',
-      accountShow: false };
+      accountShow: false,
+      firstContent: '',
+      isXie: false };
 
   },
   watch: {
@@ -248,6 +277,9 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
     this.getLabel();
     this.getMoney();
     this.getAddress();
+    this.getSysInfo();
+    this.getIsInfo();
+
     var accountInfo = wx.getAccountInfoSync();
     // env类型
     var env = accountInfo.miniProgram.envVersion;
@@ -255,6 +287,12 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       this.accountShow = false;
     } else {
       this.accountShow = true;
+    }
+
+    if (this.accountShow) return;
+    var first = uni.getStorageSync('first');
+    if (!first) {
+      this.isXie = true;
     }
   },
   onShow: function onShow() {
@@ -265,6 +303,7 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       this.getOrderCount();
       // this.getDingYue()
     }
+
   },
   onShareAppMessage: function onShareAppMessage(res) {
     return {
@@ -274,7 +313,28 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
   },
   methods: {
+    getIsInfo: function getIsInfo() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/system/info', {
+                    type: 8 }));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
 
+                _this.firstContent = data.content;case 5:case "end":return _context.stop();}}}, _callee);}))();
+    },
+    getSysInfo: function getSysInfo() {var _this2 = this;
+      var menuButtonObject = wx.getMenuButtonBoundingClientRect();
+      wx.getSystemInfo({
+        success: function success(res) {
+          var statusBarHeight = res.statusBarHeight,
+          navHeight = statusBarHeight + menuButtonObject.height + (menuButtonObject.top - statusBarHeight) * 2; //导航高度
+          _this2.navHeight = navHeight;
+          _this2.statusBarHeight = res.statusBarHeight;
+          _this2.navHeightNoBar = navHeight - statusBarHeight;
+        },
+        fail: function fail(err) {
+          console.log(err);
+        } });
+
+    },
+    // 申请接单师
     goApply: function goApply() {
       if (this.accountShow) return;
       if (this.userInfo.wx_num === '' || this.userInfo.wx_num === null) {
@@ -288,9 +348,9 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
       }
     },
-    goPlayHome: function goPlayHome() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:if (!
-                _this.accountShow) {_context.next = 2;break;}return _context.abrupt("return");case 2:_context.next = 4;return (
-                  _this.$http('/api/play_with/info'));case 4:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+    goPlayHome: function goPlayHome() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:if (!
+                _this3.accountShow) {_context2.next = 2;break;}return _context2.abrupt("return");case 2:_context2.next = 4;return (
+                  _this3.$http('/api/play_with/info'));case 4:_yield$_this3$$http = _context2.sent;data = _yield$_this3$$http.data;
                 if (data.state === 2) {
                   uni.navigateTo({
                     url: '/pages/playHome/playHome' });
@@ -315,33 +375,33 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                       } });
 
                   }
-                }case 7:case "end":return _context.stop();}}}, _callee);}))();
+                }case 7:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 获取轮播图
-    getBanner: function getBanner() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this2.$http('/api/banner/lists'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
-                _this2.swiperList = data;case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+    getBanner: function getBanner() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this4.$http('/api/banner/lists'));case 2:_yield$_this4$$http = _context3.sent;data = _yield$_this4$$http.data;
+                _this4.swiperList = data;case 5:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 获取订单数量
-    getOrderCount: function getOrderCount() {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
-                  _this3.$http('/api/order/order_count'));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
-                _this3.orderCount = data;case 5:case "end":return _context3.stop();}}}, _callee3);}))();
+    getOrderCount: function getOrderCount() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
+                  _this5.$http('/api/order/order_count'));case 2:_yield$_this5$$http = _context4.sent;data = _yield$_this5$$http.data;
+                _this5.orderCount = data;case 5:case "end":return _context4.stop();}}}, _callee4);}))();
     },
     // 获取标签
-    getLabel: function getLabel() {var _this4 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee4() {var _yield$_this4$$http, data;return _regenerator.default.wrap(function _callee4$(_context4) {while (1) {switch (_context4.prev = _context4.next) {case 0:_context4.next = 2;return (
-                  _this4.$http('/api/tags_do/lists'));case 2:_yield$_this4$$http = _context4.sent;data = _yield$_this4$$http.data;
+    getLabel: function getLabel() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this6$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
+                  _this6.$http('/api/tags_do/lists'));case 2:_yield$_this6$$http = _context5.sent;data = _yield$_this6$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this4.labelList = data;case 6:case "end":return _context4.stop();}}}, _callee4);}))();
+                _this6.labelList = data;case 6:case "end":return _context5.stop();}}}, _callee5);}))();
     },
     // 获取金额
-    getMoney: function getMoney() {var _this5 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee5() {var _yield$_this5$$http, data;return _regenerator.default.wrap(function _callee5$(_context5) {while (1) {switch (_context5.prev = _context5.next) {case 0:_context5.next = 2;return (
-                  _this5.$http('/api/tags_price/lists'));case 2:_yield$_this5$$http = _context5.sent;data = _yield$_this5$$http.data;
+    getMoney: function getMoney() {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$_this7$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:_context6.next = 2;return (
+                  _this7.$http('/api/tags_price/lists'));case 2:_yield$_this7$$http = _context6.sent;data = _yield$_this7$$http.data;
                 data.forEach(function (v) {
                   v['isShow'] = false;
                 });
-                _this5.moneyList = data;case 6:case "end":return _context5.stop();}}}, _callee5);}))();
+                _this7.moneyList = data;case 6:case "end":return _context6.stop();}}}, _callee6);}))();
     },
     // 获取当前位置
     getAddress: function getAddress() {
@@ -360,17 +420,17 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
                   latitude: res.latitude,
                   longitude: res.longitude },
 
-                success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee6() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee6$(_context6) {while (1) {switch (_context6.prev = _context6.next) {case 0:
+                success: function success(res) {return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var _yield$that$$http, data;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:
                             // 
-                            that.address = res.result.address_component.province + '-' + res.result.address_component.city + '-' + res.result.address_component.district;_context6.next = 3;return (
+                            that.address = res.result.address_component.province + '-' + res.result.address_component.city + '-' + res.result.address_component.district;_context7.next = 3;return (
                               that.$http('/api/member/play_with_num', {
                                 province: res.result.address_component.province,
-                                city: res.result.address_component.city }));case 3:_yield$that$$http = _context6.sent;data = _yield$that$$http.data;
+                                city: res.result.address_component.city }));case 3:_yield$that$$http = _context7.sent;data = _yield$that$$http.data;
 
-                            that.nums = data || 0;_context6.next = 8;return (
+                            that.nums = data || 0;_context7.next = 8;return (
                               that.$http('/api/member/address', {
                                 province: res.result.address_component.province,
-                                city: res.result.address_component.city }));case 8:case "end":return _context6.stop();}}}, _callee6);}))();
+                                city: res.result.address_component.city }));case 8:case "end":return _context7.stop();}}}, _callee7);}))();
 
                 } });
 
@@ -387,10 +447,10 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
 
     },
     // 获取个人信息
-    getUserInfo: function getUserInfo() {var _this6 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee7() {var _yield$_this6$$http, data;return _regenerator.default.wrap(function _callee7$(_context7) {while (1) {switch (_context7.prev = _context7.next) {case 0:_context7.next = 2;return (
-                  _this6.$http('/api/member/info'));case 2:_yield$_this6$$http = _context7.sent;data = _yield$_this6$$http.data;
-                _this6.userInfo = data;
-                _this6.identity = data.identity;case 6:case "end":return _context7.stop();}}}, _callee7);}))();
+    getUserInfo: function getUserInfo() {var _this8 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var _yield$_this8$$http, data;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:_context8.next = 2;return (
+                  _this8.$http('/api/member/info'));case 2:_yield$_this8$$http = _context8.sent;data = _yield$_this8$$http.data;
+                _this8.userInfo = data;
+                _this8.identity = data.identity;case 6:case "end":return _context8.stop();}}}, _callee8);}))();
     },
 
     // index页面（标签）传过来的值
@@ -423,15 +483,15 @@ var _qqmapWxJssdkMin = _interopRequireDefault(__webpack_require__(/*! ../../stat
       this.getUserInfo();
     },
     // 获取客户信息
-    getSevrInfo: function getSevrInfo(type) {var _this7 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee8() {var _yield$_this7$$http, data;return _regenerator.default.wrap(function _callee8$(_context8) {while (1) {switch (_context8.prev = _context8.next) {case 0:_context8.next = 2;return (
-                  _this7.$http('/api/system/info', {
-                    type: type }));case 2:_yield$_this7$$http = _context8.sent;data = _yield$_this7$$http.data;
+    getSevrInfo: function getSevrInfo(type) {var _this9 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee9() {var _yield$_this9$$http, data;return _regenerator.default.wrap(function _callee9$(_context9) {while (1) {switch (_context9.prev = _context9.next) {case 0:_context9.next = 2;return (
+                  _this9.$http('/api/system/info', {
+                    type: type }));case 2:_yield$_this9$$http = _context9.sent;data = _yield$_this9$$http.data;
 
                 if (type == 2) {
-                  _this7.codeImage = data.content;
+                  _this9.codeImage = data.content;
                 } else {
-                  _this7.wxCode = data.content;
-                }case 5:case "end":return _context8.stop();}}}, _callee8);}))();
+                  _this9.wxCode = data.content;
+                }case 5:case "end":return _context9.stop();}}}, _callee9);}))();
     },
     // 在我的页面打开客服
     openAddKuWeixin: function openAddKuWeixin() {
@@ -748,6 +808,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   name: 'index',
@@ -788,7 +874,23 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       accountShow: false,
       oneShow: false,
       twoShow: false,
-      threeShow: false };
+      threeShow: false,
+      sexList: [
+      {
+        id: 1,
+        title: '男生' },
+
+      {
+        id: 2,
+        title: '女生' },
+
+      {
+        id: 3,
+        title: '不限' }],
+
+
+      sex: 2,
+      sexIndex: 1 };
 
   },
   computed: _objectSpread({
@@ -817,10 +919,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.hour = releaseData.time;
       this.cityText = releaseData.address;
       this.checkboxText = releaseData.do;
-      this.moneyCon = releaseData.price;
+      this.moneyCon = releaseData.price,
+      this.sex = releaseData.sex;
     } else {
       this.cityText = this.address;
     }
+
 
     var accountInfo = wx.getAccountInfoSync();
     // env类型
@@ -837,11 +941,19 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       data: this.date + ' ' + this.time,
       time: this.hour,
       do: this.checkboxText,
-      price: this.moneyCon };
+      price: this.moneyCon,
+      sex: this.sex };
 
     this.$store.commit('setReleaseData', data);
   },
   methods: {
+
+    // 进入陪玩列表页面
+    goPlayList: function goPlayList() {
+      uni.navigateTo({
+        url: '/pages/playList/playList' });
+
+    },
     // 初始化时间
     getCurrentDate: function getCurrentDate() {
       var date = new Date();
@@ -872,6 +984,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.checkboxText = arr.join(',');
       this.checkboxText1 = newArr.join(',');
       this.$emit('setLabel', labelList);
+    },
+    setCheckSex: function setCheckSex(index) {
+      this.sexIndex = index;
+      this.sex = this.sexList[index].id;
     },
     // 选择支付金额
     choiceDoWhat: function choiceDoWhat(index) {
@@ -1030,7 +1146,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   data: _this2.date + ' ' + _this2.time,
                   time: _this2.hour,
                   do: _this2.checkboxText,
-                  price: _this2.moneyCon };
+                  price: _this2.moneyCon,
+                  sex: _this2.sex };
 
                 _this2.$store.commit('setReleaseData', data);_context.next = 5;return (
                   _this2.$http('/api/order/create_order', data));case 5:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;
@@ -1300,6 +1417,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}var _default =
 {
   name: 'my',
@@ -1465,8 +1585,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
           // }
           break;
         case 2:
-          if (this.accountShow) return;
-          this.$emit('openAddKuWeixin');
+          // if(this.accountShow) return
+          // this.$emit('openAddKuWeixin')
           break;
         case 3:
           break;}

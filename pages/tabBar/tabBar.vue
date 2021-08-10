@@ -1,12 +1,15 @@
 <template>
 	<view class="tabBar flex flex--row">
 		<!-- 头部 -->
-		<view class="index_head flex flex--row">
-			<view class="status_bar"></view>
-			<view class="index_head_con flex flex--align-items--center flex--justify-content--center">
+		<view class="index_head flex flex--row" :style="{ height: navHeight + 'px'}">
+			<view :style="{ height: statusBarHeight + 'px' }"></view>
+			<view
+				class="index_head_con flex flex--align-items--center flex--justify-content--center"
+				:style="{ height: navHeightNoBar + 'px' }"
+			>
 				<template v-if="isShow">
-					<template v-if="identity === 1">
-						<view class="index_head_con_btn" @click="goApply">申请接单师</view>
+					<template v-if="identity === 1 && !accountShow">
+						<view class="index_head_con_btn" @click="goApply">申请城市陪玩官</view>
 					</template>
 					<template v-else-if="identity === 2">
 						<view class="index_head_con_btn" @click="goPlayHome">接单工作台</view>
@@ -61,6 +64,22 @@
 				<text>个人中心</text>
 			</view>
 		</view>
+		
+		
+		
+		<template v-if="isXie">
+			<view class="popup flex flex--align-items--center flex--justify-content--center">
+				<view class="popupContent flex flex--row flex--align-items--center">
+					<view class="popupContentTitle">用户协议</view>
+					<view class="popupContentText" v-html="firstContent"></view>
+					<view class="popupContentBtn flex" @click="isXie = false">
+						<view>取消</view>
+						<view style="color: #07ACB6;">确定</view>
+					</view>
+				</view>
+			</view>
+		</template>
+		
 	</view>
 </template>
 
@@ -75,6 +94,9 @@
 		},
 		data() {
 			return {
+				statusBarHeight: 0,
+				navHeightNoBar: 0,
+				navHeight: 0,
 				isShow: true,
 				swiperList: [],
 				labelList: [],
@@ -89,7 +111,9 @@
 				identity: null,
 				nums: 0,
 				address: '',
-				accountShow: false
+				accountShow: false,
+				firstContent: '',
+				isXie: false
 			}
 		},
 		watch: {
@@ -105,6 +129,9 @@
 			this.getLabel()
 			this.getMoney()
 			this.getAddress()
+			this.getSysInfo()
+			this.getIsInfo()
+			
 			const accountInfo = wx.getAccountInfoSync();
 			// env类型
 			const env = accountInfo.miniProgram.envVersion;
@@ -112,6 +139,12 @@
 				this.accountShow = false
 			}else {
 				this.accountShow = true
+			}
+			
+			if(this.accountShow) return
+			let first = uni.getStorageSync('first')
+			if(!first) {
+				this.isXie = true
 			}
 		},
 		onShow() {
@@ -122,6 +155,7 @@
 				this.getOrderCount()
 				// this.getDingYue()
 			}
+			
 		},
 		onShareAppMessage(res) {
 			return {
@@ -131,7 +165,28 @@
 			}
 		},
 		methods: {
-			
+			async getIsInfo() {
+				const { data } = await this.$http('/api/system/info', {
+					type: 8
+				})
+				this.firstContent = data.content
+			},
+			getSysInfo() {
+				let menuButtonObject = wx.getMenuButtonBoundingClientRect();
+				wx.getSystemInfo({
+					success: res => {
+						let statusBarHeight = res.statusBarHeight,
+							navHeight = statusBarHeight + menuButtonObject.height + (menuButtonObject.top - statusBarHeight)*2;//导航高度
+						this.navHeight = navHeight;
+						this.statusBarHeight = res.statusBarHeight
+						this.navHeightNoBar = navHeight - statusBarHeight
+					},
+					fail(err) {
+						console.log(err);
+					}
+				})
+			},
+			// 申请接单师
 			goApply() {
 				if(this.accountShow) return
 				if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
@@ -321,15 +376,45 @@
 <style lang="less">
 	.tabBar {
 		height: 100%;
-		.index_head {
-			height: 144rpx;
-			flex-shrink: 0;
-			.status_bar {
-				height: var(--status-bar-height);
-				width: 100%;
+		.popup {
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,.37);
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			.popupContent {
+				width: 550rpx;
+				background: #fff;
+				border-radius: 20rpx;
+				padding: 28rpx 28rpx 0 28rpx;
+				.popupContentTitle {
+					padding: 20rpx 0;
+					font-size: 40rpx;
+					font-weight: bold;
+				}
+				.popupContentText {
+					max-height: 600rpx;
+					overflow: auto;
+					font-size: 28rpx;
+					color: #999;
+				}
+				.popupContentBtn {
+					width: 100%;
+					height: 110rpx;
+					view {
+						width: 50%;
+						height: 100%;
+						line-height: 110rpx;
+						text-align: center;
+						font-size: 30rpx;
+					}
+				}
 			}
+		}
+		.index_head {
 			.index_head_con{
-				flex: 1;
 				position: relative;
 				.index_head_con_btn {
 					padding: 12rpx 32rpx;
@@ -341,7 +426,7 @@
 					left: 14rpx;
 				}
 				.index_head_con_title {
-					font-size: 28rpx;
+					font-size: 32rpx;
 					font-weight: bold;
 				}
 			}

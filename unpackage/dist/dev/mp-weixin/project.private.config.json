@@ -77,6 +77,12 @@
           "pathName": "pages/orderDetail/orderDetail",
           "query": "type=1",
           "scene": null
+        },
+        {
+          "name": "陪玩列表",
+          "pathName": "pages/playList/playList",
+          "query": "",
+          "scene": null
         }
       ]
     }

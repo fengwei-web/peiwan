@@ -65,6 +65,15 @@
 						<view class="modify_com_con_right">kg</view>
 					</view>
 				</view>
+				<!-- 你的性别 -->
+				<view class="modify_pation">
+					<title title="你的性别"></title>
+					<view class="modify_pation_con flex flex--wrap">
+						<view
+							class="pation_con_list"
+						>{{ sex == 1 ? '男' : '女' }}</view>
+					</view>
+				</view>
 				<!-- 你的职业 -->
 				<view class="modify_pation">
 					<title title="你的职业"></title>
@@ -83,9 +92,18 @@
 					</view>
 				</view>
 				<!-- 个人简介 -->
-				<view class="modify_text">
+				<view class="modify_pation">
 					<title title="个人简介"></title>
-					<textarea class="text_con" v-model="intro" placeholder="请输入你的个人简介，让别人记住你哈。" />
+					<view class="modify_pation_con flex flex--wrap">
+						<view
+							class="pation_con_list"
+							:class="{ 'active' : item.isShow }"
+							v-for="(item, index) in detailList"
+							:key="item.id"
+							@click="setDetail(index)"
+						>{{ item.title }}</view>
+					</view>
+					<!-- <textarea class="text_con" v-model="intro" placeholder="请输入你的个人简介，让别人记住你哈。" /> -->
 				</view>
 				<!-- 底部按钮 -->
 				<view class="modify_foot flex flex--align-items--center flex--justify-content--space-between">
@@ -209,14 +227,17 @@
 							<title title="下单用户"></title>
 							<view class="list_four_container flex flex--align-items--center">
 								<image :src="item.image.indexOf('http') !== -1? item.image :baseUrl + item.image" mode="aspectFill" />
-								<text>愿意支付</text>
+								<text>{{ item.order_state == 2 ? '已支付' : '愿意支付' }} </text>
 								<view
 									class="list_four_container_price flex flex--align-items--center flex--justify-content--center">
 									<text>¥</text>
 									{{ item.price }}
 								</view>
 							</view>
-							<view class="list_wx flex flex--align-items--center flex--justify-content--space-between">
+							<view
+								class="list_wx flex flex--align-items--center flex--justify-content--space-between"
+								v-if="item.play_with_state === 2 && item.state === 1"
+							>
 								<view class="flex flex--align-items--center">
 									<image src="../../static/image/wxs.jpg" mode="widthFix"></image>
 									<text style="margin-left: 95rpx;">{{ item.wx_code }}</text>
@@ -236,6 +257,12 @@
 								class="list_btn flex flex--align-items--center flex--justify-content--center"
 								v-if="item.play_with_state === 2 && item.state === 1"
 							>您已被用户选中</view>
+							
+							<view
+								class="list_btn flex flex--align-items--center flex--justify-content--center"
+								v-if="item.state == 2 && item.settle == 1 && item.settle_state == 1"
+								@click="withdrawal(item.id)"
+							>我要提现</view>
 						</view>
 					</view>
 					<!-- <view class="playHome_more flex flex--justify-content--center">— 当前城市暂无更多订单 —</view> -->
@@ -319,7 +346,7 @@
 				date: '2021-05-25',
 				heights: '',
 				weights: '',
-				intro: '',
+				intro: [],
 				imageList: ['','','','','',''],
 				pationText: '',
 				job: '',
@@ -327,7 +354,9 @@
 				currentCity: '北京',
 				listing: '',
 				boxImage: '',
-				boxShow: false
+				sex: 1,
+				boxShow: false,
+				detailList: []
 			}
 		},
 		onLoad() {
@@ -361,6 +390,66 @@
 			...mapState(['baseUrl'])
 		},
 		methods: {
+			// 获取个人简介
+			async getDetail() {
+				const { data } = await this.$http('/api/tags_detail/lists')
+				data.forEach(v => {
+					v['isShow'] = false
+					this.intro.forEach(m => {
+						if(m == v.title) {
+							v.isShow = true
+						}
+					})
+				})
+				
+				this.detailList = data
+				console.log(this.detailList)
+			},
+			setDetail(index) {
+				let arr = this.detailList
+				this.intro = []
+				arr[index].isShow = !arr[index].isShow
+				arr.forEach(v => {
+					if(v.isShow) {
+						this.intro.push(v.title)
+					}
+				})
+				console.log(this.intro)
+			},
+			// 我要提现
+			withd(order_id) {
+				uni.showModal({
+					title: '提示',
+					content: '您确定要提现吗？',
+					success(res) {
+						if(res.confirm) {
+							that.withdrawal(order_id)
+						}
+					}
+				})
+			},
+			async withdrawal(order_id) {
+				const { data, status } = await this.$http('/api/play_with/settle', {
+					order_id: order_id
+				})
+				if(status) {
+					uni.showToast({
+						title: '提交成功',
+						icon: 'none',
+						success() {
+							setTimeout(() => {
+								this.getOrderLists()
+								this.tabIndex = 2
+							}, 1000)
+						}
+					})
+				}else {
+					uni.showToast({
+						title: '提交失败',
+						icon: 'none'
+					})
+				}
+			},
 			// 放大图片
 			setBoxImage(src) {
 				this.boxImage = src
@@ -393,9 +482,11 @@
 					this.heights = data.height
 					this.weights = data.weight
 					this.pationText = data.job
-					this.intro = data.intro
+					this.sex = data.sex
+					this.intro = data.intro.split(',')
 					this.mobile = data.mobile
 				}
+				this.getDetail()
 			}, 
 			getAddress() {
 				let that = this
@@ -469,8 +560,17 @@
 			},
 			// 我要接单
 			myWantOrder(id) {
-				this.receivingShow = true
-				this.orderId = id
+				let that = this
+				uni.showModal({
+					title: '提示',
+					content: '您确定要接单吗？',
+					success(res) {
+						if(res.confirm) {
+							that.receivingShow = true
+							that.orderId = id
+						}
+					}
+				})
 			},
 			// 获取订阅
 			getDingYue() {
@@ -553,18 +653,16 @@
 			// 修改信息
 			async modifyInfo() {
 				let images = ''
-				let newImage = []
 				let indexImage = []
 				let job = ''
 				let that = this
 				this.imageList.forEach((v,i) => {
 					if(v) {
-						newImage.push(v)
 						indexImage.push(i)
 						uni.setStorageSync('indexImage',indexImage)
 					}
 				})
-				images = newImage.join(',');
+				images = this.imageList.join(',');
 				if(!images){
 					uni.showToast({
 						title: '请添加图片',
@@ -582,12 +680,13 @@
 					content: '是否确定重新提交审核',
 					async success(res) {
 						if(res.confirm){
-							const { status } = await that.$http('/api/play_with/edit',{
+							const { status, msg } = await that.$http('/api/play_with/edit',{
 								birthday: that.date,
 								height: that.heights,
 								weight: that.weights,
 								job,
-								intro: that.intro,
+								sex: that.sex,
+								intro: that.intro.join(','),
 								images,
 								mobile: that.mobile,
 								conste: that.listing
@@ -604,7 +703,7 @@
 								},1000)
 							}else {
 								uni.showToast({
-									title: '修改失败',
+									title: msg,
 									icon: 'none'
 								})
 							}
@@ -644,7 +743,7 @@
 			.modify_album {
 				width: 100%;
 				.modify_album_box {
-					padding: 44rpx 44rpx 0 44rpx;
+					padding: 44rpx 42rpx 0 42rpx;
 					background: #F8F8F8;
 					.modify_album_box_list {
 						width: 194rpx;
@@ -727,9 +826,9 @@
 						&:nth-child(4n+4) {
 							margin-right: 0;
 						}
-						&:nth-child(-n+4) {
-							margin-top: 0;
-						}
+						// &:nth-child(-n+4) {
+						// 	margin-top: 0;
+						// }
 						&.active {
 							background: #07ACB6;
 							color: #fff;

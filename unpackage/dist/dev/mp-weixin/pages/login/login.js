@@ -39,7 +39,7 @@ var components
 try {
   components = {
     navBar: function() {
-      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 114))
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 122))
     }
   }
 } catch (e) {
@@ -146,6 +146,7 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                             } });
 
                           uni.setStorageSync('token', data.token);
+                          uni.setStorageSync('first', data.first);
                         }case 7:case "end":return _context.stop();}}}, _callee);}))();
             } });
 

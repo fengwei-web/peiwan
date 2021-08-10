@@ -292,6 +292,32 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {try {var info = gen[key](arg);var value = info.value;} catch (error) {reject(error);return;}if (info.done) {resolve(value);} else {Promise.resolve(value).then(_next, _throw);}}function _asyncToGenerator(fn) {return function () {var self = this,args = arguments;return new Promise(function (resolve, reject) {var gen = fn.apply(self, args);function _next(value) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);}function _throw(err) {asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);}_next(undefined);});};}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var _default =
 {
   name: 'index',
@@ -332,7 +358,23 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       accountShow: false,
       oneShow: false,
       twoShow: false,
-      threeShow: false };
+      threeShow: false,
+      sexList: [
+      {
+        id: 1,
+        title: '男生' },
+
+      {
+        id: 2,
+        title: '女生' },
+
+      {
+        id: 3,
+        title: '不限' }],
+
+
+      sex: 2,
+      sexIndex: 1 };
 
   },
   computed: _objectSpread({
@@ -361,10 +403,12 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.hour = releaseData.time;
       this.cityText = releaseData.address;
       this.checkboxText = releaseData.do;
-      this.moneyCon = releaseData.price;
+      this.moneyCon = releaseData.price,
+      this.sex = releaseData.sex;
     } else {
       this.cityText = this.address;
     }
+
 
     var accountInfo = wx.getAccountInfoSync();
     // env类型
@@ -381,11 +425,19 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       data: this.date + ' ' + this.time,
       time: this.hour,
       do: this.checkboxText,
-      price: this.moneyCon };
+      price: this.moneyCon,
+      sex: this.sex };
 
     this.$store.commit('setReleaseData', data);
   },
   methods: {
+
+    // 进入陪玩列表页面
+    goPlayList: function goPlayList() {
+      uni.navigateTo({
+        url: '/pages/playList/playList' });
+
+    },
     // 初始化时间
     getCurrentDate: function getCurrentDate() {
       var date = new Date();
@@ -416,6 +468,10 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
       this.checkboxText = arr.join(',');
       this.checkboxText1 = newArr.join(',');
       this.$emit('setLabel', labelList);
+    },
+    setCheckSex: function setCheckSex(index) {
+      this.sexIndex = index;
+      this.sex = this.sexList[index].id;
     },
     // 选择支付金额
     choiceDoWhat: function choiceDoWhat(index) {
@@ -574,7 +630,8 @@ var _vuex = __webpack_require__(/*! vuex */ 15);function _interopRequireDefault(
                   data: _this2.date + ' ' + _this2.time,
                   time: _this2.hour,
                   do: _this2.checkboxText,
-                  price: _this2.moneyCon };
+                  price: _this2.moneyCon,
+                  sex: _this2.sex };
 
                 _this2.$store.commit('setReleaseData', data);_context.next = 5;return (
                   _this2.$http('/api/order/create_order', data));case 5:_yield$_this2$$http = _context.sent;status = _yield$_this2$$http.status;msg = _yield$_this2$$http.msg;

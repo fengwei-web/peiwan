@@ -96,10 +96,10 @@ var components
 try {
   components = {
     navBar: function() {
-      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 114))
+      return __webpack_require__.e(/*! import() | components/navBar/navBar */ "components/navBar/navBar").then(__webpack_require__.bind(null, /*! @/components/navBar/navBar.vue */ 122))
     },
     title: function() {
-      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 121))
+      return __webpack_require__.e(/*! import() | components/title/title */ "components/title/title").then(__webpack_require__.bind(null, /*! @/components/title/title.vue */ 129))
     }
   }
 } catch (e) {
@@ -237,6 +237,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default =
 {
   data: function data() {
@@ -244,23 +265,43 @@ var _default =
       date: '2021-05-25',
       heights: '',
       weight: '',
-      text: '',
       pationIndex: 0,
       pationText: '',
       listing: '',
-      jobList: [] };
+      jobList: [],
+      sexList: [
+      {
+        id: 1,
+        title: '男' },
+
+      {
+        id: 2,
+        title: '女' }],
+
+
+      sexIndex: 0,
+      sex: 1,
+      detailList: [],
+      detailText: '' };
 
   },
   onLoad: function onLoad() {
     this.getListing('5.25');
     this.getJob();
+    this.getDetail();
   },
   methods: {
+    // 获取个人简介
+    getDetail: function getDetail() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
+                  _this.$http('/api/tags_detail/lists'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
+                data.forEach(function (v) {return v['isShow'] = false;});
+                _this.detailList = data;case 6:case "end":return _context.stop();}}}, _callee);}))();
+    },
     // 获取职业标签
-    getJob: function getJob() {var _this = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee() {var _yield$_this$$http, data;return _regenerator.default.wrap(function _callee$(_context) {while (1) {switch (_context.prev = _context.next) {case 0:_context.next = 2;return (
-                  _this.$http('/api/tags_job/lists'));case 2:_yield$_this$$http = _context.sent;data = _yield$_this$$http.data;
-                _this.pationText = data[0].title;
-                _this.jobList = data;case 6:case "end":return _context.stop();}}}, _callee);}))();
+    getJob: function getJob() {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
+                  _this2.$http('/api/tags_job/lists'));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
+                _this2.pationText = data[0].title;
+                _this2.jobList = data;case 6:case "end":return _context2.stop();}}}, _callee2);}))();
     },
     // 获取年月日
     bindDateChange: function bindDateChange(e) {
@@ -272,18 +313,32 @@ var _default =
       this.getListing(newDate);
     },
     // 获取星座
-    getListing: function getListing(newDate) {var _this2 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee2() {var _yield$_this2$$http, data;return _regenerator.default.wrap(function _callee2$(_context2) {while (1) {switch (_context2.prev = _context2.next) {case 0:_context2.next = 2;return (
-                  _this2.$http('/api/conste/listing', {
-                    data: newDate }));case 2:_yield$_this2$$http = _context2.sent;data = _yield$_this2$$http.data;
+    getListing: function getListing(newDate) {var _this3 = this;return _asyncToGenerator( /*#__PURE__*/_regenerator.default.mark(function _callee3() {var _yield$_this3$$http, data;return _regenerator.default.wrap(function _callee3$(_context3) {while (1) {switch (_context3.prev = _context3.next) {case 0:_context3.next = 2;return (
+                  _this3.$http('/api/conste/listing', {
+                    data: newDate }));case 2:_yield$_this3$$http = _context3.sent;data = _yield$_this3$$http.data;
 
                 if (data.title) {
-                  _this2.listing = data.title;
-                }case 5:case "end":return _context2.stop();}}}, _callee2);}))();
+                  _this3.listing = data.title;
+                }case 5:case "end":return _context3.stop();}}}, _callee3);}))();
     },
     // 选择标签
     setPation: function setPation(index, title) {
       this.pationIndex = index;
       this.pationText = title;
+    },
+    setSex: function setSex(index, id) {
+      this.sex = id;
+      this.sexIndex = index;
+    },
+    setDetail: function setDetail(index, title) {
+      this.detailList[index].isShow = !this.detailList[index].isShow;
+      var arr = [];
+      this.detailList.forEach(function (v) {
+        if (v.isShow) {
+          arr.push(v.title);
+        }
+      });
+      this.detailText = arr.join(',');
     },
     // 下一步
     setNext: function setNext() {
@@ -304,8 +359,9 @@ var _default =
         height: this.heights,
         weight: this.weight,
         job: this.pationText,
-        intro: this.text,
-        conste: this.listing };
+        intro: this.detailText,
+        conste: this.listing,
+        sex: this.sex };
 
       this.$store.commit('setApplyData', data);
       uni.navigateTo({

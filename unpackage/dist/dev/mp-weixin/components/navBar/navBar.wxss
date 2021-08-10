@@ -1,16 +1,4 @@
-.index_head {
-  height: 144rpx;
-  -webkit-flex-shrink: 0;
-          flex-shrink: 0;
-}
-.index_head .status_bar {
-  height: 25px;
-  width: 100%;
-}
 .index_head .index_head_con {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-          flex: 1;
   position: relative;
 }
 .index_head .index_head_con image {
@@ -20,7 +8,7 @@
   left: 14rpx;
 }
 .index_head .index_head_con .index_head_con_title {
-  font-size: 28rpx;
+  font-size: 32rpx;
   font-weight: bold;
 }
 
