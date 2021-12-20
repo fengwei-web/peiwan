@@ -1,7 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "index": "/pages/index/index",
-    "my": "/pages/my/my"
-  }
-}

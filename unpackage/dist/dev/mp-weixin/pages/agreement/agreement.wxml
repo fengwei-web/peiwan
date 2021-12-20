@@ -1,1 +1,0 @@
-<view class="agreement flex flex--row data-v-1a454adc"><nav-bar vue-id="2e6491aa-1" class="data-v-1a454adc" bind:__l="__l"></nav-bar><view class="agreement_title data-v-1a454adc">{{datas.title}}</view><rich-text nodes="{{datas.content}}" class="data-v-1a454adc"></rich-text></view>
