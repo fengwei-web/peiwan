@@ -167,8 +167,7 @@
 			// env类型
 			const env = accountInfo.miniProgram.envVersion;
 			if(env === 'release') {
-				// this.accountShow = false
-				this.accountShow = true
+				this.accountShow = false
 			}else {
 				this.accountShow = true
 			}

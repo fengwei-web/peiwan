@@ -7,14 +7,14 @@
 				class="index_head_con flex flex--align-items--center flex--justify-content--center"
 				:style="{ height: navHeightNoBar + 'px' }"
 			>
-				<!-- <template v-if="isShow">
+				<template v-if="isShow">
 					<template v-if="identity === 1 && !accountShow">
 						<view class="index_head_con_btn" @click="goApply">申请城市接单员</view>
 					</template>
 					<template v-else-if="identity === 2">
 						<view class="index_head_con_btn" @click="goPlayHome">接单工作台</view>
 					</template>
-				</template> -->
+				</template>
 				<text class="index_head_con_title">OneBan</text>
 			</view>
 		</view>
