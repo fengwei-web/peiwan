@@ -10,7 +10,7 @@
 				>
 					<image src="../../static/image/notice.png" mode="widthFix"></image>
 					<!-- <text>附近 {{ nums }} 陪玩在线</text> -->
-					<view>点我查看<text>{{ nums }}</text>位在线陪玩官</view>
+					<view>点我查看<text>{{ nums }}</text>位在线接单员</view>
 				</view>
 			</template>
 			<!-- 轮播 -->
@@ -285,8 +285,9 @@
 			// env类型
 			const env = accountInfo.miniProgram.envVersion;
 			if(env === 'release') {
-				this.accountShow = false
+				this.accountShow = true
 			}else {
+				// this.accountShow = true
 				this.accountShow = true
 			}
 		},
@@ -393,7 +394,7 @@
 			},
 			// 首页发布订单
 			releaseOrder() {
-				if(this.accountShow) return
+				if(this.accountShow) return uni.showToast({ title: '暂未开通', icon: 'none' })
 				if(!this.checkboxText){
 					uni.showToast({
 						title: '请选择服务内容',

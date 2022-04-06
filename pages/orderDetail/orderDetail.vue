@@ -118,7 +118,7 @@
 		<!-- 进行中确认完成 -->
 		<template v-if="confirmShow">
 			<view class="detail_cancel flex flex--row flex--align-items--center">
-				<view class="detail_cancel_list">确认完成后，<text>订单费用</text>将结算给陪玩官</view>
+				<view class="detail_cancel_list">确认完成后，<text>订单费用</text>将结算给接单员</view>
 				<view class="detail_cancel_foot flex flex--align-items--center">
 					<view class="detail_cancel_foot_left" @click="confirmShow = false">返回</view>
 					<view class="detail_cancel_foot_right" @click="confirmOrder">确认完成</view>
@@ -288,7 +288,7 @@
 			goPeiWan(item) {
 				if(item.little_state === 1) {
 					uni.showToast({
-						title: '还没有陪玩接单',
+						title: '还没有接单员接单',
 						icon: 'none'
 					})
 				}else {

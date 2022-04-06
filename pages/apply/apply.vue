@@ -3,7 +3,7 @@
 		<navBar></navBar>
 		<view class="apply_con">
 			<image :src="baseUrl + back" mode="aspectFill"></image>
-			<view class="apply_con_btn" @click="goApplyOrderReceiver">申请成为首席陪玩官</view>
+			<view class="apply_con_btn" @click="goApplyOrderReceiver">申请成为接单员</view>
 		</view>
 	</view>
 </template>

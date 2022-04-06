@@ -47,7 +47,7 @@
 		<template v-if="addPersonalWeixin">
 			<view class="my_addWx flex flex--row flex--align-items--center">
 				<view class="my_addWx_title">请提交微信号和微信二维码</view>
-				<view class="my_addWx_desc">当您下单完成时，陪玩官将需要通过您本次添加的微信号和微信二维码来完成您的订单任务。</view>
+				<view class="my_addWx_desc">当您下单完成时，接单员将需要通过您本次添加的微信号和微信二维码来完成您的订单任务。</view>
 				<input type="text" v-model="weixinNumber" placeholder="请输入微信号">
 				<view
 					class="my_addWx_code flex flex--align-items--center flex--justify-content--center"
@@ -113,7 +113,7 @@
 						id: 1,
 						src: '../../static/image/wx.png',
 						title: '添加 / 修改微信',
-						desc: '完善资料，让陪玩官更准确效率的找到你'
+						desc: '完善资料，让接单员更准确效率的找到你'
 					},
 					{
 						id: 2,
@@ -167,7 +167,8 @@
 			// env类型
 			const env = accountInfo.miniProgram.envVersion;
 			if(env === 'release') {
-				this.accountShow = false
+				// this.accountShow = false
+				this.accountShow = true
 			}else {
 				this.accountShow = true
 			}
@@ -178,7 +179,7 @@
 		methods: {
 			// 进入订单
 			goOrder(id) {
-				if(this.accountShow) return
+				if(this.accountShow) return uni.showToast({ title: '暂未开通', icon: 'none' });
 				uni.navigateTo({
 					url: '/pages/orderDetail/orderDetail?type=' + id
 				})
@@ -236,7 +237,7 @@
 			menuOpen(id) {
 				switch(id) {
 					case 1:
-						if(this.accountShow) return
+						if(this.accountShow) return uni.showToast({ title: '暂未开通', icon: 'none' });
 						this.$emit('openAddPersonalWeixin')
 						// if(this.userInfo.wx_num === '' || this.userInfo.wx_num === null){
 						// 	this.$emit('openAddPersonalWeixin')

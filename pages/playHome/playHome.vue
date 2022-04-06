@@ -297,7 +297,7 @@
 			v-if="false"
 		>
 			<view class="playHome_adopt_list">恭喜，你的<text>申请通过</text></view>
-			<view class="playHome_adopt_list">你现在已经是ONE的陪玩担当</view>
+			<view class="playHome_adopt_list">你现在已经是ONE的接单员担当</view>
 			<view class="playHome_adopt_list">可以开始<text>愉快的接单</text>啦</view>
 			<view class="playHome_adopt_btn">好的</view>
 		</view>
