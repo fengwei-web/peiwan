@@ -4,7 +4,7 @@ Vue.use(Vuex)
 const store = new Vuex.Store({
     state: {
 			releaseData: null,
-			baseUrl: 'https://oneban.cn',
+			baseUrl: 'https://oneban.top',
 			applyData: null
 		},
     mutations: {

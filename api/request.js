@@ -1,4 +1,4 @@
-const baseUrl = 'https://oneban.cn';
+const baseUrl = 'https://oneban.top';
 
 export default {
 	request(url,data = {},header={}) {

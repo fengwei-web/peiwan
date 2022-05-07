@@ -207,7 +207,7 @@
 							scope: 'scope.writePhotosAlbum',
 							success() {
 								uni.downloadFile({
-									url: 'https://oneban.cn/' + that.codeImage,
+									url: 'https://oneban.top/' + that.codeImage,
 									success(val) {
 										console.log(val)
 										uni.saveImageToPhotosAlbum({
